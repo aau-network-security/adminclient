@@ -22,6 +22,7 @@ import LoadingSpin from "react-loading-spin";
 import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "react-tooltip";
 import { fetchEvents, selectEvent, stopEvent } from "../../features/events/eventSlice";
+import moment from "moment";
 
 function EventsTable() {
   const eventState = useSelector((state) => state.event);
@@ -104,7 +105,7 @@ function EventsTable() {
         </Center>
       ) : (
         <TableContainer overflowY="unset" h="88%">
-          <Table variant="simple">
+          <Table variant="simple" size={"sm"}>
             <Thead
               position="sticky"
               top={0}
@@ -113,19 +114,19 @@ function EventsTable() {
             >
               <Tr>
                 <Th textAlign="center">Action</Th>
-                <Th textAlign="center">Name</Th>
-                <Th textAlign="center">Type</Th>
-                <Th textAlign="center">Goto</Th>
-                <Th textAlign="center">Secret key</Th>
-                <Th textAlign="center">Status</Th>
-                <Th textAlign="center">Teams</Th>
-                <Th textAlign="center">Exercises</Th>
-                <Th textAlign="center">Labs running</Th>
-                <Th textAlign="center">Max labs</Th>
-                <Th textAlign="center">Created by</Th>
-                <Th textAlign="center">Organization</Th>
-                <Th textAlign="center">Created at</Th>
-                <Th textAlign="center">Finishes/Finished at</Th>
+                <Th >Name</Th>
+                <Th >Type</Th>
+                <Th >Goto</Th>
+                <Th >Secret key</Th>
+                <Th >Status</Th>
+                <Th isNumeric>Teams</Th>
+                <Th isNumeric>Exercises</Th>
+                <Th isNumeric>Labs running</Th>
+                <Th isNumeric>Max labs</Th>
+                <Th >Created by</Th>
+                <Th >Organization</Th>
+                <Th >Created at</Th>
+                <Th >Finishes/Finished at</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -149,7 +150,7 @@ function EventsTable() {
                     {event.status === "running" ? (
                       <IconButton
                         colorScheme="red"
-                        variant="outline"
+                        variant="ghost"
                         icon={<FaStop />}
                         data-tooltip-content="Stop event"
                         data-tooltip-place="right"
@@ -162,7 +163,7 @@ function EventsTable() {
                       <>
                         <IconButton
                           colorScheme="red"
-                          variant="outline"
+                          variant="ghost"
                           marginRight={"10px"}
                           fontSize="20px"
                           icon={<MdDelete />}
@@ -173,7 +174,7 @@ function EventsTable() {
                         />
                         <IconButton
                           colorScheme="green"
-                          variant="outline"
+                          variant="ghost"
                           icon={<FaPlay />}
                           data-tooltip-html="Restart event <br> Requires that another event is not running on the same URL"
                           data-tooltip-place="right"
@@ -183,30 +184,30 @@ function EventsTable() {
                       </>
                     )}
                   </Td>
-                  <Td textAlign="center">{event.name}</Td>
-                  <Td textAlign="center">{event.type}</Td>
-                  <Td textAlign="center">
+                  <Td >{event.name}</Td>
+                  <Td >{event.type}</Td>
+                  <Td >
                     <Link href={event.url} target="_blank" color="#54616e">
                       Goto event
                     </Link>
                   </Td>
-                  <Td textAlign="center">{event.secretKey}</Td>
-                  <Td textAlign="center">
+                  <Td >{event.secretKey}</Td>
+                  <Td >
                     <Text color={event.status === "running" ? "green" : "red"}>
                       {event.status}
                     </Text>
                   </Td>
-                  <Td textAlign="center">{event.teams}</Td>
-                  <Td textAlign="center">{event.exercises}</Td>
-                  <Td textAlign="center">{event.labsRunning}</Td>
-                  <Td textAlign="center">{event.maxLabs}</Td>
-                  <Td textAlign="center">{event.createdBy}</Td>
-                  <Td textAlign="center">{event.organization}</Td>
-                  <Td textAlign="center">{event.createdAt}</Td>
-                  <Td textAlign="center">
+                  <Td isNumeric>{event.teams}</Td>
+                  <Td isNumeric>{event.exercises}</Td>
+                  <Td isNumeric>{event.labsRunning}</Td>
+                  <Td isNumeric>{event.maxLabs}</Td>
+                  <Td >{event.createdBy}</Td>
+                  <Td >{event.organization}</Td>
+                  <Td >{moment(event.createdAt).format("DD/MM/YYYY HH:mm")}</Td>
+                  <Td >
                     {event.status === "running"
-                      ? event.finishesAt
-                      : event.finishedAt}
+                      ? moment(event.finishesAt).format("DD/MM/YYYY HH:mm")
+                      : moment(event.finishedAt).format("DD/MM/YYYY HH:mm")}
                   </Td>
                 </Tr>
               ))}

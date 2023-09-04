@@ -67,7 +67,7 @@ function AppRouter() {
                                 height="100vh" 
                                 overflowX={"auto"}
                                 id="page-container"
-                                padding="100px 50px 100px 50px"
+                                padding="75px 50px 75px 50px"
                             >
                                 <Outlet/>
                             </Flex>
