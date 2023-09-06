@@ -5,6 +5,7 @@ import orgReducer from '../features/organizations/organizationSlice'
 import agentReducer from '../features/agents/agentSlice'
 import eventReducer from '../features/events/eventSlice'
 import teamReducer from '../features/teams/teamSlice'
+import challengeReducer from '../features/challenges/challengeSlice'
 
 
 const store = configureStore({
@@ -15,6 +16,7 @@ const store = configureStore({
         agent: agentReducer,
         event: eventReducer,
         team: teamReducer,
+        challenge: challengeReducer, 
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: {ignoredActionPaths: ['payload.config', 'payload.request']}}),
 })

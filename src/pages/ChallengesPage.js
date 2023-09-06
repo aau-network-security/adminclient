@@ -26,7 +26,7 @@ export default function ChallengesPage() {
             gap={4}
         >
             <GridItem rowSpan={24} colSpan={8} >
-                <Flex direction="column" height="100%" className="container" bg={"green"}>
+                <Flex direction="column" height="100%" className="container" bg={"#f7fafc"}>
                 <VStack
                 spacing="10px"
                 align='stretch'
