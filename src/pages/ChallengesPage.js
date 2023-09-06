@@ -28,7 +28,7 @@ export default function ChallengesPage() {
             <GridItem rowSpan={24} colSpan={8} >
                 <Flex direction="column" height="100%" className="container" bg={"#f7fafc"}>
                 <VStack
-                spacing="10px"
+                spacing="40px"
                 align='stretch'
                 >
                     <AddProfileCard/>

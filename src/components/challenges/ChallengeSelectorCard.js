@@ -15,6 +15,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Spacer,
+    Box,
     Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -78,6 +79,13 @@ function ChallengeSelectorCard() {
 
     return (
         <>
+        <Box
+            minWidth="400px"
+            height="40px"
+            borderRadius="10px"
+            className="container"
+            padding="0"
+        >
         {Object.entries(categories).map(([key, category]) => (
             <Flex
                 key={key}
@@ -150,6 +158,7 @@ function ChallengeSelectorCard() {
                 </ModalContent>
             </Modal>
             <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise" />
+        </Box>
         </>
         // <Text> ChallengeSelectorCard</Text>
         );
