@@ -104,7 +104,7 @@ function EventsTable() {
           <LoadingSpin primaryColor="#211a52" size="100px" />
         </Center>
       ) : (
-        <TableContainer overflowY="unset" h="88%">
+        <TableContainer overflowY="unset" h="100%">
           <Table variant="simple" size={"sm"}>
             <Thead
               position="sticky"

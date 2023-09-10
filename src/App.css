@@ -61,11 +61,14 @@ body{
 
 .metric-title {
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1vw;
+  line-height: 1.5;
+  margin-right: 20px;
 }
 
 .metric-value {
-  font-size: 1.3em;
+  font-size: 1vw;
+  color: grey;
 }
 
 .agent-table-item:hover{
