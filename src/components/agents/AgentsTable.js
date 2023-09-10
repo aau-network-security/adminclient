@@ -1,13 +1,9 @@
 import {
-    Box,
-    Button,
     Center,
-    chakra,
     Flex,
     Icon,
     IconButton,
     Spacer,
-    Tab,
     Table,
     TableContainer,
     Tbody,
@@ -21,8 +17,6 @@ import { IoMdAdd, IoMdRefresh } from "react-icons/io";
 import { TiTick } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import LoadingSpin from "react-loading-spin";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
     deleteAgent,
@@ -36,8 +30,6 @@ import NewAgentModal from "./NewAgentModal";
 import { MdDelete } from "react-icons/md";
 
 function AgentsTable() {
-    const IconFa = chakra(FontAwesomeIcon);
-
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const onAlertClose = () => setIsAlertOpen(false);
     const [isModalOpen, setIsModalOpen] = useState(false);

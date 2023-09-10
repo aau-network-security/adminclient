@@ -1,16 +1,11 @@
 import {
-    Box,
     Center,
     Flex,
     Grid,
     GridItem,
     IconButton,
     Spacer,
-    Stat,
-    StatLabel,
-    StatNumber,
     Text,
-    VStack,
 } from "@chakra-ui/react";
 import Chart from "react-apexcharts";
 import React, { useEffect, useState } from "react";

@@ -72,7 +72,7 @@ function EventsTable() {
   }
 
   useEffect(() => {
-    if (eventStatusSelector != "all") {
+    if (eventStatusSelector !== "all") {
       dispatch(fetchEvents({ status: eventStatusSelector }));
     } else {
       dispatch(fetchEvents());

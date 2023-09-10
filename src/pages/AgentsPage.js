@@ -1,11 +1,9 @@
-import { Box, Center, Flex, Grid, GridItem, Spacer } from "@chakra-ui/react";
+import { Center, Grid, GridItem} from "@chakra-ui/react";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import AgentEnvironments from "../components/agents/AgentEnvironments";
 import AgentMetrics from "../components/agents/AgentMetrics";
 import AgentsTable from "../components/agents/AgentsTable";
-import AgentUpdater from "../components/agents/AgentUpdater";
 
 export default function AgentsPage() {
     const perms = useSelector((state) => state.user.loggedInUser.perms);
