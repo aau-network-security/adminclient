@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { selectCategoryShow, selectProfileShow } from "../../features/challenges/challengeSlice";
 
+
 function ChallengeProfileSelectorCard() {
     const dispatch = useDispatch();
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
-
+    
   return (
+    <>
     <Box
     minWidth="400px"
     height="40px"
@@ -65,6 +67,7 @@ function ChallengeProfileSelectorCard() {
         </Flex>
     </HStack>
 </Box>
+</>
   )
 }
 

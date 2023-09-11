@@ -3,14 +3,33 @@ import React, { useEffect, useState } from "react";
 
 import AddProfileCard from '../components/challenges/AddProfileCard';
 import ChallengeProfileSelectorCard from '../components/challenges/ChallengeProfileSelectorCard';
+
+import ProfileSelectorCard from '../components/challenges/ProfileSelectorCard';
+
 import ChallengeSelectorCard from '../components/challenges/ChallengeSelectorCard';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { fetchCategories } from '../features/exercises/exerciseSlice';
 
 
+function DisplayChallengesOrProfile(){
+    const challengesOrProfile = useSelector((state) => state.challenge.selector);
+    if (challengesOrProfile === "profiles"){
+        return (
+            <ProfileSelectorCard/>
+        )
+    } else if (challengesOrProfile === "category"){
+        return (
+            <ChallengeSelectorCard/>
+        )
+    }
+}
+
+
 export default function ChallengesPage() {
+
     const dispatch = useDispatch();
+    
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -33,7 +52,7 @@ export default function ChallengesPage() {
                 >
                     <AddProfileCard/>
                     <ChallengeProfileSelectorCard/>
-                    <ChallengeSelectorCard/>
+                    <DisplayChallengesOrProfile/>
                 </VStack>
                 </Flex>
             </GridItem>
