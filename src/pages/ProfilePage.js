@@ -26,7 +26,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { FaRegBuilding } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { MdSecurity } from "react-icons/md";
+import { MdSave, MdSecurity } from "react-icons/md";
 import { RiEditLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSelf, updateUser } from "../features/users/userSlice";
@@ -313,12 +313,27 @@ export default function ProfilePage() {
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
                                             <InputRightElement>
-                                                <IconButton
+                                                { email !== "" ? (
+                                                    <IconButton
                                                     colorScheme="aau.button"
                                                     variant="solid"
-                                                    icon={<Icon as={RiEditLine} />}
+                                                    icon={<Icon as={MdSave} />}
                                                     onClick={updateEmail}
+                                                    borderLeftRadius="0px"
                                                 />
+                                                ) : (
+                                                    <Center
+                                                        height="100%"
+                                                        width="100%"
+                                                        bg="aau.primary"
+                                                        borderRightRadius="5px"
+                                                    >
+                                                        <Icon bg="aau.primary" color="aau.text" as={RiEditLine} />
+                                                    </Center>                                                    
+                                                )
+
+                                                }
+                                                
                                             </InputRightElement>
                                         </InputGroup>
                                     </FormControl>
