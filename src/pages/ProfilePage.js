@@ -235,10 +235,8 @@ export default function ProfilePage() {
                                     marginBottom="20px"
                                     lineHeight="1.3"
                                 >
-                                    Hi,
-                                    <Text>
-                                        <b>{shortName}!</b>
-                                    </Text>
+                                    Hi, <br/>
+                                    <b>{shortName}!</b>
                                 </Text>
                                 <Avatar
                                     name={currentUser.user.FullName}
