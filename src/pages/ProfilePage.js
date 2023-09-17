@@ -244,7 +244,8 @@ export default function ProfilePage() {
                                 <Avatar
                                     name={currentUser.user.FullName}
                                     size="2xl"
-                                    src="https://i.pinimg.com/1200x/26/d9/20/26d920dbe05e3f894a17781b8201123f.jpg"
+                                    // TODO: add avatar picture to user
+                                    //src="https://i.pinimg.com/1200x/26/d9/20/26d920dbe05e3f894a17781b8201123f.jpg"
                                     marginBottom="10px"
                                 />
                                 <Flex>
