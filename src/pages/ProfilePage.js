@@ -106,80 +106,124 @@ export default function ProfilePage() {
         }
     }
 
+    // Update password modal
     const { isOpen: isUpdatePasswordModalOpen, onOpen: onUpdatePasswordModalOpen, onClose: onUpdatePasswordModalClose } = useDisclosure()
-    
     const UpdatePasswordModal = () => {
         const [ currPassword, setCurrPassword ] = useState("")
         const [ newPassword, setNewPassword ] = useState("")
         const [ repeatPassword, setRepeatPassword ] = useState("")
-        const updatePassword = async () => {
-
+        const updatePassword = async (e) => {
+            e.preventDefault()
+            console.log("updating password")
+            if (newPassword.length < 8) {
+                toastIdRef.current = toast({
+                    title: 'Error updating password',
+                    description: 'Password must be at least 8 characters',
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
+                return
+            } else if (newPassword != repeatPassword) {
+                toastIdRef.current = toast({
+                    title: 'Error updating password',
+                    description: 'Passwords must match',
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
+                return
+            }
+            try {
+                const user = {
+                    username: currentUser.user.Username,
+                    password: newPassword,
+                    verifyAdminPassword: currPassword
+                }
+                const response = await dispatch(updateUser(user)).unwrap()
+                // console.log("user add response: ", response)
+                toastIdRef.current = toast({
+                    title: 'Success',
+                    description: "Successfully updated password",
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                })
+                dispatch(fetchSelf())
+                onUpdatePasswordModalClose()
+            }
+            catch (err) {
+                toastIdRef.current = toast({
+                    title: 'Error updating password',
+                    description: err.apiError.status,
+                    status: 'error',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            }
         }
         return (
             <Modal isOpen={isUpdatePasswordModalOpen} onClose={onUpdatePasswordModalClose} isCentered>
                 <ModalOverlay />
-                
                 <ModalContent>
-                <form onSubmit={updatePassword}>
-                <ModalHeader>Update your password</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                
-                                <Stack spacing={4} p="1rem">
-                                <FormControl isRequired>
-                                        <FormLabel>Current password</FormLabel>
-                                        <InputGroup>
-                                            <Input
-                                                backgroundColor="#f7fafc"
-                                                borderColor="#edf3f8"
-                                                focusBorderColor="#c8dcea"
-                                                type="password"
-                                                name="currPassword"
-                                                value={currPassword}
-                                                onChange={(e) => setCurrPassword(e.target.value)}
-                                            />
-                                        </InputGroup>
-                                    </FormControl>
-                                <FormControl>
-                                        <FormLabel>New password</FormLabel>
-                                        <InputGroup>
-                                            <Input
-                                                backgroundColor="#f7fafc"
-                                                borderColor="#edf3f8"
-                                                focusBorderColor="#c8dcea"
-                                                type="password"
-                                                name="newPassword"
-                                                value={newPassword}
-                                                onChange={(e) => setNewPassword(e.target.value)}
-                                            />
-                                        </InputGroup>
-                                    </FormControl>
-                                    <FormControl>
-                                        <FormLabel>Repeat new password</FormLabel>
-                                        <InputGroup>
-                                            <Input
-                                                backgroundColor="#f7fafc"
-                                                borderColor="#edf3f8"
-                                                focusBorderColor="#c8dcea"
-                                                name="repeatPassword"
-                                                type="password"
-                                                value={repeatPassword}
-                                                onChange={(e) => setRepeatPassword(e.target.value)}
-                                            />
-                                        </InputGroup>
-                                    </FormControl>
-                                </Stack>
-                            
-                </ModalBody>
-
-                <ModalFooter>
-                    <Button width="100px" variant='solid' colorScheme="aau.button">Save</Button>
-                </ModalFooter>
-                </form>
+                    <form onSubmit={updatePassword}>
+                    <ModalHeader>Update your password</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Stack spacing={4} p="1rem">
+                            <FormControl isRequired>
+                                <FormLabel>Current password</FormLabel>
+                                <InputGroup>
+                                    <Input
+                                        backgroundColor="#f7fafc"
+                                        borderColor="#edf3f8"
+                                        focusBorderColor="#c8dcea"
+                                        type="password"
+                                        name="currPassword"
+                                        value={currPassword}
+                                        onChange={(e) => setCurrPassword(e.target.value)}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>New password</FormLabel>
+                                <InputGroup>
+                                    <Input
+                                        backgroundColor="#f7fafc"
+                                        borderColor="#edf3f8"
+                                        focusBorderColor="#c8dcea"
+                                        type="password"
+                                        name="newPassword"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Repeat new password</FormLabel>
+                                <InputGroup>
+                                    <Input
+                                        backgroundColor="#f7fafc"
+                                        borderColor="#edf3f8"
+                                        focusBorderColor="#c8dcea"
+                                        name="repeatPassword"
+                                        type="password"
+                                        value={repeatPassword}
+                                        onChange={(e) => setRepeatPassword(e.target.value)}
+                                    />
+                                </InputGroup>
+                            </FormControl>
+                        </Stack>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button width="100px" variant='solid' colorScheme="aau.button" type="submit">Save</Button>
+                    </ModalFooter>
+                    </form>
                 </ModalContent>
             </Modal>
         )
     }
+
     return (
         <>
             {currentUser && currentUser.user && (
