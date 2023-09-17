@@ -21,10 +21,8 @@ function NewOrgModal({ isOpen, onClose }) {
     })
     const submitForm = async (e) => {
         e.preventDefault()
-        console.log('adding organization: ', reqData)
         try {
             const response = await dispatch(addOrg(reqData)).unwrap()
-            console.log("org add response: ", response)
             setAddOrgError('')
             closeModal()
         }
@@ -54,7 +52,6 @@ function NewOrgModal({ isOpen, onClose }) {
             orgOwner.email = e.target.value.trim()
             setReqData({...reqData, orgOwner})
         }
-        console.log(reqData)
     }
     const closeModal = () => {
         setAddOrgError('')

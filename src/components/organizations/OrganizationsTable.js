@@ -44,7 +44,6 @@ function OrganizationsTable() {
   //Callback for alertDialog 
   // TODO write deleteOrg action, reducer, etc.
   const doDeleteOrg = (orgName, index) => {
-    console.log("deleting org", orgName)
     let org = {
       id: index,
       name: orgName
@@ -57,7 +56,6 @@ function OrganizationsTable() {
   }, [dispatch])
 
   const setSelectedOrg = (org) => {
-    console.log("setting selected org", org)
     dispatch(selectOrg(org))
   }
 
@@ -75,10 +73,10 @@ function OrganizationsTable() {
     <>
       <Flex 
         w="100%" 
-        h="590px"
-        borderRadius="30px"
+        h="100%"
+        className='container'
+        flexDir="column"
       >
-          <div className='container'>
             <Flex className='container-header'>
               <h2 className='container-header-text'>Organizations</h2>
               <Spacer />
@@ -120,12 +118,12 @@ function OrganizationsTable() {
               :
                 <>
                   <TableContainer  overflowY="unset" height="95%">
-                    <Table variant='simple'>
+                    <Table variant='simple' size="sm">
                       <Thead position="sticky" top={0} zIndex="docked" backgroundColor="white">
                         <Tr>
-                          <Th textAlign="center">Name</Th>
-                          <Th textAlign="center">Owner</Th>
-                          <Th textAlign="center">Owner Email</Th>    
+                          <Th>Name</Th>
+                          <Th>Owner</Th>
+                          <Th>Owner Email</Th>    
                           <Th textAlign="center">Delete</Th>                  
                         </Tr>
                       </Thead>
@@ -137,9 +135,9 @@ function OrganizationsTable() {
                             onClick={() => setSelectedOrg(org)}
                             backgroundColor={!selectedOrg ? "" : selectedOrg.Name === org.Name ? "aau.hover" : ""  }
                           >
-                            <Td textAlign="center">{org.Name}</Td>
-                            <Td textAlign="center">{org.OwnerUser}</Td>
-                            <Td textAlign="center">{org.OwnerEmail}</Td>
+                            <Td>{org.Name}</Td>
+                            <Td>{org.OwnerUser}</Td>
+                            <Td>{org.OwnerEmail}</Td>
                             <Td textAlign="center">
                               <IconButton
                                 aria-label='Delete organization'
@@ -167,7 +165,6 @@ function OrganizationsTable() {
                 </>      
               }
               <NewOrgModal isOpen={isModalOpen} onClose={onModalClose}/>
-          </div>
       </Flex>
     </>
     

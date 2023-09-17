@@ -60,9 +60,7 @@ function NewEventFormChallengeSelector({
     }, [categories]);
 
     useEffect(() => {
-        console.log("fetching exercises for: ", selectedCategory);
         if (Object.keys(selectedCategory).length > 0) {
-            console.log("fetching exercises for: ", selectedCategory.tag);
             var reqObj = {
                 category: selectedCategory.tag,
             };

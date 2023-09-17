@@ -114,7 +114,6 @@ export default function ProfilePage() {
         const [ repeatPassword, setRepeatPassword ] = useState("")
         const updatePassword = async (e) => {
             e.preventDefault()
-            console.log("updating password")
             if (newPassword.length < 8) {
                 toastIdRef.current = toast({
                     title: 'Error updating password',
