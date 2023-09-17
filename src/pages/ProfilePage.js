@@ -280,9 +280,7 @@ export default function ProfilePage() {
                                             <Input
                                                 type="text"
                                                 name="username"
-                                                placeholder={
-                                                    currentUser.user.Username
-                                                }
+                                                value={currentUser.user.Username}
                                                 boxShadow="md"
                                                 isReadOnly
                                             />
@@ -294,9 +292,7 @@ export default function ProfilePage() {
                                             <Input
                                                 type="text"
                                                 name="fullName"
-                                                placeholder={
-                                                    currentUser.user.FullName
-                                                }
+                                                value={currentUser.user.FullName}
                                                 boxShadow="md"
                                                 isReadOnly
                                             />
@@ -313,6 +309,7 @@ export default function ProfilePage() {
                                                 type="email"
                                                 boxShadow="md"
                                                 value={email}
+                                                bg="#FFF"
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
                                             <InputRightElement>
