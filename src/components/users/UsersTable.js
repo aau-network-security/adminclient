@@ -21,6 +21,7 @@ import { RiEditLine } from 'react-icons/ri'
 import NewUserModal from './NewUserModal';
 import { deleteUser, fetchUsers } from '../../features/users/userSlice';
 import { MdDelete } from 'react-icons/md';
+import { defaultTheme } from '../..';
 
 function UsersTable({ byRole }) {
   const IconFa = chakra(FontAwesomeIcon)
@@ -92,7 +93,7 @@ function UsersTable({ byRole }) {
               <Spacer />
               <IconButton 
                 className='container-header-button'
-                colorScheme='green'
+                colorScheme='aau.green'
                 variant='outline'
                 icon={<Icon as={IoMdAdd}/>}
                 data-tooltip-content="Add User"
@@ -104,7 +105,7 @@ function UsersTable({ byRole }) {
               <Tooltip 
                 id={"tooltip-add-user"}
                 style={{
-                    backgroundColor: "#211a52"
+                    backgroundColor: defaultTheme.colors.aau.primary
                 }}
               />
               
@@ -116,7 +117,7 @@ function UsersTable({ byRole }) {
                   transform="translateY(100%)"
                 >
                   <LoadingSpin
-                    primaryColor="#211a52"
+                    primaryColor={defaultTheme.colors.aau.primary}
                     size="100px"
                   />
                 </Center>
@@ -155,15 +156,15 @@ function UsersTable({ byRole }) {
                               <IconButton
                                 aria-label='Edit user'
                                 colorScheme='gray'
-                                variant='outline'
+                                variant='ghost'
                                 icon={<RiEditLine />}                
                               />                         
                             </Td>
                             <Td textAlign="center">
                               <IconButton
                                 aria-label='Delete organization'
-                                colorScheme='red'
-                                variant='outline'
+                                colorScheme='aau.buttonRed'
+                                variant='ghost'
                                 fontSize="20px"
                                 icon={<MdDelete />}
                                 onClick={() => openAlertDialog(user.user.Username, key)}                  

@@ -19,6 +19,7 @@ import {
 } from 'react-icons/rx'
 import NewOrgModal from './NewOrgModal';
 import { MdDelete } from 'react-icons/md';
+import { defaultTheme } from '../..';
 
 function OrganizationsTable() {
   const IconFa = chakra(FontAwesomeIcon)
@@ -83,8 +84,8 @@ function OrganizationsTable() {
               <Spacer />
               <IconButton 
                 className='container-header-button'
-                colorScheme='green'
-                variant='outline'
+                colorScheme='aau.buttonGreen'
+                variant='ghost'
                 icon={<Icon as={IoMdAdd}/>}
                 data-tooltip-content="Add Organization"
                 data-tooltip-place="left"
@@ -95,7 +96,7 @@ function OrganizationsTable() {
               <Tooltip 
                 id={"tooltip-add-org"}
                 style={{
-                    backgroundColor: "#211a52"
+                    backgroundColor: defaultTheme.colors.aau.primary
                 }}
               />
             </Flex>
@@ -106,7 +107,7 @@ function OrganizationsTable() {
                   transform="translateY(100%)"
                 >
                   <LoadingSpin
-                    primaryColor="#211a52"
+                    primaryColor={defaultTheme.colors.aau.primary}
                     size="100px"
                   />
                 </Center>
@@ -132,9 +133,9 @@ function OrganizationsTable() {
                         {Object.entries(orgs).map(([key, org]) => (
                           <Tr 
                             key={org.Name} 
-                            _hover={{backgroundColor: "#211a525c", cursor: "pointer"}} 
+                            _hover={{backgroundColor: "aau.hover", cursor: "pointer"}} 
                             onClick={() => setSelectedOrg(org)}
-                            backgroundColor={!selectedOrg ? "" : selectedOrg.Name === org.Name ? "#211a525c" : ""  }
+                            backgroundColor={!selectedOrg ? "" : selectedOrg.Name === org.Name ? "aau.hover" : ""  }
                           >
                             <Td textAlign="center">{org.Name}</Td>
                             <Td textAlign="center">{org.OwnerUser}</Td>
@@ -142,8 +143,8 @@ function OrganizationsTable() {
                             <Td textAlign="center">
                               <IconButton
                                 aria-label='Delete organization'
-                                colorScheme='red'
-                                variant='outline'
+                                colorScheme='aau.buttonRed'
+                                variant='ghost'
                                 fontSize="20px"
                                 icon={<MdDelete />}
                                 onClick={() => openAlertDialog(org.Name, key)}                  

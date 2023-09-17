@@ -28,6 +28,7 @@ import AgentDialogDelete from "./AgentDialogDelete";
 import { Tooltip } from "react-tooltip";
 import NewAgentModal from "./NewAgentModal";
 import { MdDelete } from "react-icons/md";
+import { defaultTheme } from "../..";
 
 function AgentsTable() {
     const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -99,7 +100,7 @@ function AgentsTable() {
                 <Spacer />
                 <IconButton
                     className="container-header-button"
-                    colorScheme="green"
+                    colorScheme="aau.buttonGreen"
                     variant="ghost"
                     icon={<Icon as={IoMdAdd} />}
                     data-tooltip-content="Add Agent"
@@ -111,13 +112,13 @@ function AgentsTable() {
                 <Tooltip
                     id={"tooltip-add-agent"}
                     style={{
-                        backgroundColor: "#211a52",
+                        backgroundColor: defaultTheme.colors.aau.primary,
                     }}
                 />
             </Flex>
             {status === "fetching" ? (
                 <Center position="relative" transform="translateY(100%)">
-                    <LoadingSpin primaryColor="#211a52" size="100px" />
+                    <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
                 </Center>
             ) : Object.keys(agents).length === 0 ? (
                 <Center>
@@ -153,7 +154,7 @@ function AgentsTable() {
                                     <Tr
                                         key={agent.name}
                                         _hover={{
-                                            backgroundColor: "#211a525c",
+                                            backgroundColor: "aau.hover",
                                             cursor: "pointer",
                                         }}
                                         onClick={() => setSelectedAgent(agent)}
@@ -162,7 +163,7 @@ function AgentsTable() {
                                                 ? ""
                                                 : selectedAgent.name ===
                                                   agent.name
-                                                ? "#211a525c"
+                                                ? "aau.hover"
                                                 : ""
                                         }
                                     >
@@ -179,7 +180,7 @@ function AgentsTable() {
                                                         variant="ghost"
                                                         icon={
                                                             <LoadingSpin
-                                                                primaryColor="#211a52"
+                                                                primaryColor={defaultTheme.colors.aau.primary}
                                                                 size="20px"
                                                             />
                                                         }
@@ -188,6 +189,7 @@ function AgentsTable() {
                                                     <IconButton
                                                         aria-label="Reconnect to agent"
                                                         variant="ghost"
+                                                        colorScheme="aau.button"
                                                         icon={<IoMdRefresh />}
                                                         onClick={() =>
                                                             reconnectToAgent(
@@ -210,8 +212,8 @@ function AgentsTable() {
                                                 fontSize="xl"
                                                 color={
                                                     agent.connected
-                                                        ? "green"
-                                                        : "#b32525"
+                                                        ? "aau.green"
+                                                        : "aau.red"
                                                 }
                                             />
                                         </Td>
@@ -230,8 +232,8 @@ function AgentsTable() {
                                                 fontSize="xl"
                                                 color={
                                                     agent.tls
-                                                        ? "green"
-                                                        : "#b32525"
+                                                        ? "aau.green"
+                                                        : "aau.red"
                                                 }
                                             />
                                         </Td>
@@ -245,15 +247,15 @@ function AgentsTable() {
                                                 fontSize="xl"
                                                 color={
                                                     agent.stateLock
-                                                        ? "green"
-                                                        : "#b32525"
+                                                        ? "aau.green"
+                                                        : "aau.red"
                                                 }
                                             />
                                         </Td>
                                         <Td textAlign="center">
                                             <IconButton
                                                 aria-label="Delete organization"
-                                                colorScheme="red"
+                                                colorScheme="aau.buttonRed"
                                                 variant="ghost"
                                                 fontSize="20px"
                                                 icon={<MdDelete />}

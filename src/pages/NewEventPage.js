@@ -152,14 +152,14 @@ function NewEventPage() {
                         justifyContent="center"
                         flexDir="column"
                     >
-                        <Text color="#211a52" fontSize="30px" marginBottom={10}>
+                        <Text color="aau.primary" fontSize="30px" marginBottom={10}>
                             Creating event
                         </Text>
                         <Logo size="200px" className="icon-spin" />
                     </Flex>
                 ) : (
                     <>
-                        <Text color="#211a52" fontSize="30px" marginBottom={10}>
+                        <Text color="aau.primary" fontSize="30px" marginBottom={10}>
                             Create new {searchParams.get("type")} event
                         </Text>
                         <form
@@ -191,8 +191,7 @@ function NewEventPage() {
                                 justifyContent={"center"}
                             >
                                 <Button
-                                    backgroundColor="#211a52"
-                                    _hover={{ backgroundColor: "#18123a" }}
+                                    colorScheme="aau.button"
                                     color="white"
                                     as={ReactLink}
                                     to="/events"
@@ -201,8 +200,7 @@ function NewEventPage() {
                                     Back
                                 </Button>
                                 <Button
-                                    backgroundColor="#5caf8d"
-                                    _hover={{ backgroundColor: "#4c9a79" }}
+                                    colorScheme="aau.buttonGreen"
                                     color="white"
                                     type="submit"
                                 >

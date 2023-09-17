@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { NavLink as ReactLink } from 'react-router-dom'
 import { Tooltip } from 'react-tooltip';
+import { defaultTheme } from "../..";
 
 export default function NavItem({ icon, title, navSize, to, customClickEvent }) {
     return (
@@ -22,10 +23,10 @@ export default function NavItem({ icon, title, navSize, to, customClickEvent }) 
             <Menu placement="right">
                     <Link
                         as={ReactLink}
-                        _activeLink={{backgroundColor: "#211a52", color: "#fff"}}
+                        _activeLink={{backgroundColor: "aau.primary", color: "#fff"}}
                         p={"12px 12px 5px 12px"}
                         borderRadius={8}
-                        _hover={{ textDecor: 'none', backgroundColor: "#211a52", color: "#FFF"}}
+                        _hover={{ textDecor: 'none', backgroundColor: "aau.primary", color: "#FFF"}}
                         w={navSize === "large" && "100%"}
                         to={to}
                         data-tooltip-content={title}
@@ -56,7 +57,7 @@ export default function NavItem({ icon, title, navSize, to, customClickEvent }) 
                 id={"tooltip" + title}
                 className="custom-tooltip"
                 style={{
-                    backgroundColor: "#211a52",        
+                    backgroundColor: defaultTheme.colors.aau.primary,        
                 }}
             />
         </Flex>

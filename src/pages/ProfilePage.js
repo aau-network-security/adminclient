@@ -116,7 +116,7 @@ export default function ProfilePage() {
                                         <Button
                                             borderRadius={0}
                                             variant="solid"
-                                            backgroundColor="#211a52"
+                                            colorScheme="aau.button"
                                             color="white"
                                             width="50%"
                                         >

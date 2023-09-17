@@ -19,7 +19,7 @@ function AddChallengeCard() {
                         <Icon
                             as={MdOutlinedFlag}
                             fontSize="30px"
-                            color="#211a52"
+                            color="aau.primary"
                         />
                         <Flex flexDir="column" marginLeft="20px">
                             <Text fontWeight="bold">
@@ -32,8 +32,7 @@ function AddChallengeCard() {
 
                 <Flex flexDir="column" h="100%" w="20%">
                     <Button
-                        backgroundColor="#211a52"
-                        _hover={{ backgroundColor: "#18123a" }}
+                        colorScheme="aau.button"
                         color="white"
                         borderRadius="0px 10px 10px 0px"
                         marginBottom="1px"

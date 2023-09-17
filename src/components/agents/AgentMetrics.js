@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../../api/client";
 import { IoMdRefresh } from "react-icons/io";
+import { defaultTheme } from "../..";
 
 function AgentMetrics(websocket) {
     var httpProtocol = "http://";
@@ -123,7 +124,7 @@ function AgentMetrics(websocket) {
             type: "radialBar",
         },
 
-        colors: ["#211a52"],
+        colors: [defaultTheme.colors.aau.primary],
         plotOptions: {
             radialBar: {
                 startAngle: -135,
@@ -145,11 +146,11 @@ function AgentMetrics(websocket) {
                 dataLabels: {
                     name: {
                         offsetY: -10,
-                        color: "#211a52",
+                        color: defaultTheme.colors.aau.primary,
                         fontSize: "15px",
                     },
                     value: {
-                        color: "#211a52",
+                        color: defaultTheme.colors.aau.primary,
                         fontSize: "20px",
                         show: true,
                     },
@@ -168,7 +169,7 @@ function AgentMetrics(websocket) {
             type: "radialBar",
         },
 
-        colors: ["#211a52"],
+        colors: [defaultTheme.colors.aau.primary],
         plotOptions: {
             radialBar: {
                 startAngle: -135,
@@ -190,11 +191,11 @@ function AgentMetrics(websocket) {
                 dataLabels: {
                     name: {
                         offsetY: -10,
-                        color: "#211a52",
+                        color: defaultTheme.colors.aau.primary,
                         fontSize: "15px",
                     },
                     value: {
-                        color: "#211a52",
+                        color: defaultTheme.colors.aau.primary,
                         fontSize: "20px",
                         show: true,
                     },
@@ -216,6 +217,7 @@ function AgentMetrics(websocket) {
                     <IconButton
                         aria-label="Reconnect to agent"
                         variant="ghost"
+                        colorScheme="aau.button"
                         icon={<IoMdRefresh />}
                         onClick={reconnectToMetrics}
                     />

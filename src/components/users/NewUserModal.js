@@ -4,6 +4,7 @@ import LoadingSpin from 'react-loading-spin'
 import { useDispatch, useSelector } from 'react-redux'
 import { Form } from 'react-router-dom'
 import { addUser } from '../../features/users/userSlice'
+import { defaultTheme } from '../..'
 
 function NewUserModal({ isOpen, onClose }) {
     const dispatch = useDispatch()
@@ -73,7 +74,7 @@ function NewUserModal({ isOpen, onClose }) {
                     transform="translateY(170px)"
                 >
                     <LoadingSpin
-                    primaryColor="#211a52"
+                    primaryColor={defaultTheme.colors.aau.primary}
                     size="100px"
                     />
                 </Center>
@@ -219,8 +220,7 @@ function NewUserModal({ isOpen, onClose }) {
                     <Spacer />
                     <Button 
                         type='submit' 
-                        backgroundColor="#211a52"
-                        color="white"
+                        colorScheme='aau.button'
                         variant='solid'
                     >Submit</Button>
                     </ModalFooter>

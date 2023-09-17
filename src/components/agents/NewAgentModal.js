@@ -2,7 +2,8 @@ import { Alert, AlertDescription, AlertIcon, Button, Center, Checkbox, CheckboxG
 import React, { useState } from 'react'
 import LoadingSpin from 'react-loading-spin'
 import { useDispatch, useSelector } from 'react-redux'
-import { addAgent } from '../../features/agents/agentSlice'
+import { addAgent, deleteAgent } from '../../features/agents/agentSlice'
+import { defaultTheme } from '../..'
 
 function NewAgentModal({ isOpen, onClose }) {
     const dispatch = useDispatch()
@@ -67,7 +68,7 @@ function NewAgentModal({ isOpen, onClose }) {
                     transform="translateY(170px)"
                 >
                     <LoadingSpin
-                    primaryColor="#211a52"
+                    primaryColor={defaultTheme.colors.aau.primary}
                     size="100px"
                     />
                 </Center>
@@ -191,8 +192,7 @@ function NewAgentModal({ isOpen, onClose }) {
                     <Spacer />
                     <Button 
                         type='submit' 
-                        backgroundColor="#211a52"
-                        color="white"
+                        colorScheme='aau.button'
                         variant='solid'
                     >Submit</Button>
                     </ModalFooter>
