@@ -17,21 +17,21 @@ import { BASE_URL } from './api/client'
 import { useFetch } from 'react-async'
 import { Buffer } from 'buffer'
 import NewEventPage from './pages/NewEventPage'
+
+export const getUsernameFromToken = (token) => {
+    try {            
+        let tokenPayload = token.split('.')[1]         
+        
+        const decoded = JSON.parse(Buffer.from(tokenPayload, 'base64'))
+        return decoded.sub
+    }
+    catch (error) {
+        return
+    }
+}
+
 function AppRouter() {
     const dispatch = useDispatch()
-
-    const getUsernameFromToken = (token) => {
-        try {            
-            let tokenPayload = token.split('.')[1]         
-            
-            const decoded = JSON.parse(Buffer.from(tokenPayload, 'base64'))
-            return decoded.sub
-        }
-        catch (error) {
-            return
-        }
-    }
-
     const AuthWrapper = () => {    
         let token = localStorage.getItem('token')
         // Thunk will return error if it cannot pass the value as json
