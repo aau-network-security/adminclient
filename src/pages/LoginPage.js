@@ -127,7 +127,7 @@ export default function LoginPage() {
                 borderRadius={0}
                 type="submit"
                 variant="solid"
-                backgroundColor="#211a52"
+                colorScheme="aau.button"
                 color="white"
                 width="full"
               >

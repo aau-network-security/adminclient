@@ -34,7 +34,7 @@ function CreateEventCard({ ...props }) {
                         <Icon
                             as={FaRegCalendarPlus}
                             fontSize="30px"
-                            color="#211a52"
+                            color="aau.primary"
                         />
                         <Flex flexDir="column" marginLeft="20px">
                             <Text fontWeight="bold">Create Event</Text>
@@ -45,8 +45,7 @@ function CreateEventCard({ ...props }) {
 
                 <Flex flexDir="column" h="100%" w="40%">
                     <Button
-                        backgroundColor="#211a52"
-                        _hover={{ backgroundColor: "#18123a" }}
+                        colorScheme="aau.button"
                         color="white"
                         borderRadius="0px 10px 0px 5px"
                         marginBottom="1px"
@@ -71,8 +70,7 @@ function CreateEventCard({ ...props }) {
                             />
                     </Button>
                     <Button
-                        backgroundColor="#211a52"
-                        _hover={{ backgroundColor: "#18123a" }}
+                        colorScheme="aau.button"
                         color="white"
                         borderRadius="5px 0px 10px 0px"
                         marginTop="1px"

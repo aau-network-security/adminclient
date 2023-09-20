@@ -95,7 +95,7 @@ function EventTeamsTable() {
                 <Spacer />
                 <InputGroup width="300px" margin="auto">
                     <InputLeftElement pointerEvents="none">
-                        <SearchIcon color="#211A52" />
+                        <SearchIcon color="aau.primary" />
                     </InputLeftElement>
                     <Input type="tel" placeholder="Search teams" />
                 </InputGroup>
@@ -124,7 +124,8 @@ function EventTeamsTable() {
                             <Tr key={key}>
                                 <Td width="200px" textAlign="center">
                                     <IconButton
-                                        color={"#211A52"}
+                                        color="aau.primary"
+                                        colorScheme="aau.button"
                                         variant="ghost"
                                         fontSize="20px"
                                         icon={<MdRefresh />}
@@ -135,7 +136,7 @@ function EventTeamsTable() {
                                         data-tooltip-id="tooltip-reset-lab"
                                     />
                                     <IconButton
-                                        colorScheme="red"
+                                        colorScheme="aau.buttonRed"
                                         variant="ghost"
                                         fontSize="20px"
                                         icon={<MdDelete />}
@@ -148,7 +149,7 @@ function EventTeamsTable() {
                                 <Td>
                                     <Link
                                         textDecoration="underline"
-                                        _hover={{ color: "#211A52" }}
+                                        _hover={{ color: "aau.primary" }}
                                         fontWeight={600}
                                         onClick={() => openTeamModal(key)}
                                     >

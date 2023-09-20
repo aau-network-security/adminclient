@@ -27,6 +27,7 @@ import {
 import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
+import { defaultTheme } from "../..";
 
 function NewEventFormChallengeSelector({
     reqData,
@@ -103,16 +104,16 @@ function NewEventFormChallengeSelector({
                         height="50px"
                         padding="0 10px 0 10px"
                         alignItems="center"
-                        _hover={{ backgroundColor: "#211a52", color: "#fff" }}
+                        _hover={{ backgroundColor: "aau.primary", color: "#fff" }}
                         backgroundColor={
                             selectedCategory.tag === category.tag
-                                ? "#211a52"
+                                ? "aau.primary"
                                 : "#f7fafc"
                         }
                         color={
                             selectedCategory.tag === category.tag
                                 ? "#fff"
-                                : "#211a52"
+                                : "aau.primary"
                         }
                         onClick={() => dispatch(selectCategory(category))}
                     >
@@ -151,7 +152,7 @@ function NewEventFormChallengeSelector({
             >
                 {fetchingExercises ? (
                     <Center h="100%" width="inherit" alignItems="center">
-                        <LoadingSpin primaryColor="#211a52" size="100px" />
+                        <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
                     </Center>
                 ) : (
                     <CheckboxGroup
@@ -178,7 +179,7 @@ function NewEventFormChallengeSelector({
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="#c53030"
+                                            color="aau.red"
                                             as={IoIosWarning}
                                             fontSize="16px"
                                             marginRight="3px"

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import LoadingSpin from 'react-loading-spin'
 import { useDispatch, useSelector } from 'react-redux'
 import { addOrg } from '../../features/organizations/organizationSlice'
+import { defaultTheme } from '../..'
 
 function NewOrgModal({ isOpen, onClose }) {
     const dispatch = useDispatch()
@@ -71,7 +72,7 @@ function NewOrgModal({ isOpen, onClose }) {
                     transform="translateY(170px)"
                 >
                     <LoadingSpin
-                    primaryColor="#211a52"
+                    primaryColor={defaultTheme.colors.aau.primary}
                     size="100px"
                     />
                 </Center>
@@ -182,9 +183,7 @@ function NewOrgModal({ isOpen, onClose }) {
                     <Spacer />
                     <Button 
                         type='submit' 
-                        backgroundColor="#211a52"
-                        color="white"
-                        variant='solid'
+                        colorScheme='aau.button'
                     >Submit</Button>
                     </ModalFooter>
                 </form>
