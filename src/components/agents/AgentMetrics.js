@@ -33,8 +33,6 @@ function AgentMetrics(websocket) {
     if (selectedAgent !== null) {
         if (selectedAgent.name !== previousSelected) {
             try {
-                console.log("creating new websocket");
-                console.log("old websocket: ", webSocket);
                 if (webSocket != null) {
                     console.log("closing previous websocket");
                     webSocket.close();
@@ -45,7 +43,6 @@ function AgentMetrics(websocket) {
                 setContainerCount(0);
                 setVmCount(0);
                 setWebSocket(new WebSocket(baseWsUrl + selectedAgent.name));
-                console.log("setting previous websocket");
                 setPreviousSelected(selectedAgent.name);
             } catch (error) {
                 console.log(error);
@@ -55,10 +52,7 @@ function AgentMetrics(websocket) {
 
     const reconnectToMetrics = () => {
         try {
-            console.log("creating new websocket");
-            console.log("old websocket: ", webSocket);
             if (webSocket != null) {
-                console.log("closing previous websocket");
                 webSocket.close();
             }
             setCpuState(0);
@@ -67,7 +61,6 @@ function AgentMetrics(websocket) {
             setContainerCount(0);
             setVmCount(0);
             setWebSocket(new WebSocket(baseWsUrl + selectedAgent.name));
-            console.log("setting previous selected agent");
             setPreviousSelected(selectedAgent.name);
         } catch (error) {
             console.log(error);
@@ -86,7 +79,6 @@ function AgentMetrics(websocket) {
             webSocket.onmessage = function (event) {
                 try {
                     let data = JSON.parse(event.data);
-                    console.log(typeof data.Cpu);
                     setCpuState(data.Cpu.toFixed(2));
                     setMemoryState(data.Memory.toFixed(2));
                     setLabCount(data.LabCount);

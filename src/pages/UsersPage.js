@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 
 export default function UsersPage() {
   const loggedInUser = useSelector((state) => state.user.loggedInUser)
-  console.log(loggedInUser)
   // Redirect if user accesses page directly via url and does not have permissions 
   // (This is mainly for usability, authorization is of course handled by the api)
   if (typeof loggedInUser.perms !== 'undefined' ) {

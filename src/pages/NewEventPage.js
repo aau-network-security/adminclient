@@ -43,8 +43,6 @@ function NewEventPage() {
     });
 
     const changeHandler = (e) => {
-        console.log(e);
-        console.log(reqDataState);
         if (e.target.name === "eventName") {
             setReqDataState({
                 ...reqDataState,
@@ -77,7 +75,6 @@ function NewEventPage() {
     const toastIdRef = React.useRef();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("reqDataState: ", reqDataState);
         var reqData = {
             type: reqDataState.type === "advanced" ? 1 : 0,
             name: reqDataState.name,
@@ -96,7 +93,6 @@ function NewEventPage() {
 
         // Convert type to number that daemon understands
 
-        console.log("Starting event with reqData: ", reqData);
 
         if (reqData.exerciseTags.length === 0) {
             toastIdRef.current = toast({

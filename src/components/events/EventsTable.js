@@ -33,12 +33,10 @@ function EventsTable() {
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setEventStatusSelector(event.target.value);
   };
 
   const setSelectedEvent = (event) => {
-    console.log("setting selected event", event);
     dispatch(selectEvent(event));
   };
 
@@ -46,7 +44,6 @@ function EventsTable() {
   const toastIdRef = React.useRef()
 
   const eventStop = async (eventTag) => {
-    console.log("stopping event: ", eventTag)
     let request = {
       tag: eventTag,
     }

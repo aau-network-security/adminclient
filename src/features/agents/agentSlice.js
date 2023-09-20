@@ -12,7 +12,6 @@ const initialState = {
 export const addAgent = createAsyncThunk('agent/addAgent', async (agent, { rejectWithValue }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        console.log("adding agent: ", agent)
         const response = await apiClient.post('agents', agent)
         agent.loading = false
         agent.connected = true
@@ -55,7 +54,6 @@ export const fetchAgents = createAsyncThunk('agent/fetchAgents', async (obj, { r
 export const deleteAgent = createAsyncThunk('agent/deleteAgent', async (agent, { rejectWithValue }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        console.log("deleting agent: ", agent)
         const response = await apiClient.delete('agents/' + agent.name)
         
         return response.data
@@ -114,7 +112,6 @@ const agentSlice = createSlice({
         builder.addCase(reconnectAgent.pending, (state, action) => {
             state.agents[action.meta.arg.id].loading = true
             state.selectedAgent = null
-            console.log(action)
         })
         builder.addCase(reconnectAgent.fulfilled, (state, action) => {
             state.agents[action.meta.arg.id].loading = false
@@ -131,7 +128,6 @@ const agentSlice = createSlice({
         //Delete
         builder.addCase(deleteAgent.pending, (state, action) => {
             state.agents[action.meta.arg.id].loading = true
-            console.log(action)
         })
         builder.addCase(deleteAgent.fulfilled, (state, action) => {
             state.agents.splice(action.meta.arg.id, 1)

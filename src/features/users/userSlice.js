@@ -15,7 +15,6 @@ export const addUser = createAsyncThunk('user/addUser', async (user, { rejectWit
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
         const { org } = getState()
-        console.log("adding user: ", user)
         const response = await apiClient.post('users', user)
         let userResp = {
             user: {
@@ -26,13 +25,11 @@ export const addUser = createAsyncThunk('user/addUser', async (user, { rejectWit
                 Organization: user.organization,
             }
         }
-        console.log("state: ", org.selectedOrg)
         if (org.selectedOrg !== null) {
             if (org.selectedOrg.Name !== user.organization) {
                 return null
             }
         }
-        console.log(userResp)
         return userResp
     }
     catch (err) {
@@ -49,7 +46,6 @@ export const deleteUser = createAsyncThunk('user/deleteUser', async (user, { rej
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
         const response = await apiClient.delete('users/' + user.name)
-        console.log(response.data)
         return response.data
     }
     catch (err) {
@@ -66,7 +62,6 @@ export const fetchUsers = createAsyncThunk('user/fetchUsers', async(orgName, {re
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
         const response = await apiClient.get('users?organization=' + orgName)
-        console.log(response)
         if (typeof response.data.users === "undefined") {
             response.data.agents = []
         }
@@ -87,7 +82,6 @@ export const fetchSelf = createAsyncThunk('user/fetchSelf', async(obj, {rejectWi
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
         const user = getUsernameFromToken(localStorage.getItem('token'))
         const response = await apiClient.get('users/' + user)
-        console.log(response)
         return response.data
     }
     catch (err) {
@@ -106,7 +100,6 @@ export const updateUser = createAsyncThunk('user/updateUser', async (user, { rej
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
         const { org } = getState()
-        console.log("updating user: ", user)
         const response = await apiClient.put('users', user)
         return response
     }

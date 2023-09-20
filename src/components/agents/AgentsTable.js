@@ -51,7 +51,6 @@ function AgentsTable() {
     // TODO write deleteOrg action, reducer, etc.
     // TODO Add weight to table
     const doDeleteAgent = (agentName, index) => {
-        console.log("deleting agent", agentName);
         let agent = {
             id: index,
             name: agentName,
@@ -60,19 +59,16 @@ function AgentsTable() {
     };
 
     const setSelectedAgent = (agent) => {
-        console.log("setting selected agent", agent);
         dispatch(selectAgent(agent));
     };
 
     const reconnectToAgent = async (id, agentName) => {
-        console.log("reconnecting agent", agentName);
         try {
             let agent = {
                 id: id,
                 name: agentName,
             };
             let resp = await dispatch(reconnectAgent(agent));
-            console.log("resp", resp);
         } catch (err) {
             console.log("err", err);
         }
@@ -83,7 +79,6 @@ function AgentsTable() {
     }, [dispatch]);
 
     const openAlertDialog = (agentName, index) => {
-        console.log(agentName);
         setAgentNameState(agentName);
         setIndexState(index);
         setIsAlertOpen(true);
@@ -140,10 +135,10 @@ function AgentsTable() {
                             >
                                 <Tr>
                                     <Th textAlign="center">Reconnect</Th>
-                                    <Th textAlign="center">Name</Th>
+                                    <Th >Name</Th>
                                     <Th textAlign="center">Connected</Th>
-                                    <Th textAlign="center">Weight</Th>
-                                    <Th textAlign="center">Url</Th>
+                                    <Th isNumeric>Weight</Th>
+                                    <Th >Url</Th>
                                     <Th textAlign="center">TLS</Th>
                                     <Th textAlign="center">State locked</Th>
                                     <Th textAlign="center">Delete</Th>
@@ -201,7 +196,7 @@ function AgentsTable() {
                                                 )}
                                             </Center>
                                         </Td>
-                                        <Td textAlign="center">{agent.name}</Td>
+                                        <Td>{agent.name}</Td>
                                         <Td textAlign="center">
                                             <Icon
                                                 as={
@@ -217,11 +212,11 @@ function AgentsTable() {
                                                 }
                                             />
                                         </Td>
-                                        <Td textAlign="center">
+                                        <Td isNumeric>
                                             {agent.weight}
                                         </Td>
 
-                                        <Td textAlign="center">{agent.url}</Td>
+                                        <Td>{agent.url}</Td>
                                         <Td textAlign="center">
                                             <Icon
                                                 as={

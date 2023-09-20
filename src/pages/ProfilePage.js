@@ -26,7 +26,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { FaRegBuilding } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { MdSecurity } from "react-icons/md";
+import { MdSave, MdSecurity } from "react-icons/md";
 import { RiEditLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSelf, updateUser } from "../features/users/userSlice";
@@ -114,7 +114,6 @@ export default function ProfilePage() {
         const [ repeatPassword, setRepeatPassword ] = useState("")
         const updatePassword = async (e) => {
             e.preventDefault()
-            console.log("updating password")
             if (newPassword.length < 8) {
                 toastIdRef.current = toast({
                     title: 'Error updating password',
@@ -236,10 +235,8 @@ export default function ProfilePage() {
                                     marginBottom="20px"
                                     lineHeight="1.3"
                                 >
-                                    Hi,
-                                    <Text>
-                                        <b>{shortName}!</b>
-                                    </Text>
+                                    Hi, <br/>
+                                    <b>{shortName}!</b>
                                 </Text>
                                 <Avatar
                                     name={currentUser.user.FullName}
@@ -283,9 +280,7 @@ export default function ProfilePage() {
                                             <Input
                                                 type="text"
                                                 name="username"
-                                                placeholder={
-                                                    currentUser.user.Username
-                                                }
+                                                value={currentUser.user.Username}
                                                 boxShadow="md"
                                                 isReadOnly
                                             />
@@ -297,9 +292,7 @@ export default function ProfilePage() {
                                             <Input
                                                 type="text"
                                                 name="fullName"
-                                                placeholder={
-                                                    currentUser.user.FullName
-                                                }
+                                                value={currentUser.user.FullName}
                                                 boxShadow="md"
                                                 isReadOnly
                                             />
@@ -316,15 +309,31 @@ export default function ProfilePage() {
                                                 type="email"
                                                 boxShadow="md"
                                                 value={email}
+                                                bg="#FFF"
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
                                             <InputRightElement>
-                                                <IconButton
+                                                { email !== "" ? (
+                                                    <IconButton
                                                     colorScheme="aau.button"
                                                     variant="solid"
-                                                    icon={<Icon as={RiEditLine} />}
+                                                    icon={<Icon as={MdSave} />}
                                                     onClick={updateEmail}
+                                                    borderLeftRadius="0px"
                                                 />
+                                                ) : (
+                                                    <Center
+                                                        height="100%"
+                                                        width="100%"
+                                                        bg="aau.primary"
+                                                        borderRightRadius="5px"
+                                                    >
+                                                        <Icon bg="aau.primary" color="aau.text" as={RiEditLine} />
+                                                    </Center>                                                    
+                                                )
+
+                                                }
+                                                
                                             </InputRightElement>
                                         </InputGroup>
                                     </FormControl>

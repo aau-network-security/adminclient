@@ -13,7 +13,6 @@ const initialState = {
 export const createEvent = createAsyncThunk('event/createEvent', async (reqData, { rejectWithValue }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        console.log("creating event: ", reqData)
         const response = await apiClient.post('events', reqData)
         
         return response.data
@@ -55,7 +54,6 @@ export const fetchEvents = createAsyncThunk('event/fetchEvents', async (obj, { r
 export const stopEvent = createAsyncThunk('event/stopEvent', async (event, { rejectWithValue }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        console.log("stopping event: ", event)
         const response = await apiClient.put('events/close/' + event.tag)
         
         return response.data
