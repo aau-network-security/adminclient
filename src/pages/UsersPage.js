@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import UsersTable from "../components/users/UsersTable";
 
 export default function UsersPage() {
   const loggedInUser = useSelector((state) => state.user.loggedInUser)
@@ -12,8 +13,6 @@ export default function UsersPage() {
     }
   }
   return (
-    <>
-
-    </>
+    <UsersTable/>
   );
 }
