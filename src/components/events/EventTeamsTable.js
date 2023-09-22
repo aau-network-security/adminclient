@@ -121,17 +121,18 @@ function EventTeamsTable() {
             })
           }
     }
-    
+
     const TeamModal = ({teams}) => {
         let username = "";
-        if (teams.length) {
-            username = teams[clickedTeam].username;
-        }
         if (!teams[clickedTeam]) {
             return (
                 <></>
             )
         }
+        if (teams.length) {
+            username = teams[clickedTeam].username;
+        }
+        
         return (
             <Modal
                 onClose={onTeamModalClose}
@@ -163,7 +164,7 @@ function EventTeamsTable() {
                                 
                                 <Accordion allowMultiple overflowY="auto" height={"100%"}>
                                         {Object.entries(teams[clickedTeam].labInfo.exercises).map(([key, exercise]) => (
-                                            <>
+                                            <React.Fragment key={key}>
                                             {exercise.machines.length > 0 ? (
                                                 <AccordionItem key={key}>
                                                     <h2>
@@ -219,7 +220,7 @@ function EventTeamsTable() {
                                                     </AccordionPanel>
                                                 </AccordionItem>
                                             )}
-                                            </>
+                                            </React.Fragment>
                                             
                                         ))}
                                 </Accordion>
