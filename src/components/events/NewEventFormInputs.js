@@ -26,7 +26,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
     return (
         <Box width="40%">
             <FormControl marginBottom={7} isRequired>
-                <FormLabel fontSize="17px" color="#211a52">
+                <FormLabel fontSize="17px" color="aau.primary">
                     Event name (Max: 20)
                 </FormLabel>
                 <InputGroup>
@@ -43,7 +43,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                 </InputGroup>
             </FormControl>
             <FormControl marginBottom={7} isRequired>
-                <FormLabel fontSize="17px" color="#211a52">
+                <FormLabel fontSize="17px" color="aau.primary">
                     Event tag (Max: 15)
                     <Icon
                         color="grey"
@@ -73,13 +73,13 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         onChange={(event) => changeHandler(event)}
                     />
                 </InputGroup>
-                <Text color={"#211a52"} marginTop="10px">
+                <Text color="aau.primary" marginTop="10px">
                     Event will be available at: https://
                     <b>{reqData.tag}</b>.haaukins.com
                 </Text>
             </FormControl>
             <FormControl marginBottom={7}>
-                <FormLabel fontSize="17px" color="#211a52">
+                <FormLabel fontSize="17px" color="aau.primary">
                     Secret key
                     <Icon
                         color="grey"
@@ -112,7 +112,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
             </FormControl>
             <Flex width="100%">
                 <FormControl marginBottom={7} marginRight="20px">
-                    <FormLabel fontSize="17px" color="#211a52">
+                    <FormLabel fontSize="17px" color="aau.primary">
                         {searchParams.get("type") === "advanced" ? (
                             <>
                                 Max labs
@@ -159,7 +159,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                 </FormControl>
                 {searchParams.get("type") === "advanced" && (
                     <FormControl marginBottom={7}>
-                        <FormLabel fontSize="17px" color="#211a52">
+                        <FormLabel fontSize="17px" color="aau.primary">
                             Team size
                             <Icon
                                 color="grey"
@@ -202,7 +202,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
             </Flex>
             {searchParams.get("type") === "advanced" && (
                 <FormControl marginBottom={7}>
-                    <FormLabel fontSize="17px" color="#211a52">
+                    <FormLabel fontSize="17px" color="aau.primary">
                         Virtual machine
                     </FormLabel>
                     <InputGroup width="100%" display="block">
@@ -223,7 +223,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
             )}
 
             <FormControl marginBottom={7} isRequired>
-                <FormLabel fontSize="17px" color="#211a52">
+                <FormLabel fontSize="17px" color="aau.primary">
                     Finish date
                     <Icon
                         color="grey"
@@ -268,14 +268,6 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                     />
                 </InputGroup>
             </FormControl>
-            {/* <Text
-                                fontSize="20px"
-                                color="#211a52"
-                                marginBottom={5}
-                                marginTop={10}
-                            >
-                                Advanced options
-                            </Text> */}
             {searchParams.get("type") === "advanced" && (
                 <FormControl marginBottom={7}>
                     <InputGroup display={"flex"} flexDir={"column"}>
@@ -305,7 +297,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         {reqData.dynamicScoring && (
                             <Flex>
                                 <FormControl marginRight="20px">
-                                    <FormLabel fontSize="17px" color="#211a52">
+                                    <FormLabel fontSize="17px" color="aau.primary">
                                         Max score
                                         <Icon
                                             color="grey"
@@ -346,7 +338,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                                     </InputGroup>
                                 </FormControl>
                                 <FormControl marginRight="20px">
-                                    <FormLabel fontSize="17px" color="#211a52">
+                                    <FormLabel fontSize="17px" color="aau.primary">
                                         Min score
                                         <Icon
                                             color="grey"
@@ -387,7 +379,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                                     </InputGroup>
                                 </FormControl>
                                 <FormControl width="150%">
-                                    <FormLabel fontSize="17px" color="#211a52">
+                                    <FormLabel fontSize="17px" color="aau.primary">
                                         Solve Threshold
                                         <Icon
                                             color="grey"
@@ -434,17 +426,6 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                     </InputGroup>
                 </FormControl>
             )}
-
-            {/* <Button
-                                borderRadius={0}
-                                type="submit"
-                                variant="solid"
-                                backgroundColor="#211a52"
-                                color="white"
-                                width="full"
-                            >
-                                Login
-                            </Button> */}
         </Box>
     );
 }

@@ -33,7 +33,6 @@ export const deleteOrg = createAsyncThunk('org/deleteOrg', async (org, { rejectW
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
         const response = await apiClient.delete('orgs/' + org.name)
-        console.log(response.data)
         return response.data
     }
     catch (err) {

@@ -11,7 +11,6 @@ import {
 
 export default function AgentDialogDelete(props) {
     const onClickDelete = () => {
-      console.log(props.agentName, props.index)
         props.deleteAgent(props.agentName, props.index)
         props.onClose()
     }
@@ -36,7 +35,7 @@ export default function AgentDialogDelete(props) {
                 <Button ref={props.cancelRef} onClick={props.onClose}>
                   Cancel
                 </Button>
-                <Button colorScheme='red' onClick={onClickDelete} ml={3}>
+                <Button colorScheme='aau.buttonRed' onClick={onClickDelete} ml={3}>
                   Delete
                 </Button>
               </AlertDialogFooter>

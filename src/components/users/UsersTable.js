@@ -21,6 +21,7 @@ import { RiEditLine } from 'react-icons/ri'
 import NewUserModal from './NewUserModal';
 import { deleteUser, fetchUsers } from '../../features/users/userSlice';
 import { MdDelete } from 'react-icons/md';
+import { defaultTheme } from '../..';
 
 function UsersTable({ byRole }) {
   const IconFa = chakra(FontAwesomeIcon)
@@ -43,7 +44,6 @@ function UsersTable({ byRole }) {
   const error = useSelector((state) => state.user.error)
   const statusCode = useSelector((state) => state.user.statusCode)
   const users = useSelector((state) => state.user.users)
-
   const loggedInUser = useSelector((state) => state.user.loggedInUser)
 
   const dispatch = useDispatch()
@@ -52,7 +52,6 @@ function UsersTable({ byRole }) {
   //Callback for alertDialog 
   // TODO write deleteOrg action, reducer, etc.
   const doDeleteUser = (username, index) => {
-    console.log("deleting org", username)
     let user = {
       id: index,
       name: username
@@ -62,7 +61,6 @@ function UsersTable({ byRole }) {
   
   useEffect(() => {
     if (selectedOrg != null) {
-      console.log("fetching users")
       dispatch(fetchUsers(selectedOrg.Name))
     } else {
       dispatch(fetchUsers(""))
@@ -80,20 +78,19 @@ function UsersTable({ byRole }) {
   }
 
   return (
-    <>
       <Flex 
-        w="50%" 
-        h="650px"
-        borderRadius="30px"
+        w="100%" 
+        h="100%"
+        className='container'
+        flexDir="column"
       >
-          <div className='container'>
             <Flex className='container-header'>
               <h2 className='container-header-text'>Users</h2>
               <Spacer />
               <IconButton 
                 className='container-header-button'
-                colorScheme='green'
-                variant='outline'
+                colorScheme='aau.buttonGreen'
+                variant='ghost'
                 icon={<Icon as={IoMdAdd}/>}
                 data-tooltip-content="Add User"
                 data-tooltip-place="left"
@@ -104,7 +101,7 @@ function UsersTable({ byRole }) {
               <Tooltip 
                 id={"tooltip-add-user"}
                 style={{
-                    backgroundColor: "#211a52"
+                    backgroundColor: defaultTheme.colors.aau.primary
                 }}
               />
               
@@ -116,7 +113,7 @@ function UsersTable({ byRole }) {
                   transform="translateY(100%)"
                 >
                   <LoadingSpin
-                    primaryColor="#211a52"
+                    primaryColor={defaultTheme.colors.aau.primary}
                     size="100px"
                   />
                 </Center>
@@ -129,16 +126,15 @@ function UsersTable({ byRole }) {
               :
                 <>
                   <TableContainer  overflowY="unset" height="95%">
-                    <Table variant='simple'>
+                    <Table variant='simple' size="sm">
                       <Thead position="sticky" top={0} zIndex="docked" backgroundColor="white">
                         <Tr>
-                          <Th textAlign="center">Username</Th>
-                          <Th textAlign="center">Name</Th>
-                          <Th textAlign="center">Email</Th>
-                          <Th textAlign="center">Organization</Th>
-                          <Th textAlign="center">Role</Th>
-                          <Th textAlign="center">Edit</Th>
-                          <Th textAlign="center">Delete</Th>             
+                          <Th>Username</Th>
+                          <Th>Name</Th>
+                          <Th>Email</Th>
+                          <Th>Organization</Th>
+                          <Th>Role</Th>
+                          <Th textAlign="center">Action</Th>           
                         </Tr>
                       </Thead>
                       <Tbody>
@@ -146,28 +142,31 @@ function UsersTable({ byRole }) {
                           <Tr 
                             key={user.user.Username}
                           >
-                            <Td textAlign="center">{user.user.Username}</Td>
-                            <Td textAlign="center">{user.user.FullName}</Td>
-                            <Td textAlign="center">{user.user.Email}</Td>
-                            <Td textAlign="center">{user.user.Organization}</Td>
-                            <Td textAlign="center">{user.user.Role.split('role::')[1]}</Td>
+                            <Td>{user.user.Username}</Td>
+                            <Td>{user.user.FullName}</Td>
+                            <Td>{user.user.Email}</Td>
+                            <Td>{user.user.Organization}</Td>
+                            <Td>{user.user.Role.split('role::')[1]}</Td>
                             <Td textAlign="center">
                               <IconButton
                                 aria-label='Edit user'
                                 colorScheme='gray'
-                                variant='outline'
-                                icon={<RiEditLine />}                
-                              />                         
-                            </Td>
-                            <Td textAlign="center">
+                                variant='ghost'
+                                icon={<RiEditLine />}      
+                                marginRight={"10px"}          
+                              />       
                               <IconButton
                                 aria-label='Delete organization'
-                                colorScheme='red'
-                                variant='outline'
+                                colorScheme='aau.buttonRed'
+                                variant='ghost'
                                 fontSize="20px"
                                 icon={<MdDelete />}
                                 onClick={() => openAlertDialog(user.user.Username, key)}                  
-                              />                         
+                              />                    
+                            </Td>
+                            
+                            <Td textAlign="center">
+                                                     
                             </Td>
                           </Tr>
                         ))}
@@ -186,9 +185,7 @@ function UsersTable({ byRole }) {
                 </>      
               }
               <NewUserModal isOpen={isNewUserModalOpen} onClose={onNewUserModalClose}/>
-          </div>
       </Flex>
-    </>
   )
 }
 

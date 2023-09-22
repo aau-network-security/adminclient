@@ -43,8 +43,6 @@ function NewEventPage() {
     });
 
     const changeHandler = (e) => {
-        console.log(e);
-        console.log(reqDataState);
         if (e.target.name === "eventName") {
             setReqDataState({
                 ...reqDataState,
@@ -77,7 +75,6 @@ function NewEventPage() {
     const toastIdRef = React.useRef();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("reqDataState: ", reqDataState);
         var reqData = {
             type: reqDataState.type === "advanced" ? 1 : 0,
             name: reqDataState.name,
@@ -96,7 +93,6 @@ function NewEventPage() {
 
         // Convert type to number that daemon understands
 
-        console.log("Starting event with reqData: ", reqData);
 
         if (reqData.exerciseTags.length === 0) {
             toastIdRef.current = toast({
@@ -152,14 +148,14 @@ function NewEventPage() {
                         justifyContent="center"
                         flexDir="column"
                     >
-                        <Text color="#211a52" fontSize="30px" marginBottom={10}>
+                        <Text color="aau.primary" fontSize="30px" marginBottom={10}>
                             Creating event
                         </Text>
                         <Logo size="200px" className="icon-spin" />
                     </Flex>
                 ) : (
                     <>
-                        <Text color="#211a52" fontSize="30px" marginBottom={10}>
+                        <Text color="aau.primary" fontSize="30px" marginBottom={10}>
                             Create new {searchParams.get("type")} event
                         </Text>
                         <form
@@ -191,8 +187,7 @@ function NewEventPage() {
                                 justifyContent={"center"}
                             >
                                 <Button
-                                    backgroundColor="#211a52"
-                                    _hover={{ backgroundColor: "#18123a" }}
+                                    colorScheme="aau.button"
                                     color="white"
                                     as={ReactLink}
                                     to="/events"
@@ -201,8 +196,7 @@ function NewEventPage() {
                                     Back
                                 </Button>
                                 <Button
-                                    backgroundColor="#5caf8d"
-                                    _hover={{ backgroundColor: "#4c9a79" }}
+                                    colorScheme="aau.buttonGreen"
                                     color="white"
                                     type="submit"
                                 >

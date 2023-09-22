@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "react-tooltip";
 import { fetchEvents, selectEvent, stopEvent } from "../../features/events/eventSlice";
 import moment from "moment";
+import { defaultTheme } from "../..";
 
 function EventsTable() {
   const eventState = useSelector((state) => state.event);
@@ -32,12 +33,10 @@ function EventsTable() {
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     setEventStatusSelector(event.target.value);
   };
 
   const setSelectedEvent = (event) => {
-    console.log("setting selected event", event);
     dispatch(selectEvent(event));
   };
 
@@ -45,7 +44,6 @@ function EventsTable() {
   const toastIdRef = React.useRef()
 
   const eventStop = async (eventTag) => {
-    console.log("stopping event: ", eventTag)
     let request = {
       tag: eventTag,
     }
@@ -72,7 +70,7 @@ function EventsTable() {
   }
 
   useEffect(() => {
-    if (eventStatusSelector != "all") {
+    if (eventStatusSelector !== "all") {
       dispatch(fetchEvents({ status: eventStatusSelector }));
     } else {
       dispatch(fetchEvents());
@@ -101,10 +99,10 @@ function EventsTable() {
       </Flex>
       {eventState.status === "fetchingEvents" ? (
         <Center position="relative" transform="translateY(100%)">
-          <LoadingSpin primaryColor="#211a52" size="100px" />
+          <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
         </Center>
       ) : (
-        <TableContainer overflowY="unset" h="88%">
+        <TableContainer overflowY="unset" h="100%">
           <Table variant="simple" size={"sm"}>
             <Thead
               position="sticky"
@@ -134,7 +132,7 @@ function EventsTable() {
                 <Tr
                   key={key}
                   _hover={{
-                    backgroundColor: "#211a525c",
+                    backgroundColor: "aau.hover",
                     cursor: "pointer",
                   }}
                   onClick={() => setSelectedEvent(event)}
@@ -142,14 +140,14 @@ function EventsTable() {
                     !selectedEvent
                       ? ""
                       : selectedEvent.tag === event.tag
-                      ? "#211a525c"
+                      ? "aau.hover"
                       : ""
                   }
                 >
                   <Td textAlign={"center"} position="relative" zIndex="10">
                     {event.status === "running" ? (
                       <IconButton
-                        colorScheme="red"
+                        colorScheme="aau.buttonRed"
                         variant="ghost"
                         icon={<FaStop />}
                         data-tooltip-content="Stop event"
@@ -162,7 +160,7 @@ function EventsTable() {
                     ) : (
                       <>
                         <IconButton
-                          colorScheme="red"
+                          colorScheme="aau.buttonRed"
                           variant="ghost"
                           marginRight={"10px"}
                           fontSize="20px"
@@ -173,7 +171,7 @@ function EventsTable() {
                           data-tooltip-id="tooltip-delete-event"
                         />
                         <IconButton
-                          colorScheme="green"
+                          colorScheme="aau.buttonGreen"
                           variant="ghost"
                           icon={<FaPlay />}
                           data-tooltip-html="Restart event <br> Requires that another event is not running on the same URL"
@@ -193,7 +191,7 @@ function EventsTable() {
                   </Td>
                   <Td >{event.secretKey}</Td>
                   <Td >
-                    <Text color={event.status === "running" ? "green" : "red"}>
+                    <Text color={event.status === "running" ? "aau.green" : "aau.red"}>
                       {event.status}
                     </Text>
                   </Td>

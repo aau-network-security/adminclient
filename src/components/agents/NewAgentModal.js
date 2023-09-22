@@ -2,7 +2,8 @@ import { Alert, AlertDescription, AlertIcon, Button, Center, Checkbox, CheckboxG
 import React, { useState } from 'react'
 import LoadingSpin from 'react-loading-spin'
 import { useDispatch, useSelector } from 'react-redux'
-import { addAgent } from '../../features/agents/agentSlice'
+import { addAgent, deleteAgent } from '../../features/agents/agentSlice'
+import { defaultTheme } from '../..'
 
 function NewAgentModal({ isOpen, onClose }) {
     const dispatch = useDispatch()
@@ -18,10 +19,8 @@ function NewAgentModal({ isOpen, onClose }) {
     })
     const submitForm = async (e) => {
         e.preventDefault()
-        console.log('adding agent: ', reqData)
         try {
             const response = await dispatch(addAgent(reqData)).unwrap()
-            console.log("agent add response: ", response)
             setAddAgentError('')
             closeModal()
         }
@@ -35,7 +34,6 @@ function NewAgentModal({ isOpen, onClose }) {
     const changeHandler = (e) => {
         if (typeof(e) == 'number' ) {
             setReqData({...reqData, ['weight']: e})
-            console.log(reqData)
             return
         }
         if (e.target.name === 'name'){
@@ -49,7 +47,6 @@ function NewAgentModal({ isOpen, onClose }) {
         } else if (e.target.name === 'tls') {
             setReqData({...reqData, [e.target.name]: e.target.checked})
         }
-        console.log(reqData)
     }
     const closeModal = () => {
         setAddAgentError('')
@@ -67,7 +64,7 @@ function NewAgentModal({ isOpen, onClose }) {
                     transform="translateY(170px)"
                 >
                     <LoadingSpin
-                    primaryColor="#211a52"
+                    primaryColor={defaultTheme.colors.aau.primary}
                     size="100px"
                     />
                 </Center>
@@ -191,8 +188,7 @@ function NewAgentModal({ isOpen, onClose }) {
                     <Spacer />
                     <Button 
                         type='submit' 
-                        backgroundColor="#211a52"
-                        color="white"
+                        colorScheme='aau.button'
                         variant='solid'
                     >Submit</Button>
                     </ModalFooter>

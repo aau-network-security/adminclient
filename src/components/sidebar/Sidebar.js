@@ -39,7 +39,7 @@ export default function Sidebar() {
             pos="sticky"
             h="98vh"
             marginTop="1vh"
-            boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
+            boxShadow="md"
             borderRadius={navSize === "small" ? "15px" : "30px"}
             w={navSize === "small" ? "75px" : "250px"}
             flexDir="column"
@@ -106,14 +106,6 @@ export default function Sidebar() {
                 <Divider display={navSize === "small" ? "none" : "flex"} />
                 <Flex mt={4} align="center">
                 <NavItem navSize={navSize} icon={FiLogOut} title="Logout" to="/login" customClickEvent={logout}/>
-                {/* <Menu placement="right" p={"12px 12px 5px 12px"} _hover={{ textDecor: 'none', backgroundColor: "#211a52", color: "#FFF"}} >
-                    <MenuButton w="100%" lineHeight={1.35} >
-                        <Flex>
-                            <Icon as={FiLogOut} fontSize="xl" />
-                            <Text ml={5} display={navSize === "small" ? "none" : "flex"}>Logout</Text>
-                        </Flex>
-                    </MenuButton>
-                </Menu> */}
                 </Flex>
             </Flex>
         </Flex>
