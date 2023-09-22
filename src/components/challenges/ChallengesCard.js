@@ -18,7 +18,7 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -30,6 +30,7 @@ import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 
 import { defaultTheme } from "../..";
+import { cloneDeep, debounce } from "lodash";
 
 function ChallengesCard({
   reqData,
@@ -44,10 +45,12 @@ function ChallengesCard({
   );
 
   const exercises = useSelector((state) => state.exercise.exercises);
+  const [filteredExercises, setFilteredExercises] = useState("");
   const fetchingExercises = useSelector(
       (state) => state.exercise.fetchingExercises
   );
-  
+
+
   const [modalContent, setModalContent] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,8 +76,31 @@ const openModal = (content) => {
   }
   setIsModalOpen(true);
 };
+const searchValue = useSelector((state) => state.challenge.searchParam);
 
+const changeSearchData = (text, exercises) => { 
+    if (text === "") {
+        setFilteredExercises(cloneDeep(exercises));
+      }else {
+        setFilteredExercises(
+            cloneDeep(
+                exercises.filter((el) => {
+                return el.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
+            })
+            )
+        )
+    }
+  };
+  
+  const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
 
+      useEffect(() => {
+        debounceLoadData(searchValue, exercises);
+      }, [searchValue, exercises]);
+
+      useEffect(() => {
+        setFilteredExercises(exercises)
+        console.log(filteredExercises)      }, [exercises])
 
 
   return (
@@ -85,7 +111,7 @@ const openModal = (content) => {
         width="100%"
         marginLeft="15px"
         height="100%"
-        maxH="500px"
+        maxH="700px"
         
       >
             <GridItem
@@ -111,7 +137,7 @@ const openModal = (content) => {
                         }
                         name="exercises"
                     >
-                        {Object.entries(exercises).map(([key, exercise]) => (
+                        {Object.entries(filteredExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
                                 width="100%"

@@ -17,7 +17,7 @@ import { fetchCategories } from '../features/exercises/exerciseSlice';
 import ProfileNameDescriptionCard from '../components/challenges/ProfileNameDescriptionCard';
 
 
-function DisplayChallengesOrProfile(){
+function DisplayCategoriesOrProfile(){
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
     if (challengesOrProfile === "profiles"){
         return (
@@ -26,6 +26,27 @@ function DisplayChallengesOrProfile(){
     } else if (challengesOrProfile === "category"){
         return (
             <ChallengeSelectorCard/>
+        )
+    }
+}
+
+function ViewProfilesOrChallenges({  reqDataState,
+    setReqDataState}){
+    const challengesOrProfile = useSelector((state) => state.challenge.selector);
+    if (challengesOrProfile === "profiles"){
+        return (
+            <>
+            <ProfileNameDescriptionCard/>
+            <ChallengesCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+            </>
+            
+        )
+    } else if (challengesOrProfile === "category"){
+        return (
+            <>
+            <SearchBarCard/>
+            <ChallengesCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+            </>
         )
     }
 }
@@ -63,7 +84,7 @@ export default function ChallengesPage() {
                 >
                     <AddProfileCard/>
                     <ChallengeProfileSelectorCard/>
-                    <DisplayChallengesOrProfile/>
+                    <DisplayCategoriesOrProfile/>
                 </VStack>
                 </Flex>
             </GridItem>
@@ -73,11 +94,9 @@ export default function ChallengesPage() {
                 spacing="40px"
                 align='stretch'
                 >
-                <SearchBarCard/>
-                <ProfileNameDescriptionCard/>
-                <ChallengesCard
-                                    reqData={reqDataState}
+                <ViewProfilesOrChallenges reqDataState={reqDataState}
                                     setReqDataState={setReqDataState}/>
+                
                 </VStack>
                 </Flex>
             </GridItem>
