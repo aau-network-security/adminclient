@@ -34,7 +34,12 @@ function DisplayChallengesOrProfile(){
 export default function ChallengesPage() {
 
     const dispatch = useDispatch();
-    
+    const [reqDataState, setReqDataState] = useState({
+        tag: "",
+        exerciseTags: [],
+    });
+
+    const changeHandler = (e) => {}
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -48,6 +53,7 @@ export default function ChallengesPage() {
             templateRows="repeat(24, 1fr)"
             templateColumns="repeat(24, 1fr)"
             gap={4}
+            
         >
             <GridItem rowSpan={24} colSpan={8} >
                 <Flex direction="column" height="100%" className="container" bg={"#f7fafc"}>
@@ -69,7 +75,9 @@ export default function ChallengesPage() {
                 >
                 <SearchBarCard/>
                 <ProfileNameDescriptionCard/>
-                <ChallengesCard/>
+                <ChallengesCard
+                                    reqData={reqDataState}
+                                    setReqDataState={setReqDataState}/>
                 </VStack>
                 </Flex>
             </GridItem>

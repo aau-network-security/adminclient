@@ -5,11 +5,11 @@ import { MdOutlineSavedSearch, MdOutlinedFlag, MdSearch } from 'react-icons/md'
 function SearchBarCard() {
   return (
     <>
-    {/* <div>SearchBarCard</div> */}
     
     <InputGroup borderRadius={5} 
                 borderColor="white"
                 size="md" 
+                padding="0px"
                 backgroundColor="white" 
                 boxShadow='md'
                 dropShadow="#161616"

@@ -4,6 +4,7 @@ import apiClient from "../../api/client"
 
 const initialState = {
     selector: "category",
+    selectedCategory: {},
     error: ''
 }
 

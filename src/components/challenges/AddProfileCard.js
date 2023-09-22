@@ -7,7 +7,7 @@ function AddProfileCard() {
   return (
         <Box
             backgroundColor="white"
-            minWidth="400px"
+            
             height="85px"
             borderRadius="10px"
             className="container"

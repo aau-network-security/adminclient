@@ -80,7 +80,6 @@ function ChallengeSelectorCard() {
     return (
         <>
         <Box
-            minWidth="400px"
             height="40px"
             borderRadius="10px"
             className="container"
