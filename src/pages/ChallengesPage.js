@@ -6,10 +6,15 @@ import ChallengeProfileSelectorCard from '../components/challenges/ChallengeProf
 
 import ProfileSelectorCard from '../components/challenges/ProfileSelectorCard';
 
+import ChallengesCard from '../components/challenges/ChallengesCard';
+
+import SearchBarCard from '../components/challenges/SearchBarCard';
+
 import ChallengeSelectorCard from '../components/challenges/ChallengeSelectorCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { fetchCategories } from '../features/exercises/exerciseSlice';
+import ProfileNameDescriptionCard from '../components/challenges/ProfileNameDescriptionCard';
 
 
 function DisplayChallengesOrProfile(){
@@ -57,8 +62,15 @@ export default function ChallengesPage() {
                 </Flex>
             </GridItem>
             <GridItem rowSpan={24} colStart={11} colSpan={13} >
-                <Flex direction="column" height="100%" className="container" bg="blue">
-                    
+                <Flex direction="column" height="100%" className="container" bg={"#f7fafc"}>
+                <VStack
+                spacing="40px"
+                align='stretch'
+                >
+                <SearchBarCard/>
+                <ProfileNameDescriptionCard/>
+                <ChallengesCard/>
+                </VStack>
                 </Flex>
             </GridItem>
         </Grid>
