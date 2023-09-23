@@ -123,8 +123,8 @@ function EventTeamsTable() {
             })
           }
     }
-
-    const TeamModal = ({teams}) => {
+    const challengesSolving = useSelector((state) => state.team.challengesSolving)
+    const TeamModal = () => {
         let username = "";
         if (!teams[clickedTeam]) {
             return (
@@ -146,7 +146,7 @@ function EventTeamsTable() {
                     <ModalHeader>{username}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody height="450px" display="flex">
-                    {teams[clickedTeam].labInfo.tag === "" ? (
+                    {teamsState[clickedTeam].labInfo.tag === "" ? (
                                     <Center height="100%" width="100%">
                                         Team currently has no lab
                                     </Center>
@@ -254,6 +254,7 @@ function EventTeamsTable() {
                                                         colorScheme="aau.button" 
                                                         isDisabled={childExercise.solved}
                                                         onClick={() => forceSolve(childExercise.tag)}
+                                                        isLoading={typeof challengesSolving[childExercise.tag] !== "undefined" ? true : false}
                                                     >
                                                         {childExercise.solved ? (
                                                             <>
@@ -427,7 +428,7 @@ function EventTeamsTable() {
                                 </Tbody>
                             </Table>
                         </TableContainer>
-                        <TeamModal teams={teams}/>
+                        <TeamModal/>
                         <Tooltip id={"tooltip-delete-user"} style={{ zIndex: "9999" }} />
                         <Tooltip id={"tooltip-reset-lab"} style={{ zIndex: "9999" }} />
                     </>
