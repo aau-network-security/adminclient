@@ -146,7 +146,7 @@ function EventTeamsTable() {
                     <ModalHeader>{username}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody height="450px" display="flex">
-                        {teamsState[clickedTeam].labInfo ? (
+                        {teamsState[clickedTeam].labInfo && teamsState[clickedTeam].labInfo !== null ? (
                             <>
                                 {teamsState[clickedTeam].labInfo.tag === "" ? (
                                     <Center height="100%" width="100%">
@@ -280,7 +280,6 @@ function EventTeamsTable() {
                                 Team currently has no lab
                             </Center>
                         )}
-                    
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onTeamModalClose}>Close</Button>
