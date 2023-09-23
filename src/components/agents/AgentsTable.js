@@ -169,31 +169,19 @@ function AgentsTable() {
                                             zIndex="10"
                                         >
                                             <Center>
-                                                {/* TODO return a loading statement from daemon */}
-                                                {agent.loading ? (
-                                                    <IconButton
-                                                        aria-label="Reconnect to agent"
-                                                        variant="ghost"
-                                                        icon={
-                                                            <Center height="100%" width="100%" position="relative">
-                                                                <Spinner color="aau.primary" size="" height="50%" width="50%" thickness="2px"/>
-                                                            </Center>
-                                                        }
-                                                    />
-                                                ) : (
-                                                    <IconButton
-                                                        aria-label="Reconnect to agent"
-                                                        variant="ghost"
-                                                        colorScheme="aau.button"
-                                                        icon={<IoMdRefresh />}
-                                                        onClick={() =>
-                                                            reconnectToAgent(
-                                                                key,
-                                                                agent.name
-                                                            )
-                                                        }
-                                                    />
-                                                )}
+                                                <IconButton
+                                                    aria-label="Reconnect to agent"
+                                                    variant="ghost"
+                                                    colorScheme="aau.button"
+                                                    icon={<IoMdRefresh />}
+                                                    onClick={() =>
+                                                        reconnectToAgent(
+                                                            key,
+                                                            agent.name
+                                                        )
+                                                    }
+                                                    isLoading={agent.loading}
+                                                />
                                             </Center>
                                         </Td>
                                         <Td>{agent.name}</Td>
