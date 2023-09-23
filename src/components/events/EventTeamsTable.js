@@ -146,134 +146,141 @@ function EventTeamsTable() {
                     <ModalHeader>{username}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody height="450px" display="flex">
-                    {teamsState[clickedTeam].labInfo.tag === "" ? (
+                        {teamsState[clickedTeam].labInfo ? (
+                            <>
+                                {teamsState[clickedTeam].labInfo.tag === "" ? (
                                     <Center height="100%" width="100%">
                                         Team currently has no lab
                                     </Center>
                                 ) : (
-                        <HStack spacing={10} height="100%" width="100%">
-                            <Flex 
-                                height="100%" 
-                                width="100%" 
-                                bg="aau.bg" 
-                                borderRadius="5px"
-                                padding="0px 10px 0 10px"
-                                flexDir="column"
-                            >
-                                <Text className="container-header-text">
-                                    Lab Containers
-                                </Text>
-                                
-                                <Accordion allowMultiple overflowY="auto" height={"100%"}>
-                                        {Object.entries(teams[clickedTeam].labInfo.exercises).map(([key, exercise]) => (
-                                            <React.Fragment key={key}>
-                                            {exercise.machines.length > 0 ? (
-                                                <AccordionItem key={key}>
-                                                    <h2>
-                                                    <AccordionButton>
-                                                        <Box as="span" flex='1' textAlign='left'>
-                                                        <b>{exercise.tag}</b>
-                                                        </Box>
-                                                        <AccordionIcon />
-                                                    </AccordionButton>
-                                                    </h2>
-                                                    <AccordionPanel pb={4}>
-                                                        <TableContainer>
-                                                            <Table size="sm">
-                                                                <Thead position="sticky" zIndex="100">
-                                                                    <Tr>
-                                                                        <Th className='custom-table-header'>Id</Th>
-                                                                        <Th className='custom-table-header'>Type</Th>
-                                                                        <Th className='custom-table-header'>Registry url</Th>
-                                                                        <Th className='custom-table-header'>Status</Th>
-                                                                    </Tr>
-                                                                </Thead>
-                                                                <Tbody>
-                                                                    {Object.entries(exercise.machines).map(([key, machine]) => (
-                                                                        <Tr key={key}>
-                                                                            <Td>{machine.id}</Td>
-                                                                            <Td>{machine.type}</Td>
-                                                                            <Td style={{textWrap: "wrap"}}>{machine.image}</Td>
-                                                                            <Td
-                                                                                color={machine.status === "running" ? "aau.green" : "aau.red"}
-                                                                            >
-                                                                                {machine.status}
-                                                                            </Td>
-                                                                        </Tr>
-                                                                    ))}
-                                                                </Tbody>
-                                                            </Table>
-                                                        </TableContainer>
-                                                    
-                                                    </AccordionPanel>
-                                                </AccordionItem>
-                                            ):(
-                                                <AccordionItem key={key}>
-                                                    <h2>
-                                                    <AccordionButton>
-                                                        <Box as="span" flex='1' textAlign='left'>
-                                                        <b>{exercise.tag}</b>
-                                                        </Box>
-                                                        <AccordionIcon />
-                                                    </AccordionButton>
-                                                    </h2>
-                                                    <AccordionPanel pb={4}>
-                                                        Exercise has not yet been started                                                    
-                                                    </AccordionPanel>
-                                                </AccordionItem>
-                                            )}
-                                            </React.Fragment>
+                                    <HStack spacing={10} height="100%" width="100%">
+                                        <Flex 
+                                            height="100%" 
+                                            width="100%" 
+                                            bg="aau.bg" 
+                                            borderRadius="5px"
+                                            padding="0px 10px 0 10px"
+                                            flexDir="column"
+                                        >
+                                            <Text className="container-header-text">
+                                                Lab Containers
+                                            </Text>
                                             
-                                        ))}
-                                </Accordion>
-                            </Flex>
-                            <Flex 
-                                height="100%" 
-                                width="100%"
-                                bg="aau.bg" 
-                                borderRadius="5px"
-                                
-                                flexDir="column"
-                            >
-                                <Text className="container-header-text" padding="0px 10px 0 10px"> 
-                                    Challenge flags
-                                </Text>
-                                <VStack align='stretch' height="100%" overflowY="auto" padding="0px 10px 0 10px">
-                                {Object.entries(teams[clickedTeam].labInfo.exercises).map(([key, exercise]) => (
-                                    <React.Fragment key={key}>
-                                        {Object.entries(exercise.childExercises).map(([key, childExercise]) => (
-                                                <Flex key={key}>
-                                                    <Flex flexDir="column">
-                                                        <Heading fontSize="15px">
-                                                            {childExercise.name}
-                                                        </Heading>
-                                                        <Text>{childExercise.flag}</Text>
-                                                    </Flex>
-                                                    <Spacer/>
-                                                    <Button 
-                                                        colorScheme="aau.button" 
-                                                        isDisabled={childExercise.solved}
-                                                        onClick={() => forceSolve(childExercise.tag)}
-                                                        isLoading={typeof challengesSolving[childExercise.tag] !== "undefined" ? true : false}
-                                                    >
-                                                        {childExercise.solved ? (
-                                                            <>
-                                                                Solved
-                                                            </>
+                                            <Accordion allowMultiple overflowY="auto" height={"100%"}>
+                                                {Object.entries(teams[clickedTeam].labInfo.exercises).map(([key, exercise]) => (
+                                                    <React.Fragment key={key}>
+                                                        {exercise.machines.length > 0 ? (
+                                                            <AccordionItem key={key}>
+                                                                <h2>
+                                                                    <AccordionButton>
+                                                                        <Box as="span" flex='1' textAlign='left'>
+                                                                        <b>{exercise.tag}</b>
+                                                                        </Box>
+                                                                        <AccordionIcon />
+                                                                    </AccordionButton>
+                                                                </h2>
+                                                                <AccordionPanel pb={4}>
+                                                                    <TableContainer>
+                                                                        <Table size="sm">
+                                                                            <Thead position="sticky" zIndex="100">
+                                                                                <Tr>
+                                                                                    <Th className='custom-table-header'>Id</Th>
+                                                                                    <Th className='custom-table-header'>Type</Th>
+                                                                                    <Th className='custom-table-header'>Registry url</Th>
+                                                                                    <Th className='custom-table-header'>Status</Th>
+                                                                                </Tr>
+                                                                            </Thead>
+                                                                            <Tbody>
+                                                                                {Object.entries(exercise.machines).map(([key, machine]) => (
+                                                                                    <Tr key={key}>
+                                                                                        <Td>{machine.id}</Td>
+                                                                                        <Td>{machine.type}</Td>
+                                                                                        <Td style={{textWrap: "wrap"}}>{machine.image}</Td>
+                                                                                        <Td
+                                                                                            color={machine.status === "running" ? "aau.green" : "aau.red"}
+                                                                                        >
+                                                                                            {machine.status}
+                                                                                        </Td>
+                                                                                    </Tr>
+                                                                                ))}
+                                                                            </Tbody>
+                                                                        </Table>
+                                                                    </TableContainer>
+                                                                </AccordionPanel>
+                                                            </AccordionItem>
                                                         ):(
-                                                            <>
-                                                                Solve
-                                                            </>
+                                                            <AccordionItem key={key}>
+                                                                <h2>
+                                                                    <AccordionButton>
+                                                                        <Box as="span" flex='1' textAlign='left'>
+                                                                        <b>{exercise.tag}</b>
+                                                                        </Box>
+                                                                        <AccordionIcon />
+                                                                    </AccordionButton>
+                                                                </h2>
+                                                                <AccordionPanel pb={4}>
+                                                                    Exercise has not yet been started                                                    
+                                                                </AccordionPanel>
+                                                            </AccordionItem>
                                                         )}
-                                                    </Button>
-                                                </Flex>              
-                                        ))}
-                                    </React.Fragment>
-                                ))}
-                                </VStack>
-                            </Flex>
-                        </HStack>
+                                                    </React.Fragment>
+                                                ))}
+                                            </Accordion>
+                                        </Flex>
+                                        <Flex 
+                                            height="100%" 
+                                            width="100%"
+                                            bg="aau.bg" 
+                                            borderRadius="5px"
+                                            
+                                            flexDir="column"
+                                        >
+                                            <Text className="container-header-text" padding="0px 10px 0 10px"> 
+                                                Challenge flags
+                                            </Text>
+                                            <VStack align='stretch' height="100%" overflowY="auto" padding="0px 10px 0 10px">
+                                                {Object.entries(teams[clickedTeam].labInfo.exercises).map(([key, exercise]) => (
+                                                    <React.Fragment key={key}>
+                                                        {Object.entries(exercise.childExercises).map(([key, childExercise]) => (
+                                                            <Flex key={key}>
+                                                                <Flex flexDir="column">
+                                                                    <Heading fontSize="15px">
+                                                                        {childExercise.name}
+                                                                    </Heading>
+                                                                    <Text>{childExercise.flag}</Text>
+                                                                </Flex>
+                                                                <Spacer/>
+                                                                <Button 
+                                                                    colorScheme="aau.button" 
+                                                                    isDisabled={childExercise.solved}
+                                                                    onClick={() => forceSolve(childExercise.tag)}
+                                                                    isLoading={typeof challengesSolving[childExercise.tag] !== "undefined" ? true : false}
+                                                                >
+                                                                    {childExercise.solved ? (
+                                                                        <>
+                                                                            Solved
+                                                                        </>
+                                                                    ):(
+                                                                        <>
+                                                                            Solve
+                                                                        </>
+                                                                    )}
+                                                                </Button>
+                                                            </Flex>              
+                                                        ))}
+                                                    </React.Fragment>
+                                                ))}
+                                            </VStack>
+                                        </Flex>
+                                    </HStack>
+                                )}
+                            </>
+                        ):(
+                            <Center height="100%" width="100%">
+                                Team currently has no lab
+                            </Center>
                         )}
+                    
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onTeamModalClose}>Close</Button>
