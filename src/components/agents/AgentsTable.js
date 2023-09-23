@@ -4,6 +4,7 @@ import {
     Icon,
     IconButton,
     Spacer,
+    Spinner,
     Table,
     TableContainer,
     Tbody,
@@ -112,8 +113,8 @@ function AgentsTable() {
                 />
             </Flex>
             {status === "fetching" ? (
-                <Center position="relative" transform="translateY(100%)">
-                    <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
+                <Center height="100%" width="100%" position="relative">
+                    <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
                 </Center>
             ) : Object.keys(agents).length === 0 ? (
                 <Center>
@@ -174,10 +175,9 @@ function AgentsTable() {
                                                         aria-label="Reconnect to agent"
                                                         variant="ghost"
                                                         icon={
-                                                            <LoadingSpin
-                                                                primaryColor={defaultTheme.colors.aau.primary}
-                                                                size="20px"
-                                                            />
+                                                            <Center height="100%" width="100%" position="relative">
+                                                                <Spinner color="aau.primary" size="" height="50%" width="50%" thickness="2px"/>
+                                                            </Center>
                                                         }
                                                     />
                                                 ) : (

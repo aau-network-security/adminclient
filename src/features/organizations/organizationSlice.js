@@ -107,7 +107,7 @@ const orgSlice = createSlice({
 
         // Fetch
         builder.addCase(fetchOrgs.pending, (state) => {
-            state.status = 'fetchin'
+            state.status = 'fetching'
         })
         builder.addCase(fetchOrgs.fulfilled, (state, action) => {
             state.status = ''

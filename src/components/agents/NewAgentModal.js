@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertIcon, Button, Center, Checkbox, CheckboxGroup, FormControl, FormLabel, HStack, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, RadioGroup, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Spacer, Stack, Text } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, Button, Center, Checkbox, CheckboxGroup, FormControl, FormLabel, HStack, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, RadioGroup, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Spacer, Spinner, Stack, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import LoadingSpin from 'react-loading-spin'
 import { useDispatch, useSelector } from 'react-redux'
@@ -59,15 +59,9 @@ function NewAgentModal({ isOpen, onClose }) {
         <ModalContent minH="450px">
             {status === 'adding'
             ?
-                <Center
-                    position="relative"
-                    transform="translateY(170px)"
-                >
-                    <LoadingSpin
-                    primaryColor={defaultTheme.colors.aau.primary}
-                    size="100px"
-                    />
-                </Center>
+            <Center height="100%" width="100%" position="relative">
+                <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+            </Center>
             :
             <>
                 

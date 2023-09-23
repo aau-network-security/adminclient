@@ -5,6 +5,7 @@ import {
   Link,
   Select,
   Spacer,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -98,8 +99,8 @@ function EventsTable() {
         </Select>
       </Flex>
       {eventState.status === "fetchingEvents" ? (
-        <Center position="relative" transform="translateY(100%)">
-          <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
+        <Center height="100%" width="100%" position="relative">
+          <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
         </Center>
       ) : (
         <TableContainer overflowY="unset" h="100%">

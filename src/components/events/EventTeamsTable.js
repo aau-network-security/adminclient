@@ -24,6 +24,7 @@ import {
     ModalOverlay,
     Select,
     Spacer,
+    Spinner,
     Table,
     TableContainer,
     Tbody,
@@ -49,6 +50,7 @@ import { cloneDeep, debounce } from "lodash";
 
 function EventTeamsTable() {
     const teamsState = useSelector((state) => state.team.teams);
+    const status = useSelector((state) => state.team.status);
     const [teams, setTeams] = useState(teamsState)
     const selectedEvent = useSelector((state) => state.event.selectedEvent);
     const dispatch = useDispatch();
@@ -325,104 +327,112 @@ function EventTeamsTable() {
             </Flex>
             {selectedEvent && (
                 <>
-                <TableContainer overflowY="unset" h="88%">
-                <Table variant="simple" size="sm">
-                    <Thead
-                        position="sticky"
-                        top={0}
-                        zIndex="100"
-                        backgroundColor="white"
-                    >
-                        <Tr>
-                            {
-                                selectedEvent && selectedEvent.status === "running" && (
-                                    <Th textAlign="center">
-                                        Reset lab core/Delete user
-                                    </Th>
-                                )
-                            }
-                            <Th>Teamname</Th>
-                            <Th>Email</Th>
-                            <Th>Status</Th>
-                            <Th>Created at</Th>
-                            <Th>Last Accessed</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {Object.entries(teams).map(([key, team]) => (
-                            <Tr key={key}>
-                                {
-                                selectedEvent && selectedEvent.status === "running" && (
-                                <Td width="200px" textAlign="center">
-                                    <IconButton
-                                        color="aau.primary"
-                                        colorScheme="aau.button"
-                                        variant="ghost"
-                                        fontSize="20px"
-                                        icon={<MdRefresh />}
-                                        marginRight={"10px"}
-                                        data-tooltip-html="Reset lab core <br> Resets the core lab components (DNS and DHCP)"
-                                        data-tooltip-place="right"
-                                        data-tooltip-effect="solid"
-                                        data-tooltip-id="tooltip-reset-lab"
-                                    />
-                                    <IconButton
-                                        colorScheme="aau.buttonRed"
-                                        variant="ghost"
-                                        fontSize="20px"
-                                        icon={<MdDelete />}
-                                        data-tooltip-content="Delete user"
-                                        data-tooltip-place="right"
-                                        data-tooltip-effect="solid"
-                                        data-tooltip-id="tooltip-delete-user"
-                                    />
-                                </Td>
-                                )}
-                                <Td>
+                {status === "fetching" ? (
+                    <Center height="100%" width="100%" position="relative">
+                        <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+                    </Center>
+                ) : (
+                    <>
+                        <TableContainer overflowY="unset" h="88%">
+                        <Table variant="simple" size="sm">
+                            <Thead
+                                position="sticky"
+                                top={0}
+                                zIndex="100"
+                                backgroundColor="white"
+                            >
+                                <Tr>
                                     {
-                                    selectedEvent && selectedEvent.status === "running" ? (
-                                        <Link
-                                            textDecoration="underline"
-                                            _hover={{ color: "aau.primary" }}
-                                            fontWeight={600}
-                                            onClick={() => openTeamModal(key)}
-                                        >
-                                            {team.username}
-                                        </Link>
-                                    ) : (
-                                        <Text>
-                                            {team.username}
-                                        </Text>
-                                    )
-                                }
-                                    
-                                </Td>
-                                <Td>
-                                    {/*Make link */}
-                                    {team.email}
-                                </Td>
-                                <Td>
-                                    <Text>{team.status}</Text>
-                                </Td>
-                                <Td>
-                                    {moment(team.createdAt).format(
-                                        "DD/MM/YYYY HH:mm"
-                                    )}
-                                </Td>
-                                <Td>
-                                    {moment(team.lastAccess).format(
-                                        "DD/MM/YYYY HH:mm"
-                                    )}
-                                </Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
-            </TableContainer>
-            <TeamModal teams={teams}/>
-            <Tooltip id={"tooltip-delete-user"} style={{ zIndex: "9999" }} />
-            <Tooltip id={"tooltip-reset-lab"} style={{ zIndex: "9999" }} />
-            </>
+                                        selectedEvent && selectedEvent.status === "running" && (
+                                            <Th textAlign="center">
+                                                Reset lab core/Delete user
+                                            </Th>
+                                        )
+                                    }
+                                    <Th>Teamname</Th>
+                                    <Th>Email</Th>
+                                    <Th>Status</Th>
+                                    <Th>Created at</Th>
+                                    <Th>Last Accessed</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {Object.entries(teams).map(([key, team]) => (
+                                    <Tr key={key}>
+                                        {
+                                        selectedEvent && selectedEvent.status === "running" && (
+                                        <Td width="200px" textAlign="center">
+                                            <IconButton
+                                                color="aau.primary"
+                                                colorScheme="aau.button"
+                                                variant="ghost"
+                                                fontSize="20px"
+                                                icon={<MdRefresh />}
+                                                marginRight={"10px"}
+                                                data-tooltip-html="Reset lab core <br> Resets the core lab components (DNS and DHCP)"
+                                                data-tooltip-place="right"
+                                                data-tooltip-effect="solid"
+                                                data-tooltip-id="tooltip-reset-lab"
+                                            />
+                                            <IconButton
+                                                colorScheme="aau.buttonRed"
+                                                variant="ghost"
+                                                fontSize="20px"
+                                                icon={<MdDelete />}
+                                                data-tooltip-content="Delete user"
+                                                data-tooltip-place="right"
+                                                data-tooltip-effect="solid"
+                                                data-tooltip-id="tooltip-delete-user"
+                                            />
+                                        </Td>
+                                        )}
+                                        <Td>
+                                            {
+                                            selectedEvent && selectedEvent.status === "running" ? (
+                                                <Link
+                                                    textDecoration="underline"
+                                                    _hover={{ color: "aau.primary" }}
+                                                    fontWeight={600}
+                                                    onClick={() => openTeamModal(key)}
+                                                >
+                                                    {team.username}
+                                                </Link>
+                                            ) : (
+                                                <Text>
+                                                    {team.username}
+                                                </Text>
+                                            )
+                                            }
+                                                
+                                            </Td>
+                                            <Td>
+                                                {/*Make link */}
+                                                {team.email}
+                                            </Td>
+                                            <Td>
+                                                <Text>{team.status}</Text>
+                                            </Td>
+                                            <Td>
+                                                {moment(team.createdAt).format(
+                                                    "DD/MM/YYYY HH:mm"
+                                                )}
+                                            </Td>
+                                            <Td>
+                                                {moment(team.lastAccess).format(
+                                                    "DD/MM/YYYY HH:mm"
+                                                )}
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        </TableContainer>
+                        <TeamModal teams={teams}/>
+                        <Tooltip id={"tooltip-delete-user"} style={{ zIndex: "9999" }} />
+                        <Tooltip id={"tooltip-reset-lab"} style={{ zIndex: "9999" }} />
+                    </>
+                )}
+                </>
             )}
             
         </>

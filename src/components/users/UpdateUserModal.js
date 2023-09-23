@@ -67,15 +67,9 @@ function UpdateUserModal({ isOpen, onClose }) {
         <ModalContent minH="450px">
             {status === 'adding'
             ?
-                <Center
-                    position="relative"
-                    transform="translateY(170px)"
-                >
-                    <LoadingSpin
-                    primaryColor={defaultTheme.colors.aau.primary}
-                    size="100px"
-                    />
-                </Center>
+            <Center height="100%" width="100%" position="relative">
+                <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+            </Center>
             :
             <>
                 

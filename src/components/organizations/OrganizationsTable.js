@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon, Spinner } from "@chakra-ui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrg, fetchOrgs, selectOrg } from '../../features/organizations/organizationSlice';
 import LoadingSpin from 'react-loading-spin';
@@ -100,15 +100,9 @@ function OrganizationsTable() {
             </Flex>
               {status === 'fetching'
               ?
-                <Center
-                  position="relative"
-                  transform="translateY(100%)"
-                >
-                  <LoadingSpin
-                    primaryColor={defaultTheme.colors.aau.primary}
-                    size="100px"
-                  />
-                </Center>
+              <Center height="100%" width="100%" position="relative">
+                <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+              </Center>
                             
               : Object.keys(orgs).length === 0 
               ?

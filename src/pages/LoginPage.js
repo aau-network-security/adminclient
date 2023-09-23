@@ -27,7 +27,7 @@ export default function LoginPage() {
   const dispatch = useDispatch()
   const loggedIn = useSelector((state) => state.user.loggedIn)
   const error = useSelector((state) => state.user.error)
-    
+  const status = useSelector((state) => state.user.status)
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -130,6 +130,7 @@ export default function LoginPage() {
                 colorScheme="aau.button"
                 color="white"
                 width="full"
+                isLoading={status === "logging in"}
               >
                 Login
               </Button>
