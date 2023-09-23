@@ -146,9 +146,9 @@ function EventTeamsTable() {
                     <ModalHeader>{username}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody height="450px" display="flex">
-                        {teamsState[clickedTeam].labInfo && teamsState[clickedTeam].labInfo !== null ? (
+                        {teams[clickedTeam].labInfo ? (
                             <>
-                                {teamsState[clickedTeam].labInfo.tag === "" ? (
+                                {teams[clickedTeam].labInfo.tag === "" || teams[clickedTeam].labInfo === null ? (
                                     <Center height="100%" width="100%">
                                         Team currently has no lab
                                     </Center>
