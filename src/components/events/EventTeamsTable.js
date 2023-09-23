@@ -353,7 +353,7 @@ function EventTeamsTable() {
                                     {
                                         selectedEvent && selectedEvent.status === "running" && (
                                             <Th textAlign="center">
-                                                Reset lab core/Delete user
+                                                Reset lab core
                                             </Th>
                                         )
                                     }
@@ -381,16 +381,6 @@ function EventTeamsTable() {
                                                 data-tooltip-place="right"
                                                 data-tooltip-effect="solid"
                                                 data-tooltip-id="tooltip-reset-lab"
-                                            />
-                                            <IconButton
-                                                colorScheme="aau.buttonRed"
-                                                variant="ghost"
-                                                fontSize="20px"
-                                                icon={<MdDelete />}
-                                                data-tooltip-content="Delete user"
-                                                data-tooltip-place="right"
-                                                data-tooltip-effect="solid"
-                                                data-tooltip-id="tooltip-delete-user"
                                             />
                                         </Td>
                                         )}
