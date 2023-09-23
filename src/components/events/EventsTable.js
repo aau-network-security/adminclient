@@ -35,6 +35,7 @@ function EventsTable() {
 
   const handleChange = (event) => {
     setEventStatusSelector(event.target.value);
+    dispatch(selectEvent(null))
   };
 
   const setSelectedEvent = (event) => {
@@ -171,7 +172,7 @@ function EventsTable() {
                           data-tooltip-effect="solid"
                           data-tooltip-id="tooltip-delete-event"
                         />
-                        <IconButton
+                        {/* <IconButton
                           colorScheme="aau.buttonGreen"
                           variant="ghost"
                           icon={<FaPlay />}
@@ -179,7 +180,7 @@ function EventsTable() {
                           data-tooltip-place="right"
                           data-tooltip-effect="solid"
                           data-tooltip-id="tooltip-restart-event"
-                        />
+                        /> */}
                       </>
                     )}
                   </Td>
