@@ -42,7 +42,7 @@ import { FaPlay, FaStop } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "react-tooltip";
-import { fetchEventTeams, forceTeamSolve, setSolvedStatus } from "../../features/teams/teamSlice";
+import { fetchEventTeams, forceTeamSolve, resetLab, setSolvedStatus } from "../../features/teams/teamSlice";
 import { MdDelete, MdRefresh } from "react-icons/md";
 import moment from "moment";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -169,7 +169,7 @@ function EventTeamsTable() {
                                             <Accordion allowMultiple overflowY="auto" height={"100%"}>
                                                 {Object.entries(teams[clickedTeam].labInfo.exercises).map(([key, exercise]) => (
                                                     <React.Fragment key={key}>
-                                                        {exercise.machines.length > 0 ? (
+                                                        {exercise.machines !== null && exercise.machines.length > 0 ? (
                                                             <AccordionItem key={key}>
                                                                 <h2>
                                                                     <AccordionButton>
@@ -293,7 +293,7 @@ function EventTeamsTable() {
     
     const changeSearchData = (text, teams) => {
         if (text === "") {
-          setTeams(cloneDeep(teams));
+            setTeams(cloneDeep(teams));
         } else {
             setTeams(
                 cloneDeep(
@@ -303,16 +303,42 @@ function EventTeamsTable() {
                 )
             )
         }
-      };
-      const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
+    };
+    const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
 
-      useEffect(() => {
-        debounceLoadData(searchValue, teamsState);
-      }, [searchValue, teamsState]);
+    useEffect(() => {
+    debounceLoadData(searchValue, teamsState);
+    }, [searchValue, teamsState]);
 
-      useEffect(() => {
-        setTeams(teamsState)
-      }, [teamsState])
+    useEffect(() => {
+    setTeams(teamsState)
+    }, [teamsState])
+
+    const labsResetting = useSelector((state) => state.team.labsResetting)
+    const labReset = async (teamName) => {
+        let request = {
+            eventTag: selectedEvent.tag,
+            teamName: teamName
+        }
+        try {
+            const response = await dispatch(resetLab(request)).unwrap()
+            toastIdRef.current = toast({
+                title: 'Lab successfully reset',
+                description: "The reset lab request was successfully processed",
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            })
+        } catch (err) {
+            toastIdRef.current = toast({
+                title: 'Error resetting event',
+                description: err.apiError.status,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+    }
     return (
         <>
             <Flex className="container-header" height="60px">
@@ -352,7 +378,7 @@ function EventTeamsTable() {
                                     {
                                         selectedEvent && selectedEvent.status === "running" && (
                                             <Th textAlign="center">
-                                                Reset lab core
+                                                Reset lab
                                             </Th>
                                         )
                                     }
@@ -376,10 +402,12 @@ function EventTeamsTable() {
                                                 fontSize="20px"
                                                 icon={<MdRefresh />}
                                                 marginRight={"10px"}
-                                                data-tooltip-html="Reset lab core <br> Resets the core lab components (DNS and DHCP)"
+                                                data-tooltip-html="Reset lab <br> Resets the including the DHCP and DNS containers"
                                                 data-tooltip-place="right"
                                                 data-tooltip-effect="solid"
                                                 data-tooltip-id="tooltip-reset-lab"
+                                                onClick={() => labReset(team.username)}
+                                                isLoading={typeof labsResetting[team.username] !== "undefined" ? true : false}
                                             />
                                         </Td>
                                         )}
