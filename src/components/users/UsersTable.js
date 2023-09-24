@@ -135,6 +135,7 @@ function UsersTable({ byRole }) {
                         {Object.entries(users).map(([key, user]) => (
                           <Tr 
                             key={user.user.Username}
+                            height="57px"
                           >
                             <Td>{user.user.Username}</Td>
                             <Td>{user.user.FullName}</Td>
@@ -142,21 +143,29 @@ function UsersTable({ byRole }) {
                             <Td>{user.user.Organization}</Td>
                             <Td>{user.user.Role.split('role::')[1]}</Td>
                             <Td textAlign="center">
-                              <IconButton
-                                aria-label='Edit user'
-                                colorScheme='gray'
-                                variant='ghost'
-                                icon={<RiEditLine />}      
-                                marginRight={"10px"}          
-                              />       
-                              <IconButton
-                                aria-label='Delete organization'
-                                colorScheme='aau.buttonRed'
-                                variant='ghost'
-                                fontSize="20px"
-                                icon={<MdDelete />}
-                                onClick={() => openAlertDialog(user.user.Username, key)}                  
-                              />                    
+                              {(loggedInUser.user.Role === "role::administrator" || loggedInUser.user.Role === "role::superadmin" || user.user.Username === loggedInUser.user.Username) && (
+                                <>
+                                  <IconButton
+                                    aria-label='Edit user'
+                                    colorScheme='gray'
+                                    variant='ghost'
+                                    icon={<RiEditLine />}      
+                                    marginRight={"10px"}          
+                                  />       
+                                  {user.user.Username !== loggedInUser.user.Username && (
+                                    <IconButton
+                                      aria-label='Delete organization'
+                                      colorScheme='aau.buttonRed'
+                                      variant='ghost'
+                                      fontSize="20px"
+                                      icon={<MdDelete />}
+                                      onClick={() => openAlertDialog(user.user.Username, key)}                  
+                                    />  
+                                  )}
+                                </>
+                              )}
+                              
+                                                
                             </Td>
                             
                             <Td textAlign="center">
