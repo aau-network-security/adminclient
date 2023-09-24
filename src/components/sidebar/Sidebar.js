@@ -87,7 +87,7 @@ export default function Sidebar() {
                         {(typeof loggedInUser.perms.users !== "undefined" && loggedInUser.user.Role !== 'role::superadmin') && <NavItem navSize={navSize} icon={FaUsers} title="Users" to="/users" />}
                     </>
                 }
-                <NavItem navSize={navSize} icon={RiUserSettingsLine} title="Profile" to="/profile" />
+                
                 {typeof loggedInUser.perms !== "undefined" 
                 &&
                     <>
@@ -104,7 +104,8 @@ export default function Sidebar() {
                 mb={4}
             >
                 <Divider display={navSize === "small" ? "none" : "flex"} />
-                <Flex mt={4} align="center">
+                <Flex mt={4} align="center" flexDir="column">
+                <NavItem navSize={navSize} icon={RiUserSettingsLine} title="Profile" to="/profile" />
                 <NavItem navSize={navSize} icon={FiLogOut} title="Logout" to="/login" customClickEvent={logout}/>
                 </Flex>
             </Flex>
