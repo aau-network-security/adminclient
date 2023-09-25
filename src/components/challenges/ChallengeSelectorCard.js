@@ -82,7 +82,7 @@ function ChallengeSelectorCard() {
         <Box
             height="40px"
             borderRadius="10px"
-            className="container"
+            // className="container"
             padding="0"
         >
         {Object.entries(categories).map(([key, category]) => (

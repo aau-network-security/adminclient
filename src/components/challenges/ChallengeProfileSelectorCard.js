@@ -16,7 +16,7 @@ function ChallengeProfileSelectorCard() {
     <Box
     height="40px"
     borderRadius="10px"
-    
+    className="container"
     padding="0px"
 >
     <HStack h="100%" w="100%" spacing={0}>
@@ -26,7 +26,7 @@ function ChallengeProfileSelectorCard() {
                 backgroundColor={
                     challengesOrProfile === "category"
                         ? "#211a52"
-                        : "#f7fafc"
+                        : "white"
                 }
                 color={
                     challengesOrProfile === "category"
@@ -50,7 +50,7 @@ function ChallengeProfileSelectorCard() {
                 backgroundColor={
                     challengesOrProfile === "profiles"
                         ? "#211a52"
-                        : "#f7fafc"
+                        : "white"
                 }
                 color={
                     challengesOrProfile === "profiles"
