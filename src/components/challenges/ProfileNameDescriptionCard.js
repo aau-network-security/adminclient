@@ -2,8 +2,16 @@ import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center} from '@chakra-ui/
 import React from 'react'
 import { MdEdit } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
+import { selectProfile } from "../../features/profiles/profileSlice";
+import { useSelector } from 'react-redux';
+
 function ProfileNameDescriptionCard() {
-  
+    
+    const selectedProfile = useSelector(
+        (state) => state.profile.selectedProfile
+    );
+
+
     return  (
     <>
 
@@ -14,7 +22,7 @@ function ProfileNameDescriptionCard() {
             >   
             <HStack h="100%" w="100%">
         <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 30px">
-        <Text fontSize="30px">Profile Name</Text>
+        <Text fontSize="30px">{selectedProfile.name}</Text>
         </Flex>
         <Spacer />
 
@@ -41,7 +49,7 @@ function ProfileNameDescriptionCard() {
         <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 30px"
         
         >
-            <Text fontSize="13px" > Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla elementum porta ipsum, tempor pellentesque urna. Donec pretium ipsum sem, et vestibulum eros pulvinar non. Sed mollis enim a nibh eleifend pulvinar. Fusce varius dolor in tellus egestas, id interdum erat lobortis. Nullam erat risus, aliquet convallis erat sed, posuere efficitur diam. Ut varius augue velit, ac fermentum tortor pretium nec.</Text>
+            <Text fontSize="15px" > {selectedProfile.description}</Text>
         </Flex>
         <Spacer />
         <Flex flexDir="column" h="100%" w="10%" bg="#211a52"  borderRadius="0px 10px 10px 0px">

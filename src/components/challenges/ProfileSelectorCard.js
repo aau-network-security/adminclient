@@ -25,65 +25,34 @@ import {
     fetchExercises,
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
+import { selectProfile } from "../../features/profiles/profileSlice";
 import { Tooltip } from "react-tooltip";
+import { IoIosWarning } from "react-icons/io";
 
 
 function ProfileSelectorCard() {
     const dispatch = useDispatch();
 
-    const categories = useSelector((state) => state.exercise.categories);
-    const selectedCategory = useSelector(
-        (state) => state.exercise.selectedCategory
-    );
+
+   
+    const profiles = useSelector((state) => state.profile.profiles);
     
-    const exercises = useSelector((state) => state.exercise.exercises);
-    const fetchingExercises = useSelector(
-        (state) => state.exercise.fetchingExercises
+    const selectedProfile = useSelector(
+        (state) => state.profile.selectedProfile
     );
 
-    const [modalContent, setModalContent] = useState("");
-    const [modalTitle, setModalTitle] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const closeModal = () => setIsModalOpen(false);
-
-
+   
     useEffect(() => {
-        if (categories.length > 0) {
-            dispatch(selectCategory(categories[0]));
-            var reqObj = {
-                category: categories[0].tag,
-            };
-            dispatch(fetchExercises(reqObj));
+        if (profiles.length > 0) {
+            dispatch(selectProfile(profiles[1]));
         }
-    }, [categories]);
+    }, [profiles]);
+    
+    console.log(selectedProfile)
+   
 
-    useEffect(() => {
-        console.log("fetching exercises for: ", selectedCategory);
-        if (Object.keys(selectedCategory).length > 0) {
-            console.log("fetching exercises for: ", selectedCategory.tag);
-            var reqObj = {
-                category: selectedCategory.tag,
-            };
-            dispatch(fetchExercises(reqObj));
-        }
-    }, [selectedCategory]);
-
-    const openModal = (content) => {
-        setModalTitle(content.name);
-        if (typeof content.catDesc !== "undefined") {
-            setModalContent(content.catDesc);
-        } else {
-            setModalContent(content.organizer_description);
-        }
-        setIsModalOpen(true);
-    };
-
-    const profiles = {
-        name:"Test Name",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla elementum porta ipsum, tempor pellentesque urna. Donec pretium ipsum sem, et vestibulum eros pulvinar non. Sed mollis enim a nibh eleifend pulvinar. Fusce varius dolor in tellus egestas, id interdum erat lobortis",
-        exercises:{}
-    }
-
+    
+   
     return (
         <>
         <Box
@@ -92,7 +61,7 @@ function ProfileSelectorCard() {
             // className="container"
             padding="0"
         >
-        {Object.entries(categories).map(([key, category]) => (
+        {Object.entries(profiles).map(([key, profile]) => (
             <Flex
                 key={key}
                 width="100%"
@@ -102,16 +71,16 @@ function ProfileSelectorCard() {
                 borderRadius="10px 10px 10px 10px"
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
-                    selectedCategory.tag === category.tag
+                    selectedProfile.tag === profile.tag
                         ? "#211a52"
                         : "#f7fafc"
                 }
                 color={
-                    selectedCategory.tag === category.tag
+                    selectedProfile.tag === profile.tag
                         ? "#fff"
                         : "#211a52"
                 }
-                onClick={() => dispatch(selectCategory(category))}
+                onClick={() => dispatch(selectProfile(profile))}
             >
                 <Text
                     overflow="hidden"
@@ -119,51 +88,27 @@ function ProfileSelectorCard() {
                     textOverflow="ellipsis"
                     cursor="default"
                 >
-                    {category.name}
+                    {profile.name}
                 </Text>
                 <Spacer></Spacer>
-                <Icon
-                    color="grey"
-                    position="relative"
-                    top="-5px"
-                    right="0"
-                    marginLeft={1}
-                    as={FaRegQuestionCircle}
-                    fontSize="13px"
-                    cursor="pointer"
-                    onClick={() => openModal(category)}
-                    zIndex="999"
-                />
+                {profile.secret && (
+                                        <Icon
+                                            color="aau.red"
+                                            as={IoIosWarning}
+                                            fontSize="16px"
+                                            marginRight="3px"
+                                            data-tooltip-html={
+                                                "Challenge is secret"
+                                            }
+                                            data-tooltip-place="right"
+                                            data-tooltip-effect="solid"
+                                            data-tooltip-id="tooltip-secret-exercise"
+                                            data-tooltip-offset={3}
+                                        />
+                                    )}
             </Flex>
         ))}
-        <Modal
-                onClose={closeModal}
-                isOpen={isModalOpen}
-                isCentered
-                width="700px"
-                scrollBehavior="inside"
-                size="3xl"
-            >
-                <ModalOverlay />
-                <ModalContent
-                    height="fit-content"
-                    maxH="800px"
-                    overflowY="auto"
-                >
-                    <ModalHeader>{modalTitle}</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody marginBottom="20px">
-                        <Flex className="markdown-body">
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: modalContent,
-                                }}
-                            />
-                        </Flex>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
-            <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise" />
+
         </Box>
         </>
         // <Text> ChallengeSelectorCard</Text>

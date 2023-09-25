@@ -22,6 +22,8 @@ function DisplayCategoriesOrProfile(){
     if (challengesOrProfile === "profiles"){
         return (
             <ProfileSelectorCard/>
+            
+
         )
     } else if (challengesOrProfile === "category"){
         return (
