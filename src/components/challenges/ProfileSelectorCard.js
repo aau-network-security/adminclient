@@ -30,27 +30,28 @@ import { Tooltip } from "react-tooltip";
 import { IoIosWarning } from "react-icons/io";
 
 
+
+
+
+
+
+
 function ProfileSelectorCard() {
     const dispatch = useDispatch();
 
-
-   
     const profiles = useSelector((state) => state.profile.profiles);
     
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
 
-   
     useEffect(() => {
         if (profiles.length > 0) {
             dispatch(selectProfile(profiles[1]));
         }
     }, [profiles]);
-    
-    console.log(selectedProfile)
-   
 
+    console.log(selectedProfile)
     
    
     return (

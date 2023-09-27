@@ -14,7 +14,8 @@ import ChallengeSelectorCard from '../components/challenges/ChallengeSelectorCar
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { fetchCategories } from '../features/exercises/exerciseSlice';
-import ProfileNameDescriptionCard from '../components/challenges/ProfileNameDescriptionCard';
+import ProfileDescriptionCard from '../components/challenges/ProfileDescriptionCard';
+import ProfileNameCard from '../components/challenges/ProfileNameCard';
 
 
 function DisplayCategoriesOrProfile(){
@@ -38,7 +39,8 @@ function ViewProfilesOrChallenges({  reqDataState,
     if (challengesOrProfile === "profiles"){
         return (
             <>
-            <ProfileNameDescriptionCard/>
+            <ProfileNameCard/>
+            <ProfileDescriptionCard/>
             <ChallengesCard reqData={reqDataState} setReqDataState={setReqDataState}/>
             </>
             

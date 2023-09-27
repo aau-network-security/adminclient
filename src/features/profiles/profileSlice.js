@@ -25,11 +25,13 @@ const profileSlice = createSlice({
         selectProfile: (state, action) => {
             state.selectedProfile = action.payload;
             // console.log(state.selectedProfile)
-          
+        },
+        setProfileName: (state, action) => {
+            state.selectedProfile.name = action.payload;
         }
     },
 })
 
 
 export default profileSlice.reducer
-export const { selectProfile } = profileSlice.actions
+export const { selectProfile, setProfileName } = profileSlice.actions
