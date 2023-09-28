@@ -44,7 +44,7 @@ function ProfileSelectorCard() {
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
-
+        
     useEffect(() => {
         if (profiles.length > 0) {
             dispatch(selectProfile(profiles[1]));
@@ -52,7 +52,7 @@ function ProfileSelectorCard() {
     }, [profiles]);
 
     console.log(selectedProfile)
-    
+
    
     return (
         <>

@@ -17,6 +17,7 @@ import { BASE_URL } from './api/client'
 import { useFetch } from 'react-async'
 import { Buffer } from 'buffer'
 import NewEventPage from './pages/NewEventPage'
+import NewProfileChallengesPage from './pages/NewProfileChallengesPage'
 
 export const getUsernameFromToken = (token) => {
     try {            
@@ -83,6 +84,7 @@ function AppRouter() {
                             <Route path="profile" element={<ProfilePage />} />
                             <Route path="agents" element={<AgentsPage />} />
                             <Route path="challenges" element={<ChallengesPage />} />
+                            <Route path="challenges/new" element={<NewProfileChallengesPage/>} />
                             <Route path="events/new" element={<NewEventPage />} />
                         </Route>                        
                     </Route>  

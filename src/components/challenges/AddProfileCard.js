@@ -2,6 +2,7 @@ import { Box, Button, Center, Flex, HStack, Icon, Text } from "@chakra-ui/react"
 import React from "react";
 import { FiPlus } from "react-icons/fi";
 import { MdOutlinedFlag } from "react-icons/md";
+import { NavLink as ReactLink } from "react-router-dom";
 
 function AddProfileCard() {
   return (
@@ -38,6 +39,8 @@ function AddProfileCard() {
                         borderRadius="0px 10px 10px 0px"
                         marginBottom="1px"
                         h="100%"
+                        as={ReactLink}
+                        to={"/challenges/new"}
                     >
                         <Icon as={FiPlus} fontSize="40px" />
                     </Button>

@@ -20,9 +20,7 @@ function ProfileDescriptionCard() {
         const {
           isEditing,
           getSubmitButtonProps,
-          getCancelButtonProps,
-          getEditButtonProps,
-          
+          getEditButtonProps
         } = useEditableControls()
         
         return isEditing ?(
@@ -30,10 +28,9 @@ function ProfileDescriptionCard() {
             <Center w="100%" h="100%">
             <Button     {...getSubmitButtonProps()}
                         backgroundColor="aau.primary"
-                        _hover={{ backgroundColor: "#18123a" }}
+                        _hover={{ backgroundColor: "aau.hover" }}
                         color="white"
                         borderRadius="0px 10px 10px 0px"
-                        marginBottom="1px"
                         h="100%"
                         
                     >
@@ -54,7 +51,7 @@ function ProfileDescriptionCard() {
                         _hover={{ backgroundColor: "aau.hover" }}
                         color="white"
                         borderRadius="0px 10px 10px 0px"
-                        marginBottom="1px"
+                        
                         h="100%"
                        
                         
@@ -89,17 +86,10 @@ function ProfileDescriptionCard() {
         onSubmit={handleSubmit}
         onChange={handleFieldChange}
         isPreviewFocusable={false}
-        
+        className='container'
+        padding="0"
         >      
-        <Box
-            className="container"
-            padding="0px 0px 0px 0px"
-            borderRadius="10px"
-            
-            >   
-        
        
-        
         <HStack h="100%" w="100%">
         
         <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 30px">
@@ -112,9 +102,7 @@ function ProfileDescriptionCard() {
         <EditableControls style={{ height: "130px" }}/>
    
         </HStack>
-       
         
-        </Box> 
         </Editable>
         
     </>

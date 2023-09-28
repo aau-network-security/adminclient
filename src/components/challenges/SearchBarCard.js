@@ -6,18 +6,14 @@ import { setSearchParam } from '../../features/challenges/challengeSlice';
 
 function SearchBarCard() {
   const dispatch = useDispatch();
-  const searchParam = useSelector((state) => state.challenge.searchParam);
 
   const changeHandler = (e) => {
     var lowerCase = e.target.value.toLowerCase();
     dispatch(setSearchParam(lowerCase))
   }
-
   
-
   return (
     <>
-    
     <InputGroup borderRadius={5} 
                 borderColor="white"
                 size="md" 

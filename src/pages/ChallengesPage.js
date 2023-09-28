@@ -12,7 +12,7 @@ import SearchBarCard from '../components/challenges/SearchBarCard';
 
 import ChallengeSelectorCard from '../components/challenges/ChallengeSelectorCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+
 import { fetchCategories } from '../features/exercises/exerciseSlice';
 import ProfileDescriptionCard from '../components/challenges/ProfileDescriptionCard';
 import ProfileNameCard from '../components/challenges/ProfileNameCard';
