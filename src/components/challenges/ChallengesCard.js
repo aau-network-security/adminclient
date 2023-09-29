@@ -100,7 +100,7 @@ const changeSearchData = (text, exercises) => {
 
       useEffect(() => {
         setFilteredExercises(exercises)
-        console.log(filteredExercises)      }, [exercises])
+        console.log(filteredExercises)}, [exercises])
 
 
   return (

@@ -73,12 +73,12 @@ function NewProfileChallengesPage() {
         };
 
         // Convert type to number that daemon understands
-
+        // TODO: Fix slice and don't use createEvent but another function from "profile slice"
 
         if (reqData.exerciseTags.length === 0) {
             toastIdRef.current = toast({
                 title: "No challenges selected",
-                description: "Select some challenges to create an event",
+                description: "Select some challenges to create a profile",
                 status: "error",
                 duration: 5000,
                 isClosable: true,
@@ -89,8 +89,8 @@ function NewProfileChallengesPage() {
         try {
             const response = await dispatch(createEvent(reqData)).unwrap();
             toastIdRef.current = toast({
-                title: "Event successfully created",
-                description: "The event was successfully created",
+                title: "profile successfully created",
+                description: "The profile was successfully created",
                 status: "success",
                 duration: 5000,
                 isClosable: true,
