@@ -52,7 +52,8 @@ export default function LoginPage() {
   
   if (loggedIn) {
     return (
-      <Navigate to="/"/>
+      // <Navigate to="/"/>
+      <Navigate to="/events"/>
     )
   }
   return (

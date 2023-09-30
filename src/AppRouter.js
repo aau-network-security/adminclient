@@ -75,7 +75,8 @@ function AppRouter() {
                     </>
                 }>
                     <Route element={<AuthWrapper />}>
-                            <Route path="" element={<HomePage />} />
+                            {/* <Route path="" element={<HomePage />} /> */}
+                            <Route path="" element={<Navigate to="/events"/>} />
                             <Route path="users" element={<Users />} />
                             <Route path="events" element={<EventsPage />} />
                             <Route path="organizations" element={<OrganizationsPage />} />

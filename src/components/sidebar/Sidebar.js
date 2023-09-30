@@ -66,7 +66,7 @@ export default function Sidebar() {
                             changeNavSize("small")
                     }}
                 /> */}
-                <NavItem navSize={navSize} icon={MdOutlineHome} title="Home" to="/" />
+                {/* <NavItem navSize={navSize} icon={MdOutlineHome} title="Home" to="/" /> */}
                 <NavItem navSize={navSize} icon={FiCalendar} title="Events" to="/events" />
                 <NavItem navSize={navSize} icon={MdOutlinedFlag} title="Challenges" to="/challenges" />
                 {typeof loggedInUser.perms !== "undefined" 
@@ -88,12 +88,12 @@ export default function Sidebar() {
                     </>
                 }
                 
-                {typeof loggedInUser.perms !== "undefined" 
+                {/* {typeof loggedInUser.perms !== "undefined" 
                 &&
                     <>
                         {typeof loggedInUser.perms.settings !== "undefined" && <NavItem navSize={navSize} icon={FiSettings} title="Settings" to="/settings"/>}
                     </>
-                }     
+                }      */}
             </Flex>
 
             <Flex
