@@ -20,6 +20,7 @@ import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
+import { createProfile } from "../features/profiles/profileSlice";
 
 
 function NewProfileChallengesPage() {
@@ -33,39 +34,41 @@ function NewProfileChallengesPage() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const [reqDataState, setReqDataState] = useState({
-        type: searchParams.get("type"),
         name: "",
         description:"",
-        tag: "",
         public:"",
         exerciseTags: [],
     });
 
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
+            console.log("name", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["name"]: e.target.value.trim(),
             });
         } else if (e.target.name === "profileDescription") {
+            console.log("description", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["description"]: e.target.value.trim(),
             });
         }
+        
     };
 
     const toast = useToast();
     const toastIdRef = React.useRef();
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         var reqData = {
             name: reqDataState.name,
-            description: reqDataState.tag,
+            description: reqDataState.description,
             exerciseTags: reqDataState.exerciseTags,
+            public:false
         };
-
+        
         // Convert type to number that daemon understands
         // TODO: Fix slice and don't use createEvent but another function from "profile slice"
 
@@ -81,7 +84,7 @@ function NewProfileChallengesPage() {
         }
 
         try {
-            const response = await dispatch(createEvent(reqData)).unwrap();
+            const response = await dispatch(createProfile(reqData)).unwrap();
             toastIdRef.current = toast({
                 title: "profile successfully created",
                 description: "The profile was successfully created",

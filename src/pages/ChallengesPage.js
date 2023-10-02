@@ -7,7 +7,7 @@ import ChallengeProfileSelectorCard from '../components/challenges/ChallengeProf
 import ProfileSelectorCard from '../components/challenges/ProfileSelectorCard';
 
 import ChallengesCard from '../components/challenges/ChallengesCard';
-
+import ChallengesProfileCard from '../components/challenges/ChallengesProfileCard';
 import SearchBarCard from '../components/challenges/SearchBarCard';
 
 import ChallengeSelectorCard from '../components/challenges/ChallengeSelectorCard';
@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../features/exercises/exerciseSlice';
 import ProfileDescriptionCard from '../components/challenges/ProfileDescriptionCard';
 import ProfileNameCard from '../components/challenges/ProfileNameCard';
+import { fetchProfiles } from '../features/profiles/profileSlice';
+import ProfileEditButtons from '../components/challenges/ProfileEditButtons';
 
 
 function DisplayCategoriesOrProfile(){
@@ -41,15 +43,16 @@ function ViewProfilesOrChallenges({  reqDataState,
             <>
             <ProfileNameCard/>
             <ProfileDescriptionCard/>
-            <ChallengesCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+            <ChallengesProfileCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+            <ProfileEditButtons/>
             </>
-            
         )
     } else if (challengesOrProfile === "category"){
         return (
             <>
             <SearchBarCard/>
             <ChallengesCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+        
             </>
         )
     }
@@ -59,17 +62,25 @@ function ViewProfilesOrChallenges({  reqDataState,
 export default function ChallengesPage() {
 
     const dispatch = useDispatch();
+    
+    const challengesOrProfile = useSelector((state) => state.challenge.selector);
     const [reqDataState, setReqDataState] = useState({
         tag: "",
         exerciseTags: [],
     });
-
+    
     const changeHandler = (e) => {}
 
     useEffect(() => {
         dispatch(fetchCategories());
+        dispatch(fetchProfiles());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (challengesOrProfile  === "profiles") {
+            dispatch(fetchProfiles());
+        }
+    }, [challengesOrProfile]);
 
   return (
             <Grid

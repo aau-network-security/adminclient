@@ -1,5 +1,5 @@
 import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, FormLabel, InputGroup, Input, useEditableControls, IconButton, Editable, EditablePreview, EditableInput, EditableTextarea, useEditableState} from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
 import { selectProfile } from "../../features/profiles/profileSlice";
@@ -15,7 +15,14 @@ function ProfileDescriptionCard() {
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
+    console.log("profiledescription: ", selectedProfile)
+
     const [fieldValue, setFieldValue] = useState(selectedProfile.description);
+    useEffect(() => {
+       setFieldValue(selectedProfile.description);
+    }, [selectedProfile]);
+
+
     function EditableControls() {
         const {
           isEditing,

@@ -23,7 +23,7 @@ import { FaCalendar, FaRegQuestionCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 
 function NewProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
-    const [searchParams, setSearchParams] = useSearchParams();
+    
     return (
         <Box width="40%">
             <FormControl marginBottom={7} isRequired>

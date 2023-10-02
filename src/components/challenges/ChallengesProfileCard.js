@@ -32,7 +32,7 @@ import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
 
-function ChallengesCard({
+function ChallengesProfileCard({
   reqData,
   setReqDataState,
   challengesOrProfile
@@ -40,11 +40,13 @@ function ChallengesCard({
 
   const dispatch = useDispatch();
 
-  const categories = useSelector((state) => state.exercise.categories);
-
+  const profiles = useSelector((state) => state.exercise.categories);
   const selectedCategory = useSelector(
       (state) => state.exercise.selectedCategory
   );
+  const selectedProfile = useSelector(
+    (state) => state.profile.selectedProfile
+    );
 
   const exercises = useSelector((state) => state.exercise.exercises);
   const [filteredExercises, setFilteredExercises] = useState("");
@@ -61,7 +63,7 @@ function ChallengesCard({
  
 
 
-useEffect(() => {
+  useEffect(() => {
     console.log("fetching exercises for: ", selectedCategory);
     if (Object.keys(selectedCategory).length > 0) {
         console.log("fetching exercises for: ", selectedCategory.tag);
@@ -72,6 +74,7 @@ useEffect(() => {
     }
 }, [selectedCategory]);
 
+
 const openModal = (content) => {
   setModalTitle(content.name);
   if (typeof content.catDesc !== "undefined") {
@@ -81,31 +84,7 @@ const openModal = (content) => {
   }
   setIsModalOpen(true);
 };
-const searchValue = useSelector((state) => state.challenge.searchParam);
 
-const changeSearchData = (text, exercises) => { 
-    if (text === "") {
-        setFilteredExercises(cloneDeep(exercises));
-      }else {
-        setFilteredExercises(
-            cloneDeep(
-                exercises.filter((el) => {
-                return el.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
-            })
-            )
-        )
-    }
-  };
-  
-  const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
-
-      useEffect(() => {
-        debounceLoadData(searchValue, exercises);
-      }, [searchValue, exercises]);
-
-      useEffect(() => {
-        setFilteredExercises(exercises)
-        console.log(filteredExercises)}, [exercises])
 
 
   return (
@@ -142,7 +121,7 @@ const changeSearchData = (text, exercises) => {
                         }
                         name="exercises"
                     >
-                        {Object.entries(filteredExercises).map(([key, exercise]) => (
+                        {Object.entries(exercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
                                 width="100%"
@@ -221,4 +200,4 @@ const changeSearchData = (text, exercises) => {
   )
 }
 
-export default ChallengesCard
+export default ChallengesProfileCard

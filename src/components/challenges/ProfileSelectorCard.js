@@ -47,7 +47,7 @@ function ProfileSelectorCard() {
         
     useEffect(() => {
         if (profiles.length > 0) {
-            dispatch(selectProfile(profiles[1]));
+            dispatch(selectProfile(profiles[0]));
         }
     }, [profiles]);
 
@@ -72,12 +72,12 @@ function ProfileSelectorCard() {
                 borderRadius="10px 10px 10px 10px"
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
-                    selectedProfile.tag === profile.tag
+                    selectedProfile.name === profile.name
                         ? "#211a52"
                         : "#f7fafc"
                 }
                 color={
-                    selectedProfile.tag === profile.tag
+                    selectedProfile.name === profile.name
                         ? "#fff"
                         : "#211a52"
                 }
@@ -99,7 +99,7 @@ function ProfileSelectorCard() {
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={
-                                                "Challenge is secret"
+                                                "Profile is secret"
                                             }
                                             data-tooltip-place="right"
                                             data-tooltip-effect="solid"
