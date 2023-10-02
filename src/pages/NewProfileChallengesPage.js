@@ -35,17 +35,10 @@ function NewProfileChallengesPage() {
     const [reqDataState, setReqDataState] = useState({
         type: searchParams.get("type"),
         name: "",
+        description:"",
         tag: "",
-        teamSize: 1,
-        maxLabs: 1,
-        vmName: "kali-v1-0-3",
+        public:"",
         exerciseTags: [],
-        expectedFinishDate: "",
-        dynamicScoring: false,
-        dynamicMax: 1000,
-        dynamicMin: 100,
-        dynamicSolveThreshold: 100,
-        secretKey: "",
     });
 
     const changeHandler = (e) => {
@@ -64,6 +57,7 @@ function NewProfileChallengesPage() {
 
     const toast = useToast();
     const toastIdRef = React.useRef();
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         var reqData = {

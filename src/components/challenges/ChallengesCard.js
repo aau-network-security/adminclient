@@ -176,11 +176,7 @@ const changeSearchData = (text, exercises) => {
                                     />
                                 </Flex>
                                 
-                                <FormControl width="50px">
-                                    <InputGroup>
-                                        <Checkbox value={exercise.tag} />
-                                    </InputGroup>
-                                </FormControl>
+                    
                             </Flex>
                         ))}
                     </CheckboxGroup>
