@@ -38,6 +38,7 @@ export const fetchExercises = createAsyncThunk('exercise/fetchExercises', async 
         if (typeof response.data.exercises === "undefined") {
             response.data.exercises = []
         }
+        
         return response.data
     }
     catch (err) {

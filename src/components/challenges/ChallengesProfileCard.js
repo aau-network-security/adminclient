@@ -31,27 +31,23 @@ import { Tooltip } from "react-tooltip";
 
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
+import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
 
 function ChallengesProfileCard({
   reqData,
-  setReqDataState,
-  challengesOrProfile
+  setReqDataState
 }) {
-
+ 
   const dispatch = useDispatch();
 
-  const profiles = useSelector((state) => state.exercise.categories);
-  const selectedCategory = useSelector(
-      (state) => state.exercise.selectedCategory
-  );
   const selectedProfile = useSelector(
     (state) => state.profile.selectedProfile
     );
-
-  const exercises = useSelector((state) => state.exercise.exercises);
-  const [filteredExercises, setFilteredExercises] = useState("");
+  const selectedExercises = useSelector((state) => state.profile.selectedExercises);
+ 
+  
   const fetchingExercises = useSelector(
-      (state) => state.exercise.fetchingExercises
+      (state) => state.profile.fetchingSelectedExercises
   );
 
 
@@ -60,19 +56,32 @@ function ChallengesProfileCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => setIsModalOpen(false);
 
- 
-
-
   useEffect(() => {
-    console.log("fetching exercises for: ", selectedCategory);
-    if (Object.keys(selectedCategory).length > 0) {
-        console.log("fetching exercises for: ", selectedCategory.tag);
-        var reqObj = {
-            category: selectedCategory.tag,
-        };
-        dispatch(fetchExercises(reqObj));
+    if (selectedProfile.exercises != null){
+        if (Object.keys(selectedProfile.exercises).length > 0){
+            var reqObj = {
+                tags:[]
+            }   
+            reqObj.tags = selectedProfile.exercises.map(exercise => exercise.Tag)
+            dispatch(fetchSelectedExercises(reqObj));
+            console.log("reqObj",reqObj)
+            console.log("selectedExercises",selectedExercises)
+        }
     }
-}, [selectedCategory]);
+    
+}, [selectedProfile]);
+
+
+//   useEffect(() => {
+//     console.log("fetching exercises for: ", selectedCategory);
+//     if (Object.keys(selectedCategory).length > 0) {
+//         console.log("fetching exercises for: ", selectedCategory.tag);
+//         var reqObj = {
+//             category: selectedCategory.tag,
+//         };
+//         dispatch(fetchExercises(reqObj));
+//     }
+// }, [selectedCategory]);
 
 
 const openModal = (content) => {
@@ -121,7 +130,7 @@ const openModal = (content) => {
                         }
                         name="exercises"
                     >
-                        {Object.entries(exercises).map(([key, exercise]) => (
+                    {Object.entries(selectedExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
                                 width="100%"
@@ -163,7 +172,7 @@ const openModal = (content) => {
                     
                             </Flex>
                         ))}
-                    </CheckboxGroup>
+                     </CheckboxGroup>
                 )}
             </GridItem>
 

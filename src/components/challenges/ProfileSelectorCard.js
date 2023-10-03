@@ -25,7 +25,7 @@ import {
     fetchExercises,
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
-import { selectProfile } from "../../features/profiles/profileSlice";
+import { clearSelectedProfile, selectProfile } from "../../features/profiles/profileSlice";
 import { Tooltip } from "react-tooltip";
 import { IoIosWarning } from "react-icons/io";
 
@@ -48,10 +48,11 @@ function ProfileSelectorCard() {
     useEffect(() => {
         if (profiles.length > 0) {
             dispatch(selectProfile(profiles[0]));
+        }else{
+            dispatch(clearSelectedProfile());
         }
     }, [profiles]);
 
-    console.log(selectedProfile)
 
    
     return (

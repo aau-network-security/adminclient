@@ -11,8 +11,10 @@ exercises:{}, tag:"beginner2",public:false}]
 
 const initialState = {
     fetchingProfiles: false,
+    fetchingSelectedExercises: false,
     profiles: [ ],
     selectedProfile: {},
+    selectedExercises:[],
     error: ''
 }
 
@@ -31,6 +33,24 @@ export const createProfile = createAsyncThunk('exercises/createprofiles', async 
         return rejectWithValue(error)
     }
 })
+
+export const updateProfile = createAsyncThunk('exercises/profiles', async (reqData, { rejectWithValue }) => {
+    try {
+        apiClient.defaults.headers.Authorization = localStorage.getItem('token')
+        const response = await apiClient.put('exercises/profiles', reqData)
+        
+        return response.data
+    }
+    catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        let error = { axiosMessage: err.message, axiosCode: err.code, apiError: err.response.data, apiStatusCode: err.response.status}
+        return rejectWithValue(error)
+    }
+})
+
+
 
 export const fetchProfiles = createAsyncThunk('exercises/fetchprofiles', async (obj, {rejectWithValue}) => {
     try {
@@ -66,6 +86,27 @@ export const deleteProfile = createAsyncThunk('exercises/deleteprofile', async (
     }
 })
 
+export const fetchSelectedExercises = createAsyncThunk('exercises/getbytag', async (obj, {rejectWithValue}) => {
+    try {
+        apiClient.defaults.headers.Authorization = localStorage.getItem('token')
+        const response = await apiClient.post('exercises/getbytags', obj)
+        if (typeof response.data.exercises === "undefined") {
+            response.data.exercises = []
+        }
+        // console.log("fetchSelectedExercises: ",response.data)
+        return response.data
+    }
+    catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        let error = { axiosMessage: err.message, axiosCode: err.code, apiError: err.response.data, apiStatusCode: err.response.status}
+        return rejectWithValue(error)
+    }
+})
+
+
+
 
 
 const profileSlice = createSlice({
@@ -78,6 +119,10 @@ const profileSlice = createSlice({
         },
         setProfileName: (state, action) => {
             state.selectedProfile.name = action.payload;
+        },
+        clearSelectedProfile: (state) => {
+            state.selectedProfile = {}
+            state.selectedExercises = []
         }
     },
     extraReducers: (builder) => {
@@ -96,6 +141,7 @@ const profileSlice = createSlice({
         // Fetch profiles
         builder.addCase(fetchProfiles.pending, (state) => {
             state.fetchingProfiles = true
+            console.log("fetching profiles")
         })
         builder.addCase(fetchProfiles.fulfilled, (state, action) => {
             state.fetchingProfiles = false
@@ -112,6 +158,7 @@ const profileSlice = createSlice({
          // Delete profile
          builder.addCase(deleteProfile.pending, (state, action) => {
             state.status = 'deletingProfile'
+            console.log("deleting profile")
         })
         builder.addCase(deleteProfile.fulfilled, (state, action) => {
             state.status = ''
@@ -121,6 +168,22 @@ const profileSlice = createSlice({
             state.status = ''
             state.error = action.payload
         })
+        // Fetch exercises for the selected profile
+        builder.addCase(fetchSelectedExercises.pending, (state) => {
+            state.fetchingSelectedExercises = true
+        })
+        builder.addCase(fetchSelectedExercises.fulfilled, (state, action) => {
+            state.fetchingSelectedExercises = false
+            state.selectedExercises = action.payload.exercises
+            // console.log("selected exercises", state.profiles.)
+            state.error = ''
+        })
+        builder.addCase(fetchSelectedExercises.rejected, (state, action) => {
+            state.fetchingSelectedExercises = false
+            state.selectedExercises = []
+            state.error = action.payload.data.status
+            state.statusCode = action.payload.status
+        })
     }
 
     
@@ -128,4 +191,4 @@ const profileSlice = createSlice({
 
 
 export default profileSlice.reducer
-export const { selectProfile, setProfileName } = profileSlice.actions
+export const { selectProfile, setProfileName,clearSelectedProfile } = profileSlice.actions

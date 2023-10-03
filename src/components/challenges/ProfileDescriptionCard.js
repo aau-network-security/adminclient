@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
 import { selectProfile } from "../../features/profiles/profileSlice";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { defaultTheme } from "../..";
 
 
@@ -11,12 +11,25 @@ import { defaultTheme } from "../..";
 
 
 function ProfileDescriptionCard() {
-    
+    const dispatch = useDispatch();
+    const profiles = useSelector((state) => state.profile.profiles);
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
-    console.log("profiledescription: ", selectedProfile)
 
+    if (profiles.length === 0) {
+        
+    } 
+    
+    
+    useEffect(() => {
+        if (profiles.length > 0) {
+            dispatch(selectProfile(profiles[0]));
+        }
+    }, [profiles]);
+
+    console.log("profiledescription: ", selectedProfile)
+    
     const [fieldValue, setFieldValue] = useState(selectedProfile.description);
     useEffect(() => {
        setFieldValue(selectedProfile.description);

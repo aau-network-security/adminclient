@@ -75,7 +75,7 @@ export default function ChallengesPage() {
         dispatch(fetchCategories());
         dispatch(fetchProfiles());
     }, [dispatch]);
-
+    
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {
             dispatch(fetchProfiles());
