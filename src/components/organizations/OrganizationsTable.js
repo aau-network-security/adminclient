@@ -9,8 +9,12 @@ import OrgDialogDelete from './OrgDialogDelete';
 import { Tooltip } from 'react-tooltip';
 import {
   IoMdAdd,
+  IoMdInfinite,
   IoMdRefresh,
 } from 'react-icons/io'
+import {
+  IoInfiniteOutline
+} from 'react-icons/io5'
 import {
   TiTick
 } from 'react-icons/ti'
@@ -117,7 +121,8 @@ function OrganizationsTable() {
                         <Tr>
                           <Th>Name</Th>
                           <Th>Owner</Th>
-                          <Th>Owner Email</Th>    
+                          <Th>Owner Email</Th>
+                          <Th isNumeric>Lab Quota</Th>  
                           <Th textAlign="center">Delete</Th>                  
                         </Tr>
                       </Thead>
@@ -132,6 +137,12 @@ function OrganizationsTable() {
                             <Td>{org.Name}</Td>
                             <Td>{org.OwnerUser}</Td>
                             <Td>{org.OwnerEmail}</Td>
+                            <Td isNumeric>{org.LabQuota != null ? 
+                              org.LabQuota 
+                            : (
+                            <Icon fontSize={"17px"} as={IoInfiniteOutline}/>
+                            )}
+                            </Td>
                             <Td textAlign="center">
                               <IconButton
                                 aria-label='Delete organization'

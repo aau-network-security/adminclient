@@ -1,5 +1,5 @@
-import { Alert, AlertDescription, AlertIcon, Button, Center, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Spinner, Stack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Alert, AlertDescription, AlertIcon, Button, Center, Checkbox, Flex, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Spacer, Spinner, Stack, Text } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import LoadingSpin from 'react-loading-spin'
 import { useDispatch, useSelector } from 'react-redux'
 import { addOrg } from '../../features/organizations/organizationSlice'
@@ -11,6 +11,7 @@ function NewOrgModal({ isOpen, onClose }) {
     const [addOrgError, setAddOrgError] = useState('')
     const [reqData, setReqData] = useState ({
         orgName: '',
+        labQuota: 0,
         orgOwner: {
             username: '',
             password: '',
@@ -32,25 +33,38 @@ function NewOrgModal({ isOpen, onClose }) {
         }
         
     }
+    
+    const [unlimitedQuota, setUnlimitedQuota] = useState(false)
+    useEffect(() => {
+        if (unlimitedQuota) {
+            setReqData({...reqData, labQuota: null})
+        } else {
+            setReqData({...reqData, labQuota: 0})
+        }
+    }, [unlimitedQuota])
     const changeHandler = (e) => {
-        if (e.target.name === 'orgName'){
-            setReqData({...reqData, [e.target.name]: e.target.value.trim()})
-        } else if (e.target.name === 'username') {
-            let orgOwner = reqData.orgOwner
-            orgOwner.username = e.target.value.trim()
-            setReqData({...reqData, orgOwner})
-        } else if (e.target.name === 'password') {
-            let orgOwner = reqData.orgOwner
-            orgOwner.password = e.target.value.trim()
-            setReqData({...reqData, orgOwner})
-        } else if (e.target.name === 'fullName') {
-            let orgOwner = reqData.orgOwner
-            orgOwner.fullName = e.target.value.trim()
-            setReqData({...reqData, orgOwner})
-        } else if (e.target.name === 'email') {
-            let orgOwner = reqData.orgOwner
-            orgOwner.email = e.target.value.trim()
-            setReqData({...reqData, orgOwner})
+        if (typeof e.target !== "undefined") {
+            if (e.target.name === 'orgName'){
+                setReqData({...reqData, [e.target.name]: e.target.value.trim()})
+            } else if (e.target.name === 'username') {
+                let orgOwner = reqData.orgOwner
+                orgOwner.username = e.target.value.trim()
+                setReqData({...reqData, orgOwner})
+            } else if (e.target.name === 'password') {
+                let orgOwner = reqData.orgOwner
+                orgOwner.password = e.target.value.trim()
+                setReqData({...reqData, orgOwner})
+            } else if (e.target.name === 'fullName') {
+                let orgOwner = reqData.orgOwner
+                orgOwner.fullName = e.target.value.trim()
+                setReqData({...reqData, orgOwner})
+            } else if (e.target.name === 'email') {
+                let orgOwner = reqData.orgOwner
+                orgOwner.email = e.target.value.trim()
+                setReqData({...reqData, orgOwner})
+            }
+        } else {
+            setReqData({...reqData, labQuota: Number(e)})
         }
     }
     const closeModal = () => {
@@ -112,7 +126,6 @@ function NewOrgModal({ isOpen, onClose }) {
                             :
                                 null
                             }
-                                
                                 <FormControl>
                                     <FormLabel>Organization name</FormLabel>
                                     <InputGroup>
@@ -122,6 +135,26 @@ function NewOrgModal({ isOpen, onClose }) {
                                     <Input type="text" name="orgName" placeholder="Organization name" onChange={changeHandler} />
                                     </InputGroup>
                                 </FormControl>
+                                <Flex>
+                                    <FormControl>
+                                        <FormLabel display="flex">
+                                            <Text>
+                                                Lab quota
+                                            </Text>
+                                            <Spacer />
+                                            <Checkbox value={unlimitedQuota} onChange={(e) => setUnlimitedQuota(e.target.checked)}>
+                                                Unlimited labs
+                                            </Checkbox>
+                                        </FormLabel>                                        
+                                        <NumberInput isDisabled={unlimitedQuota} value={reqData.labQuota != null ? reqData.labQuota : ''} onChange={changeHandler}>
+                                        <NumberInputField />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                        </NumberInput>
+                                    </FormControl>
+                                </Flex>            
                                 <FormControl >
                                     <Center marginTop="20px" fontWeight="bold">
                                         <h1>Organization owner info <br/> </h1>
