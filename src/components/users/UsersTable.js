@@ -22,6 +22,7 @@ import NewUserModal from './NewUserModal';
 import { deleteUser, fetchUsers } from '../../features/users/userSlice';
 import { MdDelete } from 'react-icons/md';
 import { defaultTheme } from '../..';
+import { IoInfiniteOutline } from 'react-icons/io5';
 
 function UsersTable({ byRole }) {
   const IconFa = chakra(FontAwesomeIcon)
@@ -128,6 +129,7 @@ function UsersTable({ byRole }) {
                           <Th>Email</Th>
                           <Th>Organization</Th>
                           <Th>Role</Th>
+                          <Th isNumeric>Lab quota</Th>
                           <Th textAlign="center">Action</Th>           
                         </Tr>
                       </Thead>
@@ -142,6 +144,12 @@ function UsersTable({ byRole }) {
                             <Td>{user.user.Email}</Td>
                             <Td>{user.user.Organization}</Td>
                             <Td>{user.user.Role.split('role::')[1]}</Td>
+                            <Td isNumeric>{user.user.LabQuota != null ? 
+                              user.user.LabQuota 
+                            : (
+                            <Icon fontSize={"17px"} as={IoInfiniteOutline}/>
+                            )}
+                            </Td>
                             <Td textAlign="center">
                               {(loggedInUser.user.Role === "role::administrator" || loggedInUser.user.Role === "role::superadmin" || user.user.Username === loggedInUser.user.Username) && (
                                 <>
