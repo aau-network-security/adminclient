@@ -138,6 +138,18 @@ const profileSlice = createSlice({
             state.status = ''
             state.error = action.payload
         })
+        // Update profile
+        builder.addCase(updateProfile.pending, (state, action) => {
+            state.status = 'updatingProfile'
+        })
+        builder.addCase(updateProfile.fulfilled, (state, action) => {
+            state.status = ''
+            state.error = ''
+        })
+        builder.addCase(updateProfile.rejected, (state, action) => {
+            state.status = ''
+            state.error = action.payload
+        })
         // Fetch profiles
         builder.addCase(fetchProfiles.pending, (state) => {
             state.fetchingProfiles = true
