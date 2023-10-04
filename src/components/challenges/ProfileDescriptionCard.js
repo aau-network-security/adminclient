@@ -1,4 +1,4 @@
-import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, FormLabel, InputGroup, Input, useEditableControls, IconButton, Editable, EditablePreview, EditableInput, EditableTextarea, useEditableState, useToast} from '@chakra-ui/react'
+import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, FormLabel, InputGroup, Input, useEditableControls, IconButton, Editable, EditablePreview, EditableInput, EditableTextarea, useEditableState, useToast, VStack} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
@@ -17,10 +17,6 @@ function ProfileDescriptionCard() {
         (state) => state.profile.selectedProfile
     );
 
-
-    if (profiles.length === 0) {
-        
-    } 
     var initialExerciseTags = [] 
     const toast = useToast();
     const toastIdRef = React.useRef();
@@ -30,7 +26,7 @@ function ProfileDescriptionCard() {
         }
     }, [profiles]);
 
-    console.log("profiledescription: ", selectedProfile)
+    // console.log("profiledescription: ", selectedProfile)
     
     const [reqDataState, setReqDataState] = useState({
         name: "",
@@ -185,24 +181,32 @@ function ProfileDescriptionCard() {
 
 
     return  (
-    <>  
+    <> 
+    <VStack alignItems='left'>
+    <Text fontSize={"23px"}>Description</Text>
     <Editable
+        width="100%"
+        bg={"#f7fafc"}
         height="inherit"
+        borderRadius="10px"
+        borderColor="black"
+        // focusBorderColor="#c8dcea"
         // defaultValue={selectedProfile.description}
         value={fieldValue}
         onSubmit={handleSubmit}
         onChange={handleFieldChange}
         name="profileDescription"
         isPreviewFocusable={false}
-        className='container'
+        // className='container'
         padding="0"
+        
         >      
        
         <HStack h="100%" w="100%">
         
-        <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 30px">
+        <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 5px">
             <EditablePreview />
-            <EditableTextarea style={{ height: "130px" }}/>
+            <EditableTextarea style={{ height: "130px", padding:"5px"}}/>
             {/* <Text fontSize="15px" > {selectedProfile.description}</Text> */}
         </Flex>
         {/* <Spacer /> */}
@@ -212,6 +216,7 @@ function ProfileDescriptionCard() {
         </HStack>
         
         </Editable>
+        </VStack>
         
     </>
   

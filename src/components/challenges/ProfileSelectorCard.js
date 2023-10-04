@@ -57,12 +57,29 @@ function ProfileSelectorCard() {
    
     return (
         <>
-        <Box
+        {/* <Box
             height="40px"
             borderRadius="10px"
             // className="container"
             padding="0"
+        > */}
+         <Grid
+            templateColumns="repeat(6, 1fr)"
+            gap={4}
+            width="100%"
+            // marginLeft="20px"
+            height="inherit"
+            // maxH="700px"
         >
+            <GridItem
+                backgroundColor="#f7fafc"
+                height="inherit"
+                width="100%"
+                marginRight="10px"
+                borderRadius="5px"
+                overflowY="auto"
+                colSpan={6}
+            >
         {Object.entries(profiles).map(([key, profile]) => (
             <Flex
                 key={key}
@@ -70,7 +87,7 @@ function ProfileSelectorCard() {
                 height="50px"
                 padding="0 10px 0 10px"
                 alignItems="center"
-                borderRadius="10px 10px 10px 10px"
+                // borderRadius="10px 10px 10px 10px"
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
                     selectedProfile.name === profile.name
@@ -110,8 +127,9 @@ function ProfileSelectorCard() {
                                     )}
             </Flex>
         ))}
-
-        </Box>
+        </GridItem>
+        </Grid>
+        {/* </Box> */}
         </>
         // <Text> ChallengeSelectorCard</Text>
         );

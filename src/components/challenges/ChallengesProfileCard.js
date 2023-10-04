@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   Checkbox,
   CheckboxGroup,
@@ -32,6 +33,7 @@ import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
 import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
+import { BsInfoCircle } from "react-icons/bs";
 
 function ChallengesProfileCard({
   reqData,
@@ -157,16 +159,19 @@ const openModal = (content) => {
                                             data-tooltip-offset={3}
                                         />
                                     )}
+                                    <Spacer/>
+                                   
                                     <Icon
                                         color="grey"
                                         position={"relative"}
                                         top="1px"
-                                        as={FaRegQuestionCircle}
-                                        fontSize="13px"
+                                        as={BsInfoCircle}
+                                        fontSize="20px"
                                         cursor="pointer"
                                         onClick={() => openModal(exercise)}
                                         zIndex="999"
                                     />
+                                    
                                 </Flex>
                                 
                     

@@ -79,12 +79,32 @@ function ChallengeSelectorCard() {
 
     return (
         <>
-        <Box
+        {/* <Box
             height="40px"
             borderRadius="10px"
-            // className="container"
+            //  className="container"
+            bg={"#f7fafc"}
             padding="0"
+        > */}
+        <Grid
+            templateColumns="repeat(6, 1fr)"
+            gap={4}
+            width="100%"
+            // marginLeft="20px"
+            height="inherit"
+            maxH="700px"
         >
+            <GridItem
+                backgroundColor="#f7fafc"
+                height="inherit"
+                width="100%"
+                // marginRight="10px"
+                borderRadius="5px"
+                overflowY="auto"
+                colSpan={6}
+            >
+
+            
         {Object.entries(categories).map(([key, category]) => (
             <Flex
                 key={key}
@@ -92,7 +112,7 @@ function ChallengeSelectorCard() {
                 height="50px"
                 padding="0 10px 0 10px"
                 alignItems="center"
-                borderRadius="10px 10px 10px 10px"
+                // borderRadius="10px 10px 10px 10px"
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
                     selectedCategory.tag === category.tag
@@ -129,6 +149,7 @@ function ChallengeSelectorCard() {
                 />
             </Flex>
         ))}
+        </GridItem>
         <Modal
                 onClose={closeModal}
                 isOpen={isModalOpen}
@@ -157,7 +178,8 @@ function ChallengeSelectorCard() {
                 </ModalContent>
             </Modal>
             <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise" />
-        </Box>
+        {/* </Box> */}
+        </Grid>
         </>
         // <Text> ChallengeSelectorCard</Text>
         );

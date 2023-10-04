@@ -92,7 +92,8 @@ export default function ChallengesPage() {
             
         >
             <GridItem rowSpan={24} colSpan={8} >
-                <Flex direction="column" height="100%" bg={"#f7fafc"} >
+                {/* <Flex direction="column" height="100%" bg={"#f7fafc"} > */}
+                <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px">
                 <VStack
                 spacing="40px"
                 align='stretch'
@@ -104,7 +105,8 @@ export default function ChallengesPage() {
                 </Flex>
             </GridItem>
             <GridItem rowSpan={24} colStart={11} colSpan={13} >
-                <Flex direction="column" height="100%" bg={"#f7fafc"} >
+                {/* <Flex direction="column" height="100%" bg={"#f7fafc"} > */}
+                <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px">
                 <VStack
                 spacing="40px"
                 align='stretch'

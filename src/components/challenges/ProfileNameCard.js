@@ -1,8 +1,8 @@
-import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, InputGroup, Input, EditableInput, EditablePreview, Editable} from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, InputGroup, Input, EditableInput, EditablePreview, Editable, useToast, EditableTextarea, useEditableControls} from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
-import { selectProfile, setProfileName } from "../../features/profiles/profileSlice";
+import { fetchProfiles, selectProfile, setProfileName, updateProfile } from "../../features/profiles/profileSlice";
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -10,119 +10,213 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function ProfileNameCard() {
 
+    const dispatch = useDispatch();
+    const profiles = useSelector((state) => state.profile.profiles);
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
-    const dispatch = useDispatch();
-    
-    const [isEditing, setIsEditing] = useState(false);
 
-    const handleToggleEdit = () => {
-        
-        setIsEditing(!isEditing);
-        console.log(isEditing)
-    }
-    
 
-    const EditableInput = () => {       
+    if (profiles.length === 0) {
         
-        const [fieldValue, setFieldValue] = useState(selectedProfile.name);
-        
-        const onChangeInput = (event) => { 
-            event.preventDefault()
-            setFieldValue(event.target.value);
+    } 
+    var initialExerciseTags = [] 
+    const toast = useToast();
+    const toastIdRef = React.useRef();
+    useEffect(() => {
+        if (profiles.length > 0) {
+            dispatch(selectProfile(profiles[0]));
         }
+    }, [profiles]);
 
-        const handleSubmit = (event) => {
-            event.preventDefault()
-            dispatch(setProfileName(fieldValue))
-            setIsEditing(!isEditing)
-        }
-        return (
-            <>
-            <form
-            onSubmit={handleSubmit}
-            style={{ height: "100%", width: "100%"}}
-            >
+    // console.log("profiledescription: ", selectedProfile)
+    
+    const [reqDataState, setReqDataState] = useState({
+        name: "",
+        description:"",
+        public:"",
+        exerciseTags: [],
+    });
 
-            <HStack h="100%" w="100%">            
-            <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 30px">
-            <FormControl>
+    const [fieldValue, setFieldValue] = useState(selectedProfile.name);
+    useEffect(() => {
+       setFieldValue(selectedProfile.name)
+       setReqDataState(reqDataState =>({
+        ...reqDataState,
+        ["name"]: selectedProfile.name
+    }))
+    }, [selectedProfile]);
 
-            <Text fontSize="30px">
-                <input
-                value={fieldValue}
-                type="text"
-                onChange={(event) => onChangeInput(event)}
-                onSubmit={(event) => handleSubmit(event)}
-                />
-            </Text>
-            </FormControl>
-            </Flex>
-            
-            <Flex flexDir="column" h="100%" w="10%" bg="#211a52" borderRadius="0px 10px 10px 0px" >
-                <Center w="100%" h="100%">
-                    <button onClick={(event) => handleSubmit(event)}>
+ 
+
+    function EditableControls() {
+        const {
+          isEditing,
+          getSubmitButtonProps,
+          getEditButtonProps
+        } = useEditableControls()
+        
+        return isEditing ?(
+            <Flex flexDir="column" h="100%" w="10%" bg="aau.primary"  borderRadius="0px 10px 10px 0px">
+            <Center w="100%" h="100%">
+            <Button     {...getSubmitButtonProps()}
+                        backgroundColor="aau.primary"
+                        _hover={{ backgroundColor: "aau.hover" }}
+                        color="white"
+                        borderRadius="0px 10px 10px 0px"
+                        h="100%"
+                        
+                        // onClick={handleSubmit}
+                        
+                    >
                     <Icon
                         as={MdSave}
                         fontSize="30px"
                         color="white"
                         />
-                    </button>
-                </Center>
+            </Button>
+            </Center>
+            
             </Flex>
-            </HStack>
-            </form>
-            </>
-        )
-    }
-    const ViewProfileName = () => { 
-        return (
-            <>
-            <HStack h="100%" w="100%">
-               <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 30px">
-                    <Text fontSize="30px">{selectedProfile.name}</Text>
-               </Flex>
-               <Spacer />
-               <Flex flexDir="column" h="100%" w="10%" bg="#211a52" borderRadius="0px 10px 10px 0px" onClick={handleToggleEdit}>
-                <Center w="100%" h="100%">
-                    <button>
-                        <Icon
+        ) : (
+            <Flex flexDir="column" h="100%" w="10%" bg="aau.primary"  borderRadius="0px 10px 10px 0px">
+            {/* <Center w="100%" h="100%"> */}
+        <Button         {...getEditButtonProps()}
+                        backgroundColor="aau.primary"
+                        _hover={{ backgroundColor: "aau.hover" }}
+                        color="white"
+                        borderRadius="0px 10px 10px 0px"
+                        
+                        h="100%"
+                       
+                        
+                    >
+                    <Icon
                         as={FiEdit3}
                         fontSize="30px"
                         color="white"
                         />
-                    </button>
-                </Center>
-               </Flex>
-               </HStack>
-            </>
+            </Button>
+        {/* </Center> */}
+            
+            </Flex>
         )
+    }
     
+
+    const handleSubmit = async (e) => {
+        // e.preventDefault();
+        setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["name"]: fieldValue
+            }))
+        setReqDataState(reqDataState =>({
+            ...reqDataState,
+            ["description"]: selectedProfile.description
+        }))
+        
+        if (Object.keys(selectedProfile.exercises).length > 0){
+            initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
+            setReqDataState(reqDataState => ({
+                ...reqDataState,
+                exerciseTags: initialExerciseTags
+                
+            }));
+        }
+
+        var reqData = {
+            name: fieldValue,
+            description: reqDataState.description,
+            exerciseTags: reqDataState.exerciseTags,
+            public:false
+        };
+        
+        console.log("profilename",reqData.name)
+
+        if (reqData.name.length === 0) {
+            toastIdRef.current = toast({
+                title: "Profile name cant be empty",
+                description: "Write a name in order to save.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        try {
+            const response = await dispatch(updateProfile(reqData)).unwrap();
+            toastIdRef.current = toast({
+                title: "Profile name successfully updated",
+                description: "The profile name was successfully updated",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            });
+            dispatch(fetchProfiles())
+            // navigate("/challenges")
+        } catch (err) {
+            console.log("got error updating profile name", err);
+            toastIdRef.current = toast({
+                title: "Updating profile name",
+                description: err.apiError.status,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+
+
+
+        // console.log("Submitted Value:", fieldValue)
+    }
+    const handleFieldChange = (newValue) => {
+        setFieldValue(newValue)
+        console.log("fieldchange",newValue)
+        // if (e.target.name === "profileDescription") {
+        //     console.log("description", e.target.value.trim())
+        //     setReqDataState({
+        //         ...reqDataState,
+        //         ["description"]: e.target.value.trim(),
+        //     });
+        // }
     }
 
 
     return  (
-    <>
-        <Box
-            className="container"
-            padding="0"
-            borderRadius="10px"
-            > 
+    <>  
+   
+    <Editable
+        height="inherit"
+        fontSize={"30px"}
+        // defaultValue={selectedProfile.description}
+        value={fieldValue}
+        onSubmit={handleSubmit}
+        onChange={handleFieldChange}
+        name="name"
+        isPreviewFocusable={false}
+        // className='container'
+        borderRadius="10px"
+        borderColor="black"
+        bg={"#f7fafc"}
+        padding="0"
+        >      
         
-        { isEditing ?(
-         <EditableInput/>
-        ):
-        (<ViewProfileName/>)
-        }
+        <HStack h="100%" w="100%">
         
-
+        <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 5px">
+            <EditablePreview />
+            <EditableTextarea style={{ height: "50px" , padding:"5px"}}/>
+            {/* <Text fontSize="15px" > {selectedProfile.description}</Text> */}
+        </Flex>
+        {/* <Spacer /> */}
         
-
+        <EditableControls style={{ height: "50px" }}/>
+   
+        </HStack>
         
-        </Box>
-
-    
+        </Editable>
+        
     </>
   
   )
