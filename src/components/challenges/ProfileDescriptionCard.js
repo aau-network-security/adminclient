@@ -1,8 +1,8 @@
-import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, FormLabel, InputGroup, Input, useEditableControls, IconButton, Editable, EditablePreview, EditableInput, EditableTextarea, useEditableState} from '@chakra-ui/react'
+import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, FormLabel, InputGroup, Input, useEditableControls, IconButton, Editable, EditablePreview, EditableInput, EditableTextarea, useEditableState, useToast} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
-import { selectProfile } from "../../features/profiles/profileSlice";
+import { fetchProfiles, selectProfile, updateProfile } from "../../features/profiles/profileSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { defaultTheme } from "../..";
 
@@ -17,11 +17,13 @@ function ProfileDescriptionCard() {
         (state) => state.profile.selectedProfile
     );
 
+
     if (profiles.length === 0) {
         
     } 
-    
-    
+    var initialExerciseTags = [] 
+    const toast = useToast();
+    const toastIdRef = React.useRef();
     useEffect(() => {
         if (profiles.length > 0) {
             dispatch(selectProfile(profiles[0]));
@@ -30,11 +32,23 @@ function ProfileDescriptionCard() {
 
     console.log("profiledescription: ", selectedProfile)
     
+    const [reqDataState, setReqDataState] = useState({
+        name: "",
+        description:"",
+        public:"",
+        exerciseTags: [],
+    });
+
     const [fieldValue, setFieldValue] = useState(selectedProfile.description);
     useEffect(() => {
-       setFieldValue(selectedProfile.description);
+       setFieldValue(selectedProfile.description)
+       setReqDataState(reqDataState =>({
+        ...reqDataState,
+        ["description"]: selectedProfile.description
+    }))
     }, [selectedProfile]);
 
+ 
 
     function EditableControls() {
         const {
@@ -52,6 +66,8 @@ function ProfileDescriptionCard() {
                         color="white"
                         borderRadius="0px 10px 10px 0px"
                         h="100%"
+                        
+                        // onClick={handleSubmit}
                         
                     >
                     <Icon
@@ -89,11 +105,82 @@ function ProfileDescriptionCard() {
     }
     
 
-    const handleSubmit = () => {
-        console.log("Submitted Value:", fieldValue)
+    const handleSubmit = async (e) => {
+        // e.preventDefault();
+        setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["name"]: selectedProfile.name
+            }))
+        setReqDataState(reqDataState =>({
+            ...reqDataState,
+            ["description"]: fieldValue
+        }))
+        
+        if (Object.keys(selectedProfile.exercises).length > 0){
+            initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
+            setReqDataState(reqDataState => ({
+                ...reqDataState,
+                exerciseTags: initialExerciseTags
+                
+            }));
+        }
+
+        var reqData = {
+            name: reqDataState.name,
+            description: fieldValue,
+            exerciseTags: reqDataState.exerciseTags,
+            public:false
+        };
+        
+        console.log("description",reqData.description)
+
+        if (reqData.description.length === 0) {
+            toastIdRef.current = toast({
+                title: "Profile description cant be empty",
+                description: "Write a description in order to save.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        try {
+            const response = await dispatch(updateProfile(reqData)).unwrap();
+            toastIdRef.current = toast({
+                title: "Profile description successfully updated",
+                description: "The profile description was successfully updated",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            });
+            dispatch(fetchProfiles())
+            // navigate("/challenges")
+        } catch (err) {
+            console.log("got error updating profile description", err);
+            toastIdRef.current = toast({
+                title: "Updating profile description",
+                description: err.apiError.status,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+
+
+
+        // console.log("Submitted Value:", fieldValue)
     }
     const handleFieldChange = (newValue) => {
-        setFieldValue(newValue);
+        setFieldValue(newValue)
+        console.log("fieldchange",newValue)
+        // if (e.target.name === "profileDescription") {
+        //     console.log("description", e.target.value.trim())
+        //     setReqDataState({
+        //         ...reqDataState,
+        //         ["description"]: e.target.value.trim(),
+        //     });
+        // }
     }
 
 
@@ -105,6 +192,7 @@ function ProfileDescriptionCard() {
         value={fieldValue}
         onSubmit={handleSubmit}
         onChange={handleFieldChange}
+        name="profileDescription"
         isPreviewFocusable={false}
         className='container'
         padding="0"

@@ -20,7 +20,7 @@ import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
-import { createProfile } from "../features/profiles/profileSlice";
+import { createProfile, updateProfile } from "../features/profiles/profileSlice";
 import EditProfileFormInputs from "../components/challenges/EditProfileFormInputs";
 import EditProfileFormChallengeSelector from "../components/challenges/EditProfileFormChallengeSelector";
 
@@ -38,31 +38,36 @@ function EditProfileChallengesPage() {
     }, [dispatch]);
 
     
+
+    const [reqDataState, setReqDataState] = useState({
+        name: "",
+        description:"",
+        public:"",
+        exerciseTags: [],
+    });
+    
     var initialExerciseTags = [] 
     useEffect(() => {
         if (selectedProfile.exercises != null){
             if (Object.keys(selectedProfile.exercises).length > 0){
                 initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
-                setReqDataState({
-                    ["exerciseTags"]: initialExerciseTags,
-                })
+                setReqDataState(reqDataState => ({
+                    ...reqDataState,
+                    exerciseTags: initialExerciseTags
+                    
+                }));
                 console.log("tags for editing profile",initialExerciseTags)
-                
             }
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["name"]: selectedProfile.name
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["description"]: selectedProfile.description
+            }))
         }
-        
     }, [dispatch]);
-    
-    
-    
-
-    const [reqDataState, setReqDataState] = useState({
-        name: selectedProfile.name,
-        description:selectedProfile.description,
-        public:"",
-        exerciseTags: "",
-    });
-
     
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
@@ -78,7 +83,6 @@ function EditProfileChallengesPage() {
                 ["description"]: e.target.value.trim(),
             });
         }
-        
     };
 
     const toast = useToast();
@@ -92,7 +96,7 @@ function EditProfileChallengesPage() {
             exerciseTags: reqDataState.exerciseTags,
             public:false
         };
-        
+        // console.log("handlesubmit",reqDataState)
         // Convert type to number that daemon understands
         // TODO: Fix slice and don't use createEvent but another function from "profile slice"
 
@@ -108,10 +112,10 @@ function EditProfileChallengesPage() {
         }
 
         try {
-            const response = await dispatch(createProfile(reqData)).unwrap();
+            const response = await dispatch(updateProfile(reqData)).unwrap();
             toastIdRef.current = toast({
-                title: "profile successfully created",
-                description: "The profile was successfully created",
+                title: "Profile successfully updated",
+                description: "The profile was successfully updated",
                 status: "success",
                 duration: 5000,
                 isClosable: true,
