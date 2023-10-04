@@ -21,25 +21,49 @@ import { createEvent } from "../features/events/eventSlice";
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
 import { createProfile } from "../features/profiles/profileSlice";
+import EditProfileFormInputs from "../components/challenges/EditProfileFormInputs";
+import EditProfileFormChallengeSelector from "../components/challenges/EditProfileFormChallengeSelector";
 
 
 function EditProfileChallengesPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const status = useSelector((state) => state.event.status);
-    
+    const selectedProfile = useSelector(
+        (state) => state.profile.selectedProfile
+    );
+
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
-    const [searchParams, setSearchParams] = useSearchParams();
+
+    
+    var initialExerciseTags = [] 
+    useEffect(() => {
+        if (selectedProfile.exercises != null){
+            if (Object.keys(selectedProfile.exercises).length > 0){
+                initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
+                setReqDataState({
+                    ["exerciseTags"]: initialExerciseTags,
+                })
+                console.log("tags for editing profile",initialExerciseTags)
+                
+            }
+        }
+        
+    }, [dispatch]);
+    
+    
+    
 
     const [reqDataState, setReqDataState] = useState({
-        name: "",
-        description:"",
+        name: selectedProfile.name,
+        description:selectedProfile.description,
         public:"",
-        exerciseTags: [],
+        exerciseTags: "",
     });
 
+    
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
             console.log("name", e.target.value.trim())
@@ -167,12 +191,12 @@ function EditProfileChallengesPage() {
                                 height={"550px"}
                                 marginTop="20px"
                             >
-                                <NewProfileFormInputs
+                                <EditProfileFormInputs
                                     changeHandler={changeHandler}
                                     reqData={reqDataState}
                                     setReqDataState={setReqDataState}
                                 />
-                                <NewProfileFormChallengeSelector
+                                <EditProfileFormChallengeSelector
                                     changeHandler={changeHandler}
                                     reqData={reqDataState}
                                     setReqDataState={setReqDataState}

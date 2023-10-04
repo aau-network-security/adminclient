@@ -20,10 +20,11 @@ import {
 import React from "react";
 import ReactDatePicker from "react-datepicker";
 import { FaCalendar, FaRegQuestionCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 function EditProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
-    
+  
     return (
         <Box width="40%">
             <FormControl marginBottom={7} isRequired>
@@ -39,6 +40,7 @@ function EditProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
                         borderColor="#edf3f8"
                         focusBorderColor="#c8dcea"
                         maxLength="30"
+                        value={reqData.name}
                         onChange={(event) => changeHandler(event)}
                     />
                 </InputGroup>
@@ -72,6 +74,7 @@ function EditProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
                         focusBorderColor="#c8dcea"
                         maxLength="300"
                         height = "400px"
+                        value={reqData.description}
                         onChange={(event) => changeHandler(event)}
                     />
                 </InputGroup>
