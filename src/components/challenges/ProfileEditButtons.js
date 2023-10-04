@@ -3,6 +3,7 @@ import { deleteProfile, fetchProfiles } from '../../features/profiles/profileSli
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Flex, IconButton,useToast, } from '@chakra-ui/react';
 import { MdDelete } from 'react-icons/md';
+import { NavLink as ReactLink } from "react-router-dom";
 import ProfileDialogDelete from './ProfileDialogDelete';
 function ProfileEditButtons() {  
     const dispatch = useDispatch();
@@ -75,7 +76,9 @@ function ProfileEditButtons() {
                 colorScheme="aau.button"
                 color="white"
                 // type="submit"
-                // onClick={() => openAlertDialog(selectedProfile.name)}                  
+                // onClick={() => openAlertDialog(selectedProfile.name)}
+                as={ReactLink}
+                to={"/challenges/edit"}                  
             >
                 Edit Profile
             </Button>
