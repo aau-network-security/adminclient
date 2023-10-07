@@ -15,6 +15,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Spacer,
+    Box,
     Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -24,17 +25,26 @@ import {
     fetchExercises,
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
+import { Tooltip } from "react-tooltip";
 
 function ChallengeSelectorCard() {
     const dispatch = useDispatch();
+
     const categories = useSelector((state) => state.exercise.categories);
     const selectedCategory = useSelector(
         (state) => state.exercise.selectedCategory
     );
+    
     const exercises = useSelector((state) => state.exercise.exercises);
     const fetchingExercises = useSelector(
         (state) => state.exercise.fetchingExercises
     );
+
+    const [modalContent, setModalContent] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const closeModal = () => setIsModalOpen(false);
+
 
     useEffect(() => {
         if (categories.length > 0) {
@@ -57,8 +67,44 @@ function ChallengeSelectorCard() {
         }
     }, [selectedCategory]);
 
+    const openModal = (content) => {
+        setModalTitle(content.name);
+        if (typeof content.catDesc !== "undefined") {
+            setModalContent(content.catDesc);
+        } else {
+            setModalContent(content.organizer_description);
+        }
+        setIsModalOpen(true);
+    };
+
     return (
         <>
+        {/* <Box
+            height="40px"
+            borderRadius="10px"
+            //  className="container"
+            bg={"#f7fafc"}
+            padding="0"
+        > */}
+        <Grid
+            templateColumns="repeat(6, 1fr)"
+            gap={4}
+            width="100%"
+            // marginLeft="20px"
+            height="inherit"
+            maxH="700px"
+        >
+            <GridItem
+                backgroundColor="#f7fafc"
+                height="inherit"
+                width="100%"
+                // marginRight="10px"
+                borderRadius="5px"
+                overflowY="auto"
+                colSpan={6}
+            >
+
+            
         {Object.entries(categories).map(([key, category]) => (
             <Flex
                 key={key}
@@ -66,6 +112,7 @@ function ChallengeSelectorCard() {
                 height="50px"
                 padding="0 10px 0 10px"
                 alignItems="center"
+                // borderRadius="10px 10px 10px 10px"
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
                     selectedCategory.tag === category.tag
@@ -97,11 +144,42 @@ function ChallengeSelectorCard() {
                     as={FaRegQuestionCircle}
                     fontSize="13px"
                     cursor="pointer"
-                    
+                    onClick={() => openModal(category)}
                     zIndex="999"
                 />
             </Flex>
         ))}
+        </GridItem>
+        <Modal
+                onClose={closeModal}
+                isOpen={isModalOpen}
+                isCentered
+                width="700px"
+                scrollBehavior="inside"
+                size="3xl"
+            >
+                <ModalOverlay />
+                <ModalContent
+                    height="fit-content"
+                    maxH="800px"
+                    overflowY="auto"
+                >
+                    <ModalHeader>{modalTitle}</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody marginBottom="20px">
+                        <Flex className="markdown-body">
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: modalContent,
+                                }}
+                            />
+                        </Flex>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+            <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise" />
+        {/* </Box> */}
+        </Grid>
         </>
         // <Text> ChallengeSelectorCard</Text>
         );
