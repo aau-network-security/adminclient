@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertIcon, Button, Center, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Spacer, Spinner, Stack, Text } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, Button, Center, Checkbox, Flex, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Spacer, Spinner, Stack, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import LoadingSpin from 'react-loading-spin'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,8 +19,18 @@ function NewUserModal({ isOpen, onClose }) {
         fullName: "",
         organization: selectedOrg === null ? "" : "",
         email: "",
-        role: ""        
+        role: "",
+        labQuota: 0
     })
+
+    const [unlimitedQuota, setUnlimitedQuota] = useState(false)
+    useEffect(() => {
+        if (unlimitedQuota) {
+            setReqData({...reqData, labQuota: null})
+        } else {
+            setReqData({...reqData, labQuota: 0})
+        }
+    }, [unlimitedQuota])
 
     useEffect(() =>{
         if (selectedOrg !== null) {
@@ -44,16 +54,20 @@ function NewUserModal({ isOpen, onClose }) {
         
     }
     const changeHandler = (e) => {
-        if (e.target.name === 'username'){
-            setReqData({...reqData, [e.target.name]: e.target.value.trim()})
-        } else if (e.target.name === 'password') {
-            setReqData({...reqData, [e.target.name]: e.target.value.trim()})
-        } else if (e.target.name === 'fullName') {
-            setReqData({...reqData, [e.target.name]: e.target.value.trim()})
-        } else if (e.target.name === 'organization') {
-            setReqData({...reqData, [e.target.name]: e.target.value.trim()})
-        } else if (e.target.name === 'email') {
-            setReqData({...reqData, [e.target.name]: e.target.value.trim()})
+        if (typeof e.target !== "undefined") {
+            if (e.target.name === 'username'){
+                setReqData({...reqData, [e.target.name]: e.target.value.trim()})
+            } else if (e.target.name === 'password') {
+                setReqData({...reqData, [e.target.name]: e.target.value.trim()})
+            } else if (e.target.name === 'fullName') {
+                setReqData({...reqData, [e.target.name]: e.target.value.trim()})
+            } else if (e.target.name === 'organization') {
+                setReqData({...reqData, [e.target.name]: e.target.value.trim()})
+            } else if (e.target.name === 'email') {
+                setReqData({...reqData, [e.target.name]: e.target.value.trim()})
+            }
+        } else {
+            setReqData({...reqData, labQuota: Number(e)})
         }
     }
     const closeModal = () => {
@@ -203,7 +217,28 @@ function NewUserModal({ isOpen, onClose }) {
                                         <option value='npuser'>NpUser</option>
                                     </Select>
                                 </FormControl>
-                                
+                                {reqData.role === 'npuser' && (
+                                    <Flex>
+                                        <FormControl>
+                                            <FormLabel display="flex">
+                                                <Text>
+                                                    Lab quota
+                                                </Text>
+                                                <Spacer />
+                                                <Checkbox value={unlimitedQuota} onChange={(e) => setUnlimitedQuota(e.target.checked)} defaultChecked={unlimitedQuota}>
+                                                    Unlimited labs
+                                                </Checkbox>
+                                            </FormLabel>                                        
+                                            <NumberInput isDisabled={unlimitedQuota} value={reqData.labQuota != null ? reqData.labQuota : ''} onChange={changeHandler}>
+                                            <NumberInputField />
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper />
+                                                <NumberDecrementStepper />
+                                            </NumberInputStepper>
+                                            </NumberInput>
+                                        </FormControl>
+                                    </Flex> 
+                                )}
                             </Stack>
                     
                     </ModalBody>
