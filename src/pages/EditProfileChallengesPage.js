@@ -40,6 +40,7 @@ function EditProfileChallengesPage() {
     
 
     const [reqDataState, setReqDataState] = useState({
+        id:"",
         name: "",
         description:"",
         public:"",
@@ -58,6 +59,10 @@ function EditProfileChallengesPage() {
                 }));
                 console.log("tags for editing profile",initialExerciseTags)
             }
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["id"]: selectedProfile.id
+            }))
             setReqDataState(reqDataState =>({
                 ...reqDataState,
                 ["name"]: selectedProfile.name

@@ -196,11 +196,7 @@ function ProfileNameCard() {
         ):
         (<ViewProfileName/>)
         }
-        
-
-        
-
-        
+    
         </Box>
 
     

@@ -1,4 +1,4 @@
-import { Flex, Grid, GridItem, VStack, Text, StackDivider } from '@chakra-ui/react';
+import { Flex, Grid, GridItem, VStack, Text, StackDivider, Box } from '@chakra-ui/react';
 import React, { useEffect, useState } from "react";
 
 import AddProfileCard from '../components/challenges/AddProfileCard';
@@ -86,6 +86,8 @@ export default function ChallengesPage() {
             <Grid
             height="100%"
             width="100%"
+            minW="850px"
+            minH="850px"
             templateRows="repeat(24, 1fr)"
             templateColumns="repeat(24, 1fr)"
             gap={4}
@@ -93,20 +95,21 @@ export default function ChallengesPage() {
         >
             <GridItem rowSpan={24} colSpan={8} >
                 {/* <Flex direction="column" height="100%" bg={"#f7fafc"} > */}
-                <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px">
+                <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px" maxH="900px">
+                <Box>
                 <VStack
                 spacing="40px"
-                align='stretch'
-                >
+                align='stretch'>
                     <AddProfileCard/>
                     <ChallengeProfileSelectorCard/>
                     <DisplayCategoriesOrProfile/>
                 </VStack>
+                </Box>
                 </Flex>
             </GridItem>
-            <GridItem rowSpan={24} colStart={11} colSpan={13} >
+            <GridItem rowSpan={24} colStart={11} colSpan={13}>
                 {/* <Flex direction="column" height="100%" bg={"#f7fafc"} > */}
-                <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px">
+                <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px" maxH="900px">
                 <VStack
                 spacing="40px"
                 align='stretch'

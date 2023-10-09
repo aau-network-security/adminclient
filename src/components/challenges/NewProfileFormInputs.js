@@ -4,6 +4,7 @@ import {
     Flex,
     FormControl,
     FormLabel,
+    HStack,
     Icon,
     Input,
     InputGroup,
@@ -21,6 +22,7 @@ import React from "react";
 import ReactDatePicker from "react-datepicker";
 import { FaCalendar, FaRegQuestionCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
+import SelectedChallengesCard from "./SelectedChallengesCard";
 
 function NewProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
     
@@ -43,6 +45,7 @@ function NewProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
                     />
                 </InputGroup>
             </FormControl>
+           
             <FormControl marginBottom={7} isRequired>
                 <FormLabel fontSize="17px" color="aau.primary">
                     Profile Description (Max: 300)
@@ -54,7 +57,7 @@ function NewProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
                         as={FaRegQuestionCircle}
                         fontSize="13px"
                         data-tooltip-html={
-                            'Write a description for your profile."'
+                            'Write a description for your profile.'
                         }
                         data-tooltip-place="right"
                         data-tooltip-effect="solid"
@@ -71,11 +74,43 @@ function NewProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
                         borderColor="#edf3f8"
                         focusBorderColor="#c8dcea"
                         maxLength="300"
-                        height = "400px"
+                        height = "160px"
+                        resize={"none"}
                         onChange={(event) => changeHandler(event)}
                     />
                 </InputGroup>
             </FormControl>
+            
+            <FormControl marginBottom={2}>
+                <HStack spacing="3px">
+                    <FormLabel fontSize="17px" color="aau.primary">
+                       Publish:
+                        <Icon
+                        color="grey"
+                        position="relative"
+                        top="-5px"
+                        marginLeft={1}
+                        as={FaRegQuestionCircle}
+                        fontSize="13px"
+                        data-tooltip-html={
+                            'Check in order to publish profile for anyone to see.'
+                        }
+                        data-tooltip-place="right"
+                        data-tooltip-effect="solid"
+                        data-tooltip-id="tooltip-profile-public"
+                        data-tooltip-offset={15}
+                    />
+                    </FormLabel>
+                    
+                    <Checkbox 
+                        name="publish"
+                        onChange={(event) => changeHandler(event)}
+                    />
+                </HStack>
+            </FormControl>
+            <SelectedChallengesCard 
+            reqData={reqData} 
+            setReqDataState={setReqDataState}/>
         </Box>
     );
 }

@@ -15,7 +15,8 @@ const initialState = {
     profiles: [ ],
     selectedProfile: {},
     selectedExercises:[],
-    error: ''
+    error: '',
+    status:""
 }
 
 export const createProfile = createAsyncThunk('exercises/createprofiles', async (reqData, { rejectWithValue }) => {
