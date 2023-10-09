@@ -38,7 +38,7 @@ function NewProfileChallengesPage() {
     const [reqDataState, setReqDataState] = useState({
         name: "",
         description:"",
-        public:"",
+        public:false,
         exerciseTags: [],
     });
     

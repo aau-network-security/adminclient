@@ -16,7 +16,7 @@ import {
     } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSelectedExercises } from '../../features/profiles/profileSlice';
+import { clearSelectedProfile, fetchSelectedExercises } from '../../features/profiles/profileSlice';
 import { Tooltip } from "react-tooltip";
 import { FaRegQuestionCircle } from "react-icons/fa";
 
@@ -29,7 +29,7 @@ function CharacterLimitedText({ text, maxLength }) {
 
   
     return (
-      <Text  fontSize={"15px"} isTruncated={isTruncated} onClick={toggleTruncate}>
+      <Text  fontSize={"15px"} onClick={toggleTruncate}>
         {isTruncated ? text.slice(0, maxLength): text}
       </Text>
     );
@@ -39,13 +39,16 @@ function SelectedChallengesCard({reqData,setReqDataState}) {
     const selectedExercises = useSelector((state) => state.profile.selectedExercises);
     const dispatch = useDispatch();
     useEffect(() => {
-        if (reqData.exerciseTags.length > 0){ 
+        if (reqData.exerciseTags.length > 0){
+            console.log(reqData.exerciseTags)
             var reqObj = {
                 tags: reqData.exerciseTags
             }
             dispatch(fetchSelectedExercises(reqObj));
             // console.log("reqdata", reqData.exerciseTags)
             // console.log("selectedExercises",selectedExercises)
+    }else {
+        dispatch(clearSelectedProfile())
     }
     },[reqData])
     const [modalContent, setModalContent] = useState("");

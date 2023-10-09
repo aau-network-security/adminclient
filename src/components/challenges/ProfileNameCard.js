@@ -124,16 +124,21 @@ function ProfileNameCard() {
             }));
         }
 
+   
         var reqData = {
-            name: fieldValue,
-            description: reqDataState.description,
-            exerciseTags: reqDataState.exerciseTags,
-            public:false
+            id: selectedProfile.id,
+            profile: {
+                id:selectedProfile.id,
+                name: fieldValue,
+                description: reqDataState.description,
+                exerciseTags: reqDataState.exerciseTags,
+                public:selectedProfile.public,
+            }            
         };
         
         console.log("profilename",reqData.name)
 
-        if (reqData.name.length === 0) {
+        if (reqData.profile.name.length === 0) {
             toastIdRef.current = toast({
                 title: "Profile name cant be empty",
                 description: "Write a name in order to save.",

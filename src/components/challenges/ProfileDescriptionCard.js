@@ -122,15 +122,20 @@ function ProfileDescriptionCard() {
         }
 
         var reqData = {
-            name: reqDataState.name,
-            description: fieldValue,
-            exerciseTags: reqDataState.exerciseTags,
-            public:false
+            id: selectedProfile.id,
+            profile: {
+                id:selectedProfile.id,
+                name: reqDataState.name,
+                description: fieldValue,
+                exerciseTags: reqDataState.exerciseTags,
+                public:selectedProfile.public,
+            }            
         };
         
-        console.log("description",reqData.description)
+        console.log("description",reqData.profile.description)
+        console.log("reqData: ", reqData)
 
-        if (reqData.description.length === 0) {
+        if (reqData.profile.description.length === 0) {
             toastIdRef.current = toast({
                 title: "Profile description cant be empty",
                 description: "Write a description in order to save.",
