@@ -1,4 +1,18 @@
-import { Flex, Grid, GridItem, VStack, Text, StackDivider, Box } from '@chakra-ui/react';
+import { 
+    Flex, 
+    Grid, 
+    GridItem, 
+    VStack, 
+    Box,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalHeader,
+    ModalOverlay,
+    Center,
+
+} from '@chakra-ui/react';
 import React, { useEffect, useState } from "react";
 
 import AddProfileCard from '../components/challenges/AddProfileCard';
@@ -19,6 +33,7 @@ import ProfileNameCard from '../components/challenges/ProfileNameCard';
 import { fetchProfiles } from '../features/profiles/profileSlice';
 import ProfileEditButtons from '../components/challenges/ProfileEditButtons';
 import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
+import Logo from '../components/Logo';
 
 
 function DisplayCategoriesOrProfile(){
@@ -53,7 +68,11 @@ function ViewProfilesOrChallenges({  reqDataState,
             }else {
                 return (
                     <>
-                    <ProfileInfoCard/>
+                    <Flex justifyContent={"center"}>
+                        <Center marginTop={"300px"}>
+                            <Logo white="false" marginBottom={10}></Logo>
+                        </Center>
+                    </Flex>
                     </>
                 )
             }
@@ -76,6 +95,9 @@ export default function ChallengesPage() {
     const dispatch = useDispatch();
     
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
+    
+    const profiles = useSelector((state) => state.profile.profiles);
+
     const [reqDataState, setReqDataState] = useState({
         tag: "",
         exerciseTags: [],
@@ -88,12 +110,27 @@ export default function ChallengesPage() {
         dispatch(fetchProfiles());
     }, [dispatch]);
     
+    
+
+    const [modalContent, setModalContent] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const closeModal = () => setIsModalOpen(false);
+    const openModal = (content) => {
+        setModalTitle("content.name");
+        
+        setModalContent("content.description");
+        setIsModalOpen(true);
+    };
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {
             dispatch(fetchProfiles());
+            if (profiles.length <= 0){
+                openModal("test")
+            }
         }
+        
     }, [challengesOrProfile]);
-
   return (
             <Grid
             height="100%"
@@ -103,7 +140,6 @@ export default function ChallengesPage() {
             templateRows="repeat(24, 1fr)"
             templateColumns="repeat(24, 1fr)"
             gap={4}
-            
         >
             <GridItem rowSpan={24} colSpan={8} >
                 {/* <Flex direction="column" height="100%" bg={"#f7fafc"} > */}
@@ -132,6 +168,28 @@ export default function ChallengesPage() {
                 </VStack>
                 </Flex>
             </GridItem>
+            <Modal
+                onClose={closeModal}
+                isOpen={isModalOpen}
+                isCentered
+                width="100%"
+                
+                scrollBehavior="inside"
+                size="6xl"
+            >
+                <ModalOverlay />
+                <ModalContent
+                    // height="fit-content"
+                    // maxH="800px"
+                    // overflowY="auto"
+                >
+                    <ModalHeader></ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody marginBottom="20px">
+                    <ProfileInfoCard/>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </Grid>
   );
 }

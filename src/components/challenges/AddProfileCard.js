@@ -7,45 +7,48 @@ import { NavLink as ReactLink } from "react-router-dom";
 function AddProfileCard() {
   return (
         <Box
-            backgroundColor="white"
+            backgroundColor="aau.primary"
             
             height="85px"
             borderRadius="10px"
             className="container"
             padding="0"
         >
+            <Button
+                        backgroundColor="#211a52"
+                        _hover={{ backgroundColor: "#18123a" }}
+                        color="white"
+                        h="84px"
+                        w="100%"
+                        as={ReactLink}
+                        to={"/challenges/new"}
+                    >
             <HStack h="100%">
                 <Flex flexDir="row" w="80%">
+                
                     <Center w="100%">
                         <Icon
                             as={MdOutlinedFlag}
                             fontSize="30px"
-                            color="#211a52"
+                            color="white"
                         />
                         <Flex flexDir="column" marginLeft="20px">
-                            <Text fontWeight="bold">
+                            <Text fontWeight="bold" color="white">
                                 Create a profile
                             </Text>
-                            <Text>Create your challenge set.</Text>
+                            <Text color="white">Create your challenge set.</Text>
                         </Flex>
                     </Center>
+                    
                 </Flex>
 
                 <Flex flexDir="column" h="100%" w="20%">
-                    <Button
-                        backgroundColor="#211a52"
-                        _hover={{ backgroundColor: "#18123a" }}
-                        color="white"
-                        borderRadius="0px 10px 10px 0px"
-                        marginBottom="1px"
-                        h="100%"
-                        as={ReactLink}
-                        to={"/challenges/new"}
-                    >
+                <Center h="100%">
                         <Icon as={FiPlus} fontSize="40px" />
-                    </Button>
+                </Center>
                 </Flex>
             </HStack>
+            </Button>
         </Box>
   );
 }
