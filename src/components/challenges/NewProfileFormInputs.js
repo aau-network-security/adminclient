@@ -110,7 +110,8 @@ function NewProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
             </FormControl>
             <SelectedChallengesCard 
             reqData={reqData} 
-            setReqDataState={setReqDataState}/>
+            setReqDataState={setReqDataState}
+            mode="create"/>
         </Box>
     );
 }

@@ -21,7 +21,7 @@ import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
-import { createProfile } from "../features/profiles/profileSlice";
+import { createProfile, fetchProfiles, selectProfile } from "../features/profiles/profileSlice";
 import SelectedChallengesCard from "../components/challenges/SelectedChallengesCard";
 
 
@@ -29,7 +29,7 @@ function NewProfileChallengesPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const status = useSelector((state) => state.profile.status);
-
+    const profiles = useSelector((state) => state.profile.profiles);
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -101,7 +101,13 @@ function NewProfileChallengesPage() {
                 duration: 5000,
                 isClosable: true,
             });
+            
+            dispatch(fetchProfiles());
+            // var newProfile = profiles.filter(item => item.name === reqDataState.name);
+            // console.log("updated profile", newProfile[0])
+            // dispatch(selectProfile(newProfile[0]));
             navigate("/challenges")
+
         } catch (err) {
             console.log("got error saving profile", err);
             toastIdRef.current = toast({

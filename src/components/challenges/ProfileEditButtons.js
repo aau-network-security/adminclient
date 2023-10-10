@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { deleteProfile, fetchProfiles } from '../../features/profiles/profileSlice'
+import { clearSelectedProfile, deleteProfile, fetchProfiles } from '../../features/profiles/profileSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Flex, IconButton,useToast, } from '@chakra-ui/react';
 import { MdDelete } from 'react-icons/md';
@@ -19,12 +19,11 @@ function ProfileEditButtons() {
     const cancelRef = React.useRef()
 
     const [profileNameState, setProfileNameState] = useState(selectedProfile.name)
-
       
-    const doDeleteProfile = async (profileName) => {
-        let request = {
-            name: profileName.toLowerCase()
-        }
+
+    const doDeleteProfile = async (id) => {
+      
+        var request = id
         try {
             const response = await dispatch(deleteProfile(request)).unwrap()
             toastIdRef.current = toast({
@@ -35,6 +34,8 @@ function ProfileEditButtons() {
               isClosable: true,
             })
             dispatch(fetchProfiles())
+            dispatch(clearSelectedProfile())
+            
         } catch(err) {
             console.log("Got error deleting profile", err)
             toastIdRef.current = toast({
@@ -84,7 +85,7 @@ function ProfileEditButtons() {
             </Button>
     </Flex>
              <ProfileDialogDelete 
-                    profileName={profileNameState}
+                    profile={selectedProfile}
                     isOpen={isAlertOpen}
                     onClose={onAlertClose}
                     cancelRef={cancelRef}

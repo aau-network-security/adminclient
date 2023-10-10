@@ -35,9 +35,10 @@ function CharacterLimitedText({ text, maxLength }) {
     );
   }
 
-function SelectedChallengesCard({reqData,setReqDataState}) {
+function SelectedChallengesCard({reqData,setReqDataState, mode}) {
     const selectedExercises = useSelector((state) => state.profile.selectedExercises);
     const dispatch = useDispatch();
+
     useEffect(() => {
         if (reqData.exerciseTags.length > 0){
             console.log(reqData.exerciseTags)
@@ -47,10 +48,12 @@ function SelectedChallengesCard({reqData,setReqDataState}) {
             dispatch(fetchSelectedExercises(reqObj));
             // console.log("reqdata", reqData.exerciseTags)
             // console.log("selectedExercises",selectedExercises)
-    }else {
+    }else if (mode === "create") {
+        console.log("clearing in selected")
         dispatch(clearSelectedProfile())
     }
-    },[reqData])
+
+    },[reqData.exerciseTags])
     const [modalContent, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,13 +93,15 @@ function SelectedChallengesCard({reqData,setReqDataState}) {
             borderColor={"gray.200"}
             color="aau.primary"
             >
-                <HStack marginLeft={"5px"}>
+                <HStack marginLeft={"5px"} marginRight={"10px"}>
                 <CharacterLimitedText text={exercise.name} maxLength={20}/>
+                <Spacer/>
                 <Icon
                                         color="grey"
                                         position={"relative"}
-                                        top="-2px"
-                                        left="-4px"
+                                        // top="-2px"
+                                        // left="-4px"
+                                        
                                         as={FaRegQuestionCircle}
                                         fontSize="13px"
                                         cursor="pointer"

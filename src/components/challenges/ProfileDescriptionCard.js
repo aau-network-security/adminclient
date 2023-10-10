@@ -20,11 +20,11 @@ function ProfileDescriptionCard() {
     var initialExerciseTags = [] 
     const toast = useToast();
     const toastIdRef = React.useRef();
-    useEffect(() => {
-        if (profiles.length > 0) {
-            dispatch(selectProfile(profiles[0]));
-        }
-    }, [profiles]);
+    // useEffect(() => {
+    //     if (profiles.length > 0) {
+    //         dispatch(selectProfile(profiles[0]));
+    //     }
+    // }, [profiles]);
 
     // console.log("profiledescription: ", selectedProfile)
     
@@ -35,7 +35,7 @@ function ProfileDescriptionCard() {
         exerciseTags: [],
     });
 
-    const [fieldValue, setFieldValue] = useState(selectedProfile.description);
+    const [fieldValue, setFieldValue] = useState("");
     useEffect(() => {
        setFieldValue(selectedProfile.description)
        setReqDataState(reqDataState =>({
@@ -125,9 +125,9 @@ function ProfileDescriptionCard() {
             id: selectedProfile.id,
             profile: {
                 id:selectedProfile.id,
-                name: reqDataState.name,
+                name: selectedProfile.name,
                 description: fieldValue,
-                exerciseTags: reqDataState.exerciseTags,
+                exerciseTags: initialExerciseTags,
                 public:selectedProfile.public,
             }            
         };
@@ -136,6 +136,8 @@ function ProfileDescriptionCard() {
         console.log("reqData: ", reqData)
 
         if (reqData.profile.description.length === 0) {
+            setFieldValue(selectedProfile.description)
+            
             toastIdRef.current = toast({
                 title: "Profile description cant be empty",
                 description: "Write a description in order to save.",

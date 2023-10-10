@@ -47,29 +47,29 @@ function ProfileSelectorCard() {
         
     useEffect(() => {
         if (profiles.length > 0) {
-            dispatch(selectProfile(profiles[0]));
+            console.log("useeffect profileselector")
+            if (selectedProfile.name === undefined){
+                dispatch(selectProfile(profiles[0]));
+            }
+            console.log(selectedProfile)
         }else{
             dispatch(clearSelectedProfile());
         }
-    }, [profiles]);
+    }, [dispatch]);
 
 
    
     return (
         <>
-        {/* <Box
-            height="40px"
-            borderRadius="10px"
-            // className="container"
-            padding="0"
-        > */}
          <Grid
             templateColumns="repeat(6, 1fr)"
             gap={4}
             width="100%"
             // marginLeft="20px"
             height="inherit"
-            // maxH="700px"
+            maxH="650px"
+            overflowY="auto"
+            borderRadius="5px"
         >
             <GridItem
                 backgroundColor="#f7fafc"
@@ -79,6 +79,7 @@ function ProfileSelectorCard() {
                 borderRadius="5px"
                 overflowY="auto"
                 colSpan={6}
+                maxH="650px"
             >
         {Object.entries(profiles).map(([key, profile]) => (
             <Flex

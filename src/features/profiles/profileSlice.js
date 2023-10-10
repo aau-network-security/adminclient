@@ -75,7 +75,7 @@ export const fetchProfiles = createAsyncThunk('exercises/fetchprofiles', async (
 export const deleteProfile = createAsyncThunk('exercises/deleteprofile', async (reqData, { rejectWithValue }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        const response = await apiClient.delete('exercises/profiles/'+reqData.name)
+        const response = await apiClient.delete('exercises/profiles/'+reqData)
         
         return response.data
     }
@@ -125,6 +125,7 @@ const profileSlice = createSlice({
         clearSelectedProfile: (state) => {
             state.selectedProfile = {}
             state.selectedExercises = []
+            console.log("clearSelectedProfileCalled")
         },
         clearSelectedExercises: (state) => {
             state.selectedExercises = []

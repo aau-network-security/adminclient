@@ -18,6 +18,7 @@ import ProfileDescriptionCard from '../components/challenges/ProfileDescriptionC
 import ProfileNameCard from '../components/challenges/ProfileNameCard';
 import { fetchProfiles } from '../features/profiles/profileSlice';
 import ProfileEditButtons from '../components/challenges/ProfileEditButtons';
+import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
 
 
 function DisplayCategoriesOrProfile(){
@@ -38,15 +39,26 @@ function DisplayCategoriesOrProfile(){
 function ViewProfilesOrChallenges({  reqDataState,
     setReqDataState}){
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
+    const profiles = useSelector((state) => state.profile.profiles);
     if (challengesOrProfile === "profiles"){
-        return (
-            <>
-            <ProfileNameCard/>
-            <ProfileDescriptionCard/>
-            <ChallengesProfileCard reqData={reqDataState} setReqDataState={setReqDataState}/>
-            <ProfileEditButtons/>
-            </>
-        )
+            if (profiles.length > 0){
+                return (
+                    <>
+                    <ProfileNameCard/>
+                    <ProfileDescriptionCard/>
+                    <ChallengesProfileCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+                    <ProfileEditButtons/>
+                    </>
+                )
+            }else {
+                return (
+                    <>
+                    <ProfileInfoCard/>
+                    </>
+                )
+            }
+
+        
     } else if (challengesOrProfile === "category"){
         return (
             <>

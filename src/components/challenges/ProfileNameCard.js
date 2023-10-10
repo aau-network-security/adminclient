@@ -23,11 +23,11 @@ function ProfileNameCard() {
     var initialExerciseTags = [] 
     const toast = useToast();
     const toastIdRef = React.useRef();
-    useEffect(() => {
-        if (profiles.length > 0) {
-            dispatch(selectProfile(profiles[0]));
-        }
-    }, [profiles]);
+    // useEffect(() => {
+    //     if (profiles.length > 0) {
+    //         dispatch(selectProfile(profiles[0]));
+    //     }
+    // }, [profiles]);
 
     // console.log("profiledescription: ", selectedProfile)
     
@@ -38,16 +38,45 @@ function ProfileNameCard() {
         exerciseTags: [],
     });
 
-    const [fieldValue, setFieldValue] = useState(selectedProfile.name);
+    const [fieldValue, setFieldValue] = useState("");
     useEffect(() => {
        setFieldValue(selectedProfile.name)
        setReqDataState(reqDataState =>({
         ...reqDataState,
         ["name"]: selectedProfile.name
     }))
+    
     }, [selectedProfile]);
 
- 
+    useEffect(() => {
+        if (selectedProfile.exercises != null){
+            if (Object.keys(selectedProfile.exercises).length > 0){
+                initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
+                setReqDataState(reqDataState => ({
+                    ...reqDataState,
+                    exerciseTags: initialExerciseTags
+                    
+                }));
+                console.log("tags for editing profile",initialExerciseTags)
+            }
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["id"]: selectedProfile.id
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["name"]: selectedProfile.name
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["description"]: selectedProfile.description
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["public"]: selectedProfile.public
+            }))
+        }
+    }, [dispatch]);
 
     function EditableControls() {
         const {
@@ -136,9 +165,10 @@ function ProfileNameCard() {
             }            
         };
         
-        console.log("profilename",reqData.name)
+        console.log("profilename",reqData)
 
         if (reqData.profile.name.length === 0) {
+            setFieldValue(selectedProfile.name)
             toastIdRef.current = toast({
                 title: "Profile name cant be empty",
                 description: "Write a name in order to save.",

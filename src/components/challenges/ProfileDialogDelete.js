@@ -11,7 +11,7 @@ import {
 
 export default function ProfileDialogDelete(props) {
     const onClickDelete = () => {
-        props.deleteProfile(props.profileName)
+        props.deleteProfile(props.profile.id)
         props.onClose()
     }
     return (
@@ -28,7 +28,7 @@ export default function ProfileDialogDelete(props) {
               </AlertDialogHeader>
   
               <AlertDialogBody>
-                Are you sure you want to delete <b>{props.profileName}</b>? <br></br>
+                Are you sure you want to delete <b>{props.profile.name}</b>? <br></br>
                 You can't undo this action afterwards.
               </AlertDialogBody>
   
