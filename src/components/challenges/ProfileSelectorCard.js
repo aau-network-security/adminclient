@@ -53,7 +53,7 @@ function ProfileSelectorCard() {
             }
             console.log(selectedProfile)
         }else{
-            dispatch(clearSelectedProfile());
+             dispatch(clearSelectedProfile());
         }
     }, [dispatch]);
 
