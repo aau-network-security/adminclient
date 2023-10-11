@@ -47,7 +47,7 @@ function ProfileSelectorCard() {
         
     useEffect(() => {
         if (profiles.length > 0) {
-            console.log("useeffect profileselector")
+            // console.log("useeffect profileselector")
             if (selectedProfile.name === undefined){
                 dispatch(selectProfile(profiles[0]));
             }
@@ -88,7 +88,7 @@ function ProfileSelectorCard() {
                 height="50px"
                 padding="0 10px 0 10px"
                 alignItems="center"
-                // borderRadius="10px 10px 10px 10px"
+                
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
                     selectedProfile.name === profile.name
@@ -130,9 +130,9 @@ function ProfileSelectorCard() {
         ))}
         </GridItem>
         </Grid>
-        {/* </Box> */}
+        
         </>
-        // <Text> ChallengeSelectorCard</Text>
+        
         );
 }
 

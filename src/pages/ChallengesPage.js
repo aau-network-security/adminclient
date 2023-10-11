@@ -17,7 +17,7 @@ import React, { useEffect, useState } from "react";
 
 import AddProfileCard from '../components/challenges/AddProfileCard';
 import ChallengeProfileSelectorCard from '../components/challenges/ChallengeProfileSelectorCard';
-
+import { Tooltip } from "react-tooltip";
 import ProfileSelectorCard from '../components/challenges/ProfileSelectorCard';
 
 import ChallengesCard from '../components/challenges/ChallengesCard';
@@ -134,6 +134,17 @@ export default function ChallengesPage() {
             }
         }
     }, [profiles]);
+    useEffect(() => {
+        if (challengesOrProfile  === "profiles") {  
+            console.log("openmodal")
+            if (profiles.length === 0){
+                openModal("test")
+            } else {
+                console.log("closemodal")
+                setIsModalOpen(false);
+            }
+        }
+    }, [challengesOrProfile]);
   return (
             <Grid
             height="100%"
@@ -178,7 +189,7 @@ export default function ChallengesPage() {
                 width="100%"
                 
                 scrollBehavior="inside"
-                size="4xl"
+                size="5xl"
             >
                 <ModalOverlay />
                 <ModalContent
@@ -193,7 +204,9 @@ export default function ChallengesPage() {
                     </ModalBody>
                 </ModalContent>
             </Modal>
+            <Tooltip id="tooltip-create-profile" />
         </Grid>
+        
   );
 }
 
