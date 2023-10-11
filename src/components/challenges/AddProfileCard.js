@@ -8,7 +8,6 @@ function AddProfileCard() {
   return (
         <Box
             backgroundColor="aau.primary"
-            
             height="85px"
             borderRadius="10px"
             className="container"

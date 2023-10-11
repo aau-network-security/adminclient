@@ -34,6 +34,7 @@ import { fetchProfiles } from '../features/profiles/profileSlice';
 import ProfileEditButtons from '../components/challenges/ProfileEditButtons';
 import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
 import Logo from '../components/Logo';
+import { selectCategoryShow } from '../features/challenges/challengeSlice';
 
 
 function DisplayCategoriesOrProfile(){
@@ -115,7 +116,11 @@ export default function ChallengesPage() {
     const [modalContent, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const closeModal = () => setIsModalOpen(false);
+    const closeModal = () => {
+        dispatch(selectCategoryShow())
+        setIsModalOpen(false);
+    }
+
     const openModal = (content) => {
         setModalTitle("content.name");
         
@@ -125,7 +130,7 @@ export default function ChallengesPage() {
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {
             dispatch(fetchProfiles());
-            if (profiles.length <= 0){
+            if (profiles.length === 0){
                 openModal("test")
             }
         }
