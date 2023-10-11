@@ -2,7 +2,7 @@ import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, Inpu
 import React, { useEffect, useState } from 'react'
 import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
-import { fetchProfiles, selectProfile, setProfileName, updateProfile } from "../../features/profiles/profileSlice";
+import { clearSelectedProfile, fetchProfiles, selectProfile, setProfileName, updateProfile } from "../../features/profiles/profileSlice";
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -17,18 +17,10 @@ function ProfileNameCard() {
     );
 
 
-    if (profiles.length === 0) {
-        
-    } 
     var initialExerciseTags = [] 
     const toast = useToast();
     const toastIdRef = React.useRef();
-    // useEffect(() => {
-    //     if (profiles.length > 0) {
-    //         dispatch(selectProfile(profiles[0]));
-    //     }
-    // }, [profiles]);
-
+   
     // console.log("profiledescription: ", selectedProfile)
     
     const [reqDataState, setReqDataState] = useState({
@@ -76,7 +68,7 @@ function ProfileNameCard() {
                 ["public"]: selectedProfile.public
             }))
         }
-    }, [dispatch]);
+    }, [profiles]);
 
     function EditableControls() {
         const {

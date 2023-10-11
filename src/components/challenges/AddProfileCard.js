@@ -3,6 +3,7 @@ import React from "react";
 import { FiPlus } from "react-icons/fi";
 import { MdOutlinedFlag } from "react-icons/md";
 import { NavLink as ReactLink } from "react-router-dom";
+import { HiOutlinePuzzlePiece } from "react-icons/hi2";
 
 function AddProfileCard() {
   return (
@@ -18,6 +19,7 @@ function AddProfileCard() {
                     padding={0}
                     rounded={"10px"}
                     margin="0"
+                    boxShadow='md'
                     data-tooltip-html={
                         'Click here to create a new profile'
                     }
@@ -31,8 +33,8 @@ function AddProfileCard() {
                 
                     <Center w="100%">
                         <Icon
-                            as={MdOutlinedFlag}
-                            fontSize="30px"
+                            as={HiOutlinePuzzlePiece}
+                            fontSize="40px"
                             color="white"
                         />
                         <Flex flexDir="column" marginLeft="20px">

@@ -153,8 +153,8 @@ function EditProfileChallengesPage() {
             });
             dispatch(fetchProfiles());
             var updatedProfile = profiles.filter(item => item.id === reqDataState.id);
-            // console.log("updated profile", updatedProfile[0])
-            dispatch(fetchProfiles(updatedProfile[0]));
+            console.log("updated profile", updatedProfile[0])
+            dispatch(selectProfile(updatedProfile[0]));
             navigate("/challenges")
             
             
