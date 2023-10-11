@@ -55,7 +55,7 @@ function ProfileSelectorCard() {
         }else{
              dispatch(clearSelectedProfile());
         }
-    }, [dispatch]);
+    }, [profiles]);
 
 
    

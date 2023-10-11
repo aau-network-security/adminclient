@@ -113,8 +113,7 @@ export default function ChallengesPage() {
     
     
 
-    const [modalContent, setModalContent] = useState("");
-    const [modalTitle, setModalTitle] = useState("");
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const closeModal = () => {
         dispatch(selectCategoryShow())
@@ -122,20 +121,19 @@ export default function ChallengesPage() {
     }
 
     const openModal = (content) => {
-        setModalTitle("content.name");
-        
-        setModalContent("content.description");
         setIsModalOpen(true);
     };
     useEffect(() => {
-        if (challengesOrProfile  === "profiles") {
-            dispatch(fetchProfiles());
+        if (challengesOrProfile  === "profiles") {  
+            console.log("openmodal")
             if (profiles.length === 0){
                 openModal("test")
+            } else {
+                console.log("closemodal")
+                setIsModalOpen(false);
             }
         }
-        
-    }, [challengesOrProfile]);
+    }, [profiles]);
   return (
             <Grid
             height="100%"
@@ -180,7 +178,7 @@ export default function ChallengesPage() {
                 width="100%"
                 
                 scrollBehavior="inside"
-                size="6xl"
+                size="4xl"
             >
                 <ModalOverlay />
                 <ModalContent
@@ -190,7 +188,7 @@ export default function ChallengesPage() {
                 >
                     <ModalHeader></ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody marginBottom="20px">
+                        <ModalBody marginBottom="20px">
                     <ProfileInfoCard/>
                     </ModalBody>
                 </ModalContent>
