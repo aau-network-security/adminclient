@@ -37,8 +37,8 @@ function ProfileNameCard() {
         ...reqDataState,
         ["name"]: selectedProfile.name
     }))
-    
     }, [selectedProfile]);
+
 
     useEffect(() => {
         if (selectedProfile.exercises != null){
@@ -68,7 +68,7 @@ function ProfileNameCard() {
                 ["public"]: selectedProfile.public
             }))
         }
-    }, [profiles]);
+    }, [profiles,selectedProfile]);
 
     function EditableControls() {
         const {
@@ -124,7 +124,6 @@ function ProfileNameCard() {
         )
     }
     
-
     const handleSubmit = async (e) => {
         // e.preventDefault();
         setReqDataState(reqDataState =>({
@@ -181,7 +180,7 @@ function ProfileNameCard() {
                 isClosable: true,
             });
             dispatch(fetchProfiles())
-            // navigate("/challenges")
+            
         } catch (err) {
             console.log("got error updating profile name", err);
             toastIdRef.current = toast({
@@ -227,13 +226,14 @@ function ProfileNameCard() {
         borderColor="black"
         bg={"#f7fafc"}
         padding="0"
+        resize={"none"}
         >      
         
         <HStack h="100%" w="100%">
         
         <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 5px">
             <EditablePreview />
-            <EditableTextarea style={{ height: "50px" , padding:"5px"}}/>
+            <EditableTextarea style={{ height: "50px" , padding:"5px"} }/>
             {/* <Text fontSize="15px" > {selectedProfile.description}</Text> */}
         </Flex>
         {/* <Spacer /> */}

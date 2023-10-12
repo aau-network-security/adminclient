@@ -30,11 +30,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../features/exercises/exerciseSlice';
 import ProfileDescriptionCard from '../components/challenges/ProfileDescriptionCard';
 import ProfileNameCard from '../components/challenges/ProfileNameCard';
-import { fetchProfiles } from '../features/profiles/profileSlice';
+import { clearSelectedProfile, fetchProfiles, selectProfile } from '../features/profiles/profileSlice';
 import ProfileEditButtons from '../components/challenges/ProfileEditButtons';
 import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
 import Logo from '../components/Logo';
 import { selectCategoryShow } from '../features/challenges/challengeSlice';
+import { isEmpty } from 'lodash';
 
 
 function DisplayCategoriesOrProfile(){
@@ -98,7 +99,9 @@ export default function ChallengesPage() {
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
     
     const profiles = useSelector((state) => state.profile.profiles);
-
+    const selectedProfile = useSelector(
+        (state) => state.profile.selectedProfile
+    );
     const [reqDataState, setReqDataState] = useState({
         tag: "",
         exerciseTags: [],
@@ -125,19 +128,34 @@ export default function ChallengesPage() {
     };
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {  
-            console.log("openmodal")
             if (profiles.length === 0){
+                console.log("openmodal")
                 openModal("test")
-            } else {
-                console.log("closemodal")
-                setIsModalOpen(false);
-            }
-        }
+                dispatch(clearSelectedProfile())
+            } else if (isEmpty(selectedProfile)){
+                dispatch(selectProfile(profiles[0]))
+                setIsModalOpen(false)
+            }else {
+                var updatedProfile = profiles.filter(item => item.id === selectedProfile.id);
+                console.log(updatedProfile.length)
+                if (updatedProfile.length === 0){
+                        console.log("updated profile id is undefined")
+                        dispatch(selectProfile(profiles[0]));
+                } else if (updatedProfile[0] === selectedProfile) {
+                            dispatch(selectProfile(updatedProfile[0]))
+                }else {
+                            dispatch(selectProfile(updatedProfile[0]))
+                        }
+                setIsModalOpen(false)
+                // console.log("closemodal")
+            } 
+    }
     }, [profiles]);
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {  
-            console.log("openmodal")
+            
             if (profiles.length === 0){
+                console.log("openmodal")
                 openModal("test")
             } else {
                 console.log("closemodal")

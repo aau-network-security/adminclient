@@ -109,12 +109,6 @@ function EditProfileChallengesPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // var reqData = {
-        //     name: reqDataState.name,
-        //     description: reqDataState.description,
-        //     exerciseTags: reqDataState.exerciseTags,
-        //     public:false
-        // };
 
         var reqData = {
             id: reqDataState.id,
@@ -151,10 +145,10 @@ function EditProfileChallengesPage() {
                 duration: 5000,
                 isClosable: true,
             });
-            dispatch(fetchProfiles());
-            var updatedProfile = profiles.filter(item => item.id === reqDataState.id);
-            console.log("updated profile", updatedProfile[0])
-            dispatch(selectProfile(updatedProfile[0]));
+            // dispatch(fetchProfiles());
+            // var updatedProfile = profiles.filter(item => item.id === reqDataState.id);
+            // console.log("updated profile", updatedProfile[0])
+            // dispatch(selectProfile(updatedProfile[0]));
             navigate("/challenges")
             
             

@@ -102,7 +102,7 @@ function NewProfileChallengesPage() {
                 isClosable: true,
             });
             
-            dispatch(fetchProfiles());
+            // dispatch(fetchProfiles());
             // var newProfile = profiles.filter(item => item.name === reqDataState.name);
             // console.log("updated profile", newProfile[0])
             // dispatch(selectProfile(newProfile[0]));

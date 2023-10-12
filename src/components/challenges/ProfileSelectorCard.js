@@ -28,6 +28,7 @@ import {
 import { clearSelectedProfile, selectProfile } from "../../features/profiles/profileSlice";
 import { Tooltip } from "react-tooltip";
 import { IoIosWarning } from "react-icons/io";
+import { isEmpty } from "lodash";
 
 
 
@@ -48,16 +49,25 @@ function ProfileSelectorCard() {
     useEffect(() => {
         if (profiles.length > 0) {
             // console.log("useeffect profileselector")
-            if (selectedProfile.name === undefined){
+            if (selectedProfile.id === undefined){
                 dispatch(selectProfile(profiles[0]));
             }
-            console.log(selectedProfile)
+            console.log("selected profile profile selector",selectedProfile)
         }else{
-             dispatch(clearSelectedProfile());
+            //  dispatch(clearSelectedProfile());
         }
-    }, [profiles]);
+    }, [profiles,selectedProfile]);
 
-
+    // if (selectedProfile.id === undefined){
+    //     dispatch(selectProfile(profiles[0]));
+    // }
+    let userDetails = {
+        // name: "John Doe",
+        // username: "jonnydoe",
+        // age: 14
+      };
+      
+      console.log("test object",isEmpty(userDetails))
    
     return (
         <>
@@ -91,12 +101,12 @@ function ProfileSelectorCard() {
                 
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
-                    selectedProfile.name === profile.name
+                    selectedProfile.id === profile.id
                         ? "#211a52"
                         : "#f7fafc"
                 }
                 color={
-                    selectedProfile.name === profile.name
+                    selectedProfile.id === profile.id
                         ? "#fff"
                         : "#211a52"
                 }
