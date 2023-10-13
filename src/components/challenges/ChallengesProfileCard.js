@@ -137,7 +137,7 @@ const openModal = (content) => {
                                 key={key}
                                 width="100%"
                                 height="50px"
-                                padding="0 10px 0 10px"
+                                padding="0 20px 0 20px"
                                 alignItems="center"
                             >
                                 <Flex width="100%" marginRight="30px">

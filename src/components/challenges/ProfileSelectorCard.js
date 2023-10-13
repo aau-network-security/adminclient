@@ -28,47 +28,17 @@ import {
 import { clearSelectedProfile, selectProfile } from "../../features/profiles/profileSlice";
 import { Tooltip } from "react-tooltip";
 import { IoIosWarning } from "react-icons/io";
-import { isEmpty } from "lodash";
-
-
-
-
-
 
 
 
 function ProfileSelectorCard() {
     const dispatch = useDispatch();
-
     const profiles = useSelector((state) => state.profile.profiles);
     
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
-        
-    useEffect(() => {
-        if (profiles.length > 0) {
-            // console.log("useeffect profileselector")
-            if (selectedProfile.id === undefined){
-                dispatch(selectProfile(profiles[0]));
-            }
-            console.log("selected profile profile selector",selectedProfile)
-        }else{
-            //  dispatch(clearSelectedProfile());
-        }
-    }, [profiles,selectedProfile]);
-
-    // if (selectedProfile.id === undefined){
-    //     dispatch(selectProfile(profiles[0]));
-    // }
-    let userDetails = {
-        // name: "John Doe",
-        // username: "jonnydoe",
-        // age: 14
-      };
-      
-      console.log("test object",isEmpty(userDetails))
-   
+  
     return (
         <>
          <Grid

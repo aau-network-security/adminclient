@@ -36,6 +36,7 @@ import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
 import Logo from '../components/Logo';
 import { selectCategoryShow } from '../features/challenges/challengeSlice';
 import { isEmpty } from 'lodash';
+import ProfilePublishedCard from '../components/challenges/ProfilePublishedCard';
 
 
 function DisplayCategoriesOrProfile(){
@@ -61,10 +62,19 @@ function ViewProfilesOrChallenges({  reqDataState,
             if (profiles.length > 0){
                 return (
                     <>
-                    <ProfileNameCard/>
-                    <ProfileDescriptionCard/>
-                    <ChallengesProfileCard reqData={reqDataState} setReqDataState={setReqDataState}/>
-                    <ProfileEditButtons/>
+                    <Flex direction="column" height="100%" bg={"white"} padding={"40px 0px 0px 0px"} borderRadius="10px" maxH="900px" className="container">
+                        <VStack
+                        spacing="40px"
+                        align='stretch'
+                        >
+                            <ProfileNameCard/>
+                            <ProfileDescriptionCard/>
+                            <ChallengesProfileCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+                            <ProfileEditButtons/>
+                    
+                        </VStack>
+                    </Flex>
+                   
                     </>
                 )
             }else {
@@ -83,9 +93,15 @@ function ViewProfilesOrChallenges({  reqDataState,
     } else if (challengesOrProfile === "category"){
         return (
             <>
-            <SearchBarCard/>
-            <ChallengesCard reqData={reqDataState} setReqDataState={setReqDataState}/>
-        
+             <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px" maxH="900px" className="container">
+                <VStack
+                    spacing="40px"
+                    align='stretch'
+                    >
+                    <SearchBarCard/>
+                    <ChallengesCard reqData={reqDataState} setReqDataState={setReqDataState}/>
+                </VStack>
+            </Flex>
             </>
         )
     }
@@ -126,10 +142,11 @@ export default function ChallengesPage() {
     const openModal = (content) => {
         setIsModalOpen(true);
     };
+
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {  
             if (profiles.length === 0){
-                console.log("openmodal")
+                // console.log("openmodal")
                 openModal("test")
                 dispatch(clearSelectedProfile())
             } else if (isEmpty(selectedProfile)){
@@ -147,10 +164,9 @@ export default function ChallengesPage() {
                             dispatch(selectProfile(updatedProfile[0]))
                         }
                 setIsModalOpen(false)
-                // console.log("closemodal")
             } 
     }
-    }, [profiles]);
+    }, [challengesOrProfile,profiles,selectProfile]);
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {  
             
@@ -188,17 +204,14 @@ export default function ChallengesPage() {
                 </Flex>
             </GridItem>
             <GridItem rowSpan={24} colStart={11} colSpan={13}>
-                {/* <Flex direction="column" height="100%" bg={"#f7fafc"} > */}
-                <Flex direction="column" height="100%" bg={"white"} padding={5} borderRadius="10px" maxH="900px" className="container">
-                <VStack
-                spacing="40px"
-                align='stretch'
-                >
+                
+                
+                
                 <ViewProfilesOrChallenges reqDataState={reqDataState}
                                     setReqDataState={setReqDataState}/>
                 
-                </VStack>
-                </Flex>
+               
+                
             </GridItem>
             <Modal
                 onClose={closeModal}
@@ -223,6 +236,8 @@ export default function ChallengesPage() {
                 </ModalContent>
             </Modal>
             <Tooltip id="tooltip-create-profile" />
+            <Tooltip id="tooltip-private-profile" />
+            
         </Grid>
         
   );

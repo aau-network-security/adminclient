@@ -4,6 +4,7 @@ import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
 import { clearSelectedProfile, fetchProfiles, selectProfile, setProfileName, updateProfile } from "../../features/profiles/profileSlice";
 import { useDispatch, useSelector } from 'react-redux';
+import ProfilePublishedCard from './ProfilePublishedCard';
 
 
 
@@ -210,9 +211,14 @@ function ProfileNameCard() {
 
 
     return  (
-    <>  
+    <>
+    <Flex h="100%" w="100%" padding="5px 20px 10px 20px" bg={"#f7fafc"}>
+        <Text fontSize={"30px"}> {selectedProfile.name} </Text>
+        <Spacer/>
+        <ProfilePublishedCard/>
+    </Flex>  
    
-    <Editable
+    {/* <Editable
         height="inherit"
         fontSize={"30px"}
         // defaultValue={selectedProfile.description}
@@ -234,15 +240,15 @@ function ProfileNameCard() {
         <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 5px">
             <EditablePreview />
             <EditableTextarea style={{ height: "50px" , padding:"5px"} }/>
-            {/* <Text fontSize="15px" > {selectedProfile.description}</Text> */}
+      
         </Flex>
-        {/* <Spacer /> */}
+      
         
         <EditableControls style={{ height: "50px" }}/>
    
         </HStack>
         
-        </Editable>
+        </Editable> */}
         
     </>
   
