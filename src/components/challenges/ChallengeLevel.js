@@ -10,9 +10,6 @@ import {
 // Function for sorting difficulity levels for a challenge. It returns a set of html dots for rendering 
 function ChallengeLevel(props) {
 
-    // let sum = 0
-    // let N = 0
-
     let level = {
         veryEasy:false,
         easy:false,
@@ -20,7 +17,7 @@ function ChallengeLevel(props) {
         hard:false,
         veryHard:false 
     }
-    // setting level dict based on points from dev sheet: 
+    // Setting Difficulity level dict based on points from dev sheet: 
     function setLevel(points){
         if (points < 10){
             level.veryEasy = true
@@ -34,46 +31,33 @@ function ChallengeLevel(props) {
             level.veryHard = true
         }
     }
-    // console.log("exName: ", props.exercise.name)
+    
     try {
         if (props.exercise.instance.length >= 1){
             for (let i in props.exercise.instance){
-                // console.log("props.execercise.instance", props.exercise.instance); 
-                // console.log("i: ", i)
-                // console.log("props.exercise.instance[i].children", props.exercise.instance[i].children)
-                
+            
                 // check if children object exists
                 if (props.exercise.instance[i].children != undefined){
+                    // check if more than 1 child exists
                     if (props.exercise.instance[i].children.length > 1){
-                        // console.log("props.exercise.instance[i].children", props.exercise.instance[i].children)
+                        // Take a look at points for each of the flags
                         for (let j in props.exercise.instance[i].children){
-                            // console.log("J", j)
-                            // sum += props.exercise.instance[i].children[j].points
                             setLevel(props.exercise.instance[i].children[j].points)
-                            // N = N + 1
+                            
                         }
                     }else{
-                        // sum += props.exercise.instance[i].children[0].points 
                         setLevel(props.exercise.instance[i].children[0].points)
-                        // N = N + 1
                     }
             
                 }
             }
-                // let avgPoints = sum/N
-            // console.log("sum=",sum)
-            // console.log("avg=",avgPoints)
         }
         
     } catch (error) {
         console.error();
         console.log("Problem occured with: ", props.exercise)
     }
-    // console.log("exercise.instance.length ",props.exercise.instance.length )
-    
-    // console.log("N: ", N)
-    // console.log("exercise instance",props.exercise.instance)
-    // console.log(level)
+  
     return (
         <>
         <HStack marginRight={5} spacing={2} >
