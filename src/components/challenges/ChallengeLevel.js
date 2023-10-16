@@ -7,11 +7,11 @@ import {
   } from "@chakra-ui/react";
 
 
-
+// Function for sorting difficulity levels for a challenge. It returns a set of html dots for rendering 
 function ChallengeLevel(props) {
 
-    let sum = 0
-    let N = 0
+    // let sum = 0
+    // let N = 0
 
     let level = {
         veryEasy:false,
@@ -34,7 +34,7 @@ function ChallengeLevel(props) {
             level.veryHard = true
         }
     }
-    console.log("exName: ", props.exercise.name)
+    // console.log("exName: ", props.exercise.name)
     try {
         if (props.exercise.instance.length >= 1){
             for (let i in props.exercise.instance){
@@ -48,19 +48,19 @@ function ChallengeLevel(props) {
                         // console.log("props.exercise.instance[i].children", props.exercise.instance[i].children)
                         for (let j in props.exercise.instance[i].children){
                             // console.log("J", j)
-                            sum += props.exercise.instance[i].children[j].points
+                            // sum += props.exercise.instance[i].children[j].points
                             setLevel(props.exercise.instance[i].children[j].points)
-                            N = N + 1
+                            // N = N + 1
                         }
                     }else{
-                        sum += props.exercise.instance[i].children[0].points 
+                        // sum += props.exercise.instance[i].children[0].points 
                         setLevel(props.exercise.instance[i].children[0].points)
-                        N = N + 1
+                        // N = N + 1
                     }
             
                 }
             }
-                let avgPoints = sum/N
+                // let avgPoints = sum/N
             // console.log("sum=",sum)
             // console.log("avg=",avgPoints)
         }
