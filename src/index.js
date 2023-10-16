@@ -5,7 +5,7 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import store from './app/store'
 import 'react-tooltip/dist/react-tooltip.css'
 import 'react-datepicker/dist/react-datepicker.css'
-import './github-markdown.css'
+import './github-markdown-light.css'
 
 import App from './App';
 import './App.css'
