@@ -60,8 +60,8 @@ function ChallengeLevel(props) {
         console.log("avg=",avgPoints)
     }
     // console.log("N: ", N)
-    console.log("exercise instance",props.exercise.instance)
-    console.log(level)
+    // console.log("exercise instance",props.exercise.instance)
+    // console.log(level)
     return (
         <>
         <HStack marginRight={5} spacing={2} >
