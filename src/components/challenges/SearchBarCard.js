@@ -1,12 +1,11 @@
 import { Icon, Input, InputGroup, InputLeftElement, InputRightAddon } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { MdOutlineSavedSearch, MdOutlinedFlag, MdSearch } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchParam } from '../../features/challenges/challengeSlice';
 
 function SearchBarCard() {
   const dispatch = useDispatch();
-
   const changeHandler = (e) => {
     var lowerCase = e.target.value.toLowerCase();
     dispatch(setSearchParam(lowerCase))

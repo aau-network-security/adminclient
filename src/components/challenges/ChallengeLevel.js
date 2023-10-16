@@ -22,43 +22,55 @@ function ChallengeLevel(props) {
     }
     // setting level dict based on points from dev sheet: 
     function setLevel(points){
-        if (points < 9){
+        if (points < 10){
             level.veryEasy = true
-        } else if (points > 9 && points < 25){
+        } else if (points >= 10 && points < 25){
             level.easy = true
-        } else if (points > 25 && points < 41){
+        } else if (points >= 25 && points < 40){
             level.medium = true
-        } else if (points > 41 && points < 60){
+        } else if (points >= 40 && points < 60){
             level.hard = true
-        } else if (points > 60){
+        } else if (points >= 60){
             level.veryHard = true
         }
     }
     console.log("exName: ", props.exercise.name)
-    // console.log("exercise.instance.length ",props.exercise.instance.length )
-    if (props.exercise.instance.length >= 1){
-        for (let i in props.exercise.instance){
-            // console.log("props.execercise.instance", props.exercise.instance); 
-            // console.log("i: ", i)
-            // console.log("props.exercise.instance[i].children", props.exercise.instance[i].children)
-            if (props.exercise.instance[i].children.length > 1){
+    try {
+        if (props.exercise.instance.length >= 1){
+            for (let i in props.exercise.instance){
+                // console.log("props.execercise.instance", props.exercise.instance); 
+                // console.log("i: ", i)
                 // console.log("props.exercise.instance[i].children", props.exercise.instance[i].children)
-                for (let j in props.exercise.instance[i].children){
-                    console.log("J", j)
-                    sum += props.exercise.instance[i].children[j].points
-                    setLevel(props.exercise.instance[i].children[j].points)
-                    N = N + 1
+                
+                // check if children object exists
+                if (props.exercise.instance[i].children != undefined){
+                    if (props.exercise.instance[i].children.length > 1){
+                        // console.log("props.exercise.instance[i].children", props.exercise.instance[i].children)
+                        for (let j in props.exercise.instance[i].children){
+                            // console.log("J", j)
+                            sum += props.exercise.instance[i].children[j].points
+                            setLevel(props.exercise.instance[i].children[j].points)
+                            N = N + 1
+                        }
+                    }else{
+                        sum += props.exercise.instance[i].children[0].points 
+                        setLevel(props.exercise.instance[i].children[0].points)
+                        N = N + 1
+                    }
+            
                 }
-            }else{
-                sum += props.exercise.instance[i].children[0].points 
-                setLevel(props.exercise.instance[i].children[0].points)
-                N = N + 1
             }
+                let avgPoints = sum/N
+            // console.log("sum=",sum)
+            // console.log("avg=",avgPoints)
         }
-        let avgPoints = sum/N
-        console.log("sum=",sum)
-        console.log("avg=",avgPoints)
+        
+    } catch (error) {
+        console.error();
+        console.log("Problem occured with: ", props.exercise)
     }
+    // console.log("exercise.instance.length ",props.exercise.instance.length )
+    
     // console.log("N: ", N)
     // console.log("exercise instance",props.exercise.instance)
     // console.log(level)
