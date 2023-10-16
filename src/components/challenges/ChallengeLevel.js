@@ -87,10 +87,10 @@ function ChallengeLevel(props) {
                 data-tooltip-html={
                     "Very easy challenge"
                 }
-                data-tooltip-place="right"
+                data-tooltip-place="top"
                 data-tooltip-effect="solid"
                 data-tooltip-id="tooltip-exercise-difficulity"
-                data-tooltip-offset={3}
+                data-tooltip-offset={5}
             /> 
          } 
          {level.easy == true && 
@@ -106,7 +106,7 @@ function ChallengeLevel(props) {
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
                 data-tooltip-id="tooltip-exercise-difficulity"
-                data-tooltip-offset={3}
+                data-tooltip-offset={5}
             /> 
          }
          {level.medium == true && 
@@ -138,7 +138,7 @@ function ChallengeLevel(props) {
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
                 data-tooltip-id="tooltip-exercise-difficulity"
-                data-tooltip-offset={3}
+                data-tooltip-offset={5}
             /> 
          } 
          {level.veryHard == true && 
@@ -154,7 +154,7 @@ function ChallengeLevel(props) {
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
                 data-tooltip-id="tooltip-exercise-difficulity"
-                data-tooltip-offset={3}
+                data-tooltip-offset={5}
             /> 
          } 
          </HStack>

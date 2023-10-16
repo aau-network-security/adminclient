@@ -31,6 +31,7 @@ import { Tooltip } from "react-tooltip";
 
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
+import ChallengeLevel from "./ChallengeLevel";
 
 function ChallengesCard({
   reqData,
@@ -169,12 +170,14 @@ const changeSearchData = (text, exercises) => {
                                             data-tooltip-offset={3}
                                         />
                                     )}
+                                    <Spacer/>
+                                    <ChallengeLevel exercise={exercise}/>
                                     <Icon
                                         color="grey"
                                         position={"relative"}
                                         top="1px"
                                         as={FaRegQuestionCircle}
-                                        fontSize="13px"
+                                        fontSize="16px"
                                         cursor="pointer"
                                         onClick={() => openModal(exercise)}
                                         zIndex="999"

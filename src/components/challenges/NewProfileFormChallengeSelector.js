@@ -30,6 +30,7 @@ import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
 import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
+import ChallengeLevel from "./ChallengeLevel";
 
 
 function NewProfileFormChallengeSelector({
@@ -226,6 +227,8 @@ function NewProfileFormChallengeSelector({
                                             data-tooltip-offset={3}
                                         />
                                     )}
+                                    <Spacer/>
+                                    <ChallengeLevel exercise={exercise}/>
                                     <Icon
                                         color="grey"
                                         position={"relative"}

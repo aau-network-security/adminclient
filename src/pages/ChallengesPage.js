@@ -237,7 +237,7 @@ export default function ChallengesPage() {
             </Modal>
             <Tooltip id="tooltip-create-profile" />
             <Tooltip id="tooltip-private-profile" />
-            
+            <Tooltip style={{ zIndex: 999 }} id="tooltip-exercise-difficulity" />
         </Grid>
         
   );
