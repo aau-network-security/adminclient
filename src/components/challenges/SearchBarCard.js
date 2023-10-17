@@ -6,10 +6,13 @@ import { setSearchParam } from '../../features/challenges/challengeSlice';
 
 function SearchBarCard() {
   const dispatch = useDispatch();
+  dispatch(setSearchParam("")) //reset state when rerender. 
+  
   const changeHandler = (e) => {
     var lowerCase = e.target.value.toLowerCase();
     dispatch(setSearchParam(lowerCase))
   }
+
   
   return (
     <>
@@ -26,7 +29,6 @@ function SearchBarCard() {
           children={<Icon
             as={MdSearch}
             fontSize="30px"
-            
             color="#211a52"
         />}
         />
