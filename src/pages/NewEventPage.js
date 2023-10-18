@@ -2,6 +2,8 @@ import {
     Box,
     Button,
     Flex,
+    Grid,
+    GridItem,
     Text,
     useToast,
 } from "@chakra-ui/react";
@@ -15,6 +17,48 @@ import { NavLink as ReactLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
+import NewEventFormProfileSelector from "../components/events/NewEventFormProfileSelector";
+import ChallengeProfileSelectorCard from "../components/events/ChallengeProfileSelectorCard";
+
+
+function DisplayChallengesOrProfiles({
+    changeHandler,
+    reqDataState,
+    setReqDataState
+}){
+    const challengesOrProfile = useSelector((state) => state.challenge.selector);
+    if (challengesOrProfile === "profiles"){
+        return (
+           <NewEventFormProfileSelector 
+                changeHandler={changeHandler}
+                reqData={reqDataState}
+                setReqDataState={setReqDataState}/>
+        )
+    } else if (challengesOrProfile === "category"){
+        return (
+            <>
+             
+                {/* <ChallengeProfileSelectorCard/> */}
+             
+             <NewEventFormChallengeSelector
+                            changeHandler={changeHandler}
+                            reqData={reqDataState}
+                            setReqDataState={setReqDataState}
+                        />
+        
+            
+            
+
+            
+            
+            
+            </>
+        )
+        // return (<ChallengesCard/>)
+    }
+}
+
+
 
 function NewEventPage() {
     const dispatch = useDispatch();
@@ -90,7 +134,7 @@ function NewEventPage() {
             dynamicSolveThreshold: reqDataState.dynamicSolveThreshold,
             secretKey: reqDataState.secretKey,
         };
-
+        console.log(reqData)
         // Convert type to number that daemon understands
 
 
@@ -155,9 +199,28 @@ function NewEventPage() {
                     </Flex>
                 ) : (
                     <>
-                        <Text color="aau.primary" fontSize="30px" marginBottom={10}>
-                            Create new {searchParams.get("type")} event
-                        </Text>
+                        
+                        <Flex flexDir="row">
+                            <Flex w="40%">
+                                <Text color="aau.primary" fontSize="30px" marginBottom={10}>
+                                    Create new {searchParams.get("type")} event
+                                </Text>
+                            </Flex>    
+                            <Flex w="19%" marginLeft="10px" marginTop="20px">
+                                <ChallengeProfileSelectorCard/>
+                            </Flex>
+
+                        </Flex>
+                        
+                        
+                        
+                        
+                        
+                        
+
+                        
+
+                        
                         <form
                             onSubmit={handleSubmit}
                             style={{ height: "100%" }}
@@ -175,11 +238,17 @@ function NewEventPage() {
                                     reqData={reqDataState}
                                     setReqDataState={setReqDataState}
                                 />
-                                <NewEventFormChallengeSelector
+
+                                <DisplayChallengesOrProfiles
+                                    changeHandler={changeHandler}
+                                    reqDataState={reqDataState}
+                                    setReqDataState={setReqDataState}
+                                />
+                                {/* <NewEventFormChallengeSelector
                                     changeHandler={changeHandler}
                                     reqData={reqDataState}
                                     setReqDataState={setReqDataState}
-                                />
+                                /> */}
                             </Flex>
                             <Flex
                                 width={"100%"}
@@ -204,10 +273,12 @@ function NewEventPage() {
                                 </Button>
                             </Flex>
                         </form>
+                        
                     </>
                 )}
             </Box>
             <Tooltip style={{ zIndex: 999 }} id="tooltip-exercise-difficulity" />
+            <Tooltip id="tooltip-private-profile" />
             <Tooltip id="tooltip-event-tag" />
             <Tooltip id="tooltip-secret-key" />
             <Tooltip id="tooltip-max-labs" />

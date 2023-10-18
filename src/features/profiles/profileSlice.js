@@ -117,7 +117,7 @@ const profileSlice = createSlice({
     reducers: {
         selectProfile: (state, action) => {
             state.selectedProfile = action.payload;
-            // console.log(state.selectedProfile)
+            // console.log("selected profile: ",state.selectedProfile)
         },
         setProfileName: (state, action) => {
             state.selectedProfile.name = action.payload;
@@ -125,7 +125,7 @@ const profileSlice = createSlice({
         clearSelectedProfile: (state) => {
             state.selectedProfile = {}
             state.selectedExercises = []
-            console.log("clearSelectedProfileCalled")
+            // console.log("clearSelectedProfileCalled")
         },
         clearSelectedExercises: (state) => {
             state.selectedExercises = []
@@ -159,12 +159,12 @@ const profileSlice = createSlice({
         // Fetch profiles
         builder.addCase(fetchProfiles.pending, (state) => {
             state.fetchingProfiles = true
-            console.log("fetching profiles")
+            // console.log("fetching profiles")
         })
         builder.addCase(fetchProfiles.fulfilled, (state, action) => {
             state.fetchingProfiles = false
             state.profiles = action.payload.profiles
-            console.log("profiles", state.profiles)
+            // console.log("profiles", state.profiles)
             state.error = ''
         })
         builder.addCase(fetchProfiles.rejected, (state, action) => {
@@ -176,7 +176,7 @@ const profileSlice = createSlice({
          // Delete profile
          builder.addCase(deleteProfile.pending, (state, action) => {
             state.status = 'deletingProfile'
-            console.log("deleting profile")
+            // console.log("deleting profile")
         })
         builder.addCase(deleteProfile.fulfilled, (state, action) => {
             state.status = ''
