@@ -28,6 +28,7 @@ import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
+import ChallengeLevel from "../challenges/ChallengeLevel";
 
 function NewEventFormChallengeSelector({
     reqData,
@@ -200,6 +201,8 @@ function NewEventFormChallengeSelector({
                                         onClick={() => openModal(exercise)}
                                         zIndex="999"
                                     />
+                                    <Spacer/>
+                                    <ChallengeLevel exercise={exercise}/>
                                 </Flex>
 
                                 <FormControl width="50px">

@@ -138,6 +138,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                     </FormLabel>
                     <InputGroup display="block">
                         <NumberInput
+                            min={1}
                             backgroundColor="#f7fafc"
                             borderColor="#edf3f8"
                             focusBorderColor="#c8dcea"

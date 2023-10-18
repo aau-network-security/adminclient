@@ -207,6 +207,7 @@ function NewEventPage() {
                     </>
                 )}
             </Box>
+            <Tooltip style={{ zIndex: 999 }} id="tooltip-exercise-difficulity" />
             <Tooltip id="tooltip-event-tag" />
             <Tooltip id="tooltip-secret-key" />
             <Tooltip id="tooltip-max-labs" />
