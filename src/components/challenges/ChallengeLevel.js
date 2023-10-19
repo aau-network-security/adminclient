@@ -64,7 +64,7 @@ function ChallengeLevel(props) {
          {level.veryEasy == true && 
         //    <Text color="green.200"> {sum}</Text> 
            <Icon
-                color="green.200"
+                color="green.400"
                 as={BsFillCircleFill}
                 fontSize="13px"
                 // marginRight="4px"
@@ -80,12 +80,12 @@ function ChallengeLevel(props) {
          {level.easy == true && 
         //    <Text color="green"> {sum}</Text>  
            <Icon
-                color="aau.green"
+                color="blue.400"
                 as={BsFillCircleFill}
                 fontSize="13px"
                 // marginRight="3px"
                 data-tooltip-html={
-                    "Easy Challenge "
+                    "Easy Challenge"
                 }
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
@@ -112,7 +112,7 @@ function ChallengeLevel(props) {
          {level.hard == true && 
         //    <Text color="orange"> {sum}</Text>  
            <Icon
-                color="aau.orange"
+                color="orange.400"
                 as={BsFillCircleFill}
                 fontSize="13px"
                 // marginRight="3px"
