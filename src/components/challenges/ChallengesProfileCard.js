@@ -113,7 +113,8 @@ const openModal = (content) => {
         width="100%"
         marginLeft="15px"
         height="100%"
-        maxH="700px"
+        maxH="400px"
+        
         
       >
             <GridItem

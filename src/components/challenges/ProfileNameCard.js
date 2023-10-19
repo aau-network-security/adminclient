@@ -16,7 +16,7 @@ function ProfileNameCard() {
 
     return  (
     <>
-    <Flex h="100%" w="100%" padding="5px 20px 10px 20px" bg={"#f7fafc"}>
+    <Flex h="60px" w="100%" padding="5px 20px 10px 20px" bg={"#f7fafc"}>
         <Text fontSize={"30px"}> {selectedProfile.name} </Text>
         <Spacer/>
         <ProfilePublishedCard/>

@@ -18,7 +18,7 @@ function ProfileDescriptionCard() {
 
     return  (
     <>     
-    <Flex flexDir="column" h="100%" w="100%" padding="5px 20px 10px 20px" bg={"#f7fafc"}>
+    <Flex flexDir="column" h="100%" w="100%" padding="5px 20px 10px 20px" bg={"#f7fafc"} maxH="150px" overflowY="auto">
         <Text whiteSpace="pre-line" >{selectedProfile.description}</Text>
     </Flex> 
     </>
