@@ -17,7 +17,7 @@ import {
     Spacer,
     Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,6 +29,7 @@ import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import ChallengeLevel from "../challenges/ChallengeLevel";
+import { cloneDeep, debounce } from "lodash";
 
 function NewEventFormChallengeSelector({
     reqData,
@@ -42,6 +43,7 @@ function NewEventFormChallengeSelector({
         (state) => state.exercise.selectedCategory
     );
     const exercises = useSelector((state) => state.exercise.exercises);
+    const [filteredExercises, setFilteredExercises] = useState("");
     const fetchingExercises = useSelector(
         (state) => state.exercise.fetchingExercises
     );
@@ -78,6 +80,36 @@ function NewEventFormChallengeSelector({
         }
         setIsModalOpen(true);
     };
+
+const searchValue = useSelector((state) => state.challenge.searchParam);
+
+const changeSearchData = (text, exercises) => { 
+    if (text === "") {
+        setFilteredExercises(cloneDeep(exercises));
+      }else {
+        setFilteredExercises(
+            cloneDeep(
+                exercises.filter((el) => {
+                return (el.name.toLowerCase().indexOf(text.toLowerCase()) > -1 || el.organizer_description.toLowerCase().indexOf(text.toLowerCase()) > -1);
+            })
+            )
+        )
+    }
+  };
+  
+  const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
+
+      useEffect(() => {
+        debounceLoadData(searchValue, exercises);
+      }, [searchValue, exercises]);
+
+      useEffect(() => {
+        setFilteredExercises(exercises)
+        console.log(filteredExercises)}, [exercises])
+
+
+
+
     return (
         <Grid
             templateColumns="repeat(6, 1fr)"
@@ -164,7 +196,7 @@ function NewEventFormChallengeSelector({
                         }
                         name="exercises"
                     >
-                        {Object.entries(exercises).map(([key, exercise]) => (
+                        {Object.entries(filteredExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
                                 width="100%"

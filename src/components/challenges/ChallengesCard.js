@@ -82,6 +82,7 @@ const openModal = (content) => {
   }
   setIsModalOpen(true);
 };
+
 const searchValue = useSelector((state) => state.challenge.searchParam);
 
 const changeSearchData = (text, exercises) => { 
@@ -91,7 +92,7 @@ const changeSearchData = (text, exercises) => {
         setFilteredExercises(
             cloneDeep(
                 exercises.filter((el) => {
-                return el.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
+                return (el.name.toLowerCase().indexOf(text.toLowerCase()) > -1 || el.organizer_description.toLowerCase().indexOf(text.toLowerCase()) > -1);
             })
             )
         )

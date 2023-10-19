@@ -19,6 +19,7 @@ import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
 import NewEventFormProfileSelector from "../components/events/NewEventFormProfileSelector";
 import ChallengeProfileSelectorCard from "../components/events/ChallengeProfileSelectorCard";
+import SearchBarCard from "../components/challenges/SearchBarCard";
 
 
 function DisplayChallengesOrProfiles({
@@ -64,7 +65,7 @@ function NewEventPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const status = useSelector((state) => state.event.status);
-
+    const challengesOrProfile = useSelector((state) => state.challenge.selector);
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -209,6 +210,17 @@ function NewEventPage() {
                             <Flex w="19%" marginLeft="10px" marginTop="20px">
                                 <ChallengeProfileSelectorCard/>
                             </Flex>
+                            {challengesOrProfile === "category" ?( 
+                            <Flex w="40%" margin="20px 0 0 0px" padding="0px 0px 25px 20px">
+                                <SearchBarCard/>
+                            </Flex>
+                            ):(
+                                <></>
+                            )
+
+                            
+                            }
+                            
 
                         </Flex>
                         
