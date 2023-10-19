@@ -36,7 +36,7 @@ import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
 import Logo from '../components/Logo';
 import { selectCategoryShow } from '../features/challenges/challengeSlice';
 import { isEmpty } from 'lodash';
-import ProfilePublishedCard from '../components/challenges/ProfilePublishedCard';
+
 
 
 function DisplayCategoriesOrProfile(){
@@ -123,7 +123,7 @@ export default function ChallengesPage() {
         exerciseTags: [],
     });
     
-    const changeHandler = (e) => {}
+    
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -166,19 +166,19 @@ export default function ChallengesPage() {
                 setIsModalOpen(false)
             } 
     }
-    }, [challengesOrProfile,profiles,selectProfile]);
+    }, [challengesOrProfile,profiles,selectedProfile,dispatch]);
+
     useEffect(() => {
-        if (challengesOrProfile  === "profiles") {  
-            
+        if (challengesOrProfile  === "profiles") {     
             if (profiles.length === 0){
-                console.log("openmodal")
+                // console.log("openmodal")
                 openModal("test")
             } else {
-                console.log("closemodal")
+                // console.log("closemodal")
                 setIsModalOpen(false);
             }
         }
-    }, [challengesOrProfile]);
+    }, [challengesOrProfile,profiles]);
   return (
             <Grid
             height="100%"
