@@ -145,3 +145,9 @@ body{
             transform: rotate(359deg);
   }
 }
+@media (max-width: 1300px) {
+  /* Define the maximum width at which you want to hide the text */
+  .hide-text {
+  display: none;
+  }
+}

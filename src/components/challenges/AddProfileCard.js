@@ -1,13 +1,13 @@
-import { Box, Button, Center, Flex, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
+import { Button, Center, Flex, HStack, Icon, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
-import { MdOutlinedFlag } from "react-icons/md";
+
 import { NavLink as ReactLink } from "react-router-dom";
 import { HiOutlinePuzzlePiece } from "react-icons/hi2";
 
 function AddProfileCard() {
   return (
-     
+     <>
         <Button
                     backgroundColor="aau.primary"
                     _hover={{ backgroundColor: "#18123a" }}
@@ -16,7 +16,7 @@ function AddProfileCard() {
                     w="100%"
                     as={ReactLink}
                     to={"/challenges/new"}
-                    padding={0}
+                    padding="0px 20px 0px 20px"
                     rounded={"10px"}
                     margin="0"
                     boxShadow='md'
@@ -29,7 +29,7 @@ function AddProfileCard() {
                     data-tooltip-offset={15}
                 >
             <HStack h="100%" w="100%">
-                <Flex flexDir="row" w="80%">
+
                 
                     <Center w="100%">
                         <Icon
@@ -37,23 +37,25 @@ function AddProfileCard() {
                             fontSize="40px"
                             color="white"
                         />
-                        <Flex flexDir="column" marginLeft="20px">
-                            <Text fontWeight="bold" color="white">
+                        <Spacer/>
+                        <Flex flexDir="column" >
+                            <Text fontWeight="bold" color="white" className="hide-text">
                                 Create a profile
                             </Text>
-                            <Text color="white">Create your challenge set.</Text>
+                            <Text color="white" className="hide-text">Create your challenge set.</Text>
                         </Flex>
+                        <Spacer/>
+                        <Icon as={FiPlus} fontSize="40px" /> 
                     </Center>
-                    
-                </Flex>
-                <Spacer/>
-                <Flex flexDir="column" h="100%" w="20%">
-                <Center h="100%">
-                        <Icon as={FiPlus} fontSize="40px" />
-                </Center>
-                </Flex>
+               
+                
+                
+                
+                
+                
             </HStack>
             </Button>
+            </>
     
   );
 }
