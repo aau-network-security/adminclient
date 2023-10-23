@@ -29,11 +29,11 @@ function NewProfileChallengesPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const status = useSelector((state) => state.profile.status);
-    const profiles = useSelector((state) => state.profile.profiles);
+    
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
-    const [searchParams, setSearchParams] = useSearchParams();
+    
 
     const [reqDataState, setReqDataState] = useState({
         name: "",
@@ -44,19 +44,19 @@ function NewProfileChallengesPage() {
     
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
-            console.log("name", e.target.value.trim())
+            // console.log("name", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["name"]: e.target.value.trim(),
             });
         } else if (e.target.name === "profileDescription") {
-            console.log("description", e.target.value.trim())
+            // console.log("description", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["description"]: e.target.value.trim(),
             });
         } else if (e.target.name === "publish"){
-            console.log("public", e.target.checked)
+            // console.log("public", e.target.checked)
             setReqDataState({
                 ...reqDataState,
                 ["public"]: e.target.checked
@@ -109,7 +109,7 @@ function NewProfileChallengesPage() {
             navigate("/challenges")
 
         } catch (err) {
-            console.log("got error saving profile", err);
+            // console.log("got error saving profile", err);
             toastIdRef.current = toast({
                 title: "Saving profile",
                 description: err.apiError.status,

@@ -1,16 +1,9 @@
 import {
-  Box,
-  Button,
   Center,
-  Checkbox,
-  CheckboxGroup,
   Flex,
-  FormControl,
   Grid,
   GridItem,
   Icon,
-  InputGroup,
-  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -20,21 +13,15 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchExercises,
-  selectCategory,
-} from "../../features/exercises/exerciseSlice";
+
 import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
-
 import { defaultTheme } from "../..";
-import { cloneDeep, debounce } from "lodash";
 import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
-import { BsInfoCircle, BsFillCircleFill } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs";
 import ChallengeLevel from "../challenges/ChallengeLevel";
 
 

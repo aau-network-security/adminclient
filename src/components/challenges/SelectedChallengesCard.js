@@ -12,7 +12,6 @@ import {
     Text,
     HStack,
     Spacer
-
     } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +40,7 @@ function SelectedChallengesCard({reqData,setReqDataState, mode}) {
 
     useEffect(() => {
         if (reqData.exerciseTags.length > 0){
-            console.log(reqData.exerciseTags)
+            // console.log(reqData.exerciseTags)
             var reqObj = {
                 tags: reqData.exerciseTags
             }
@@ -49,7 +48,7 @@ function SelectedChallengesCard({reqData,setReqDataState, mode}) {
             // console.log("reqdata", reqData.exerciseTags)
             // console.log("selectedExercises",selectedExercises)
     }else if (mode === "create") {
-        console.log("clearing in selected")
+        // console.log("clearing in selected")
         dispatch(clearSelectedProfile())
     }
 

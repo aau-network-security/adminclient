@@ -55,7 +55,7 @@ function ChallengeLevel(props) {
         
     } catch (error) {
         console.error();
-        console.log("Problem occured with: ", props.exercise)
+        // console.log("Problem occured with: ", props.exercise)
     }
   
     return (

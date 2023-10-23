@@ -154,9 +154,9 @@ export default function ChallengesPage() {
                 setIsModalOpen(false)
             }else {
                 var updatedProfile = profiles.filter(item => item.id === selectedProfile.id);
-                console.log(updatedProfile.length)
+                // console.log(updatedProfile.length)
                 if (updatedProfile.length === 0){
-                        console.log("updated profile id is undefined")
+                        // console.log("updated profile id is undefined")
                         dispatch(selectProfile(profiles[0]));
                 } else if (updatedProfile[0] === selectedProfile) {
                             dispatch(selectProfile(updatedProfile[0]))

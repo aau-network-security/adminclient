@@ -1,32 +1,15 @@
 import {
-    Center,
-    Checkbox,
-    CheckboxGroup,
     Flex,
-    FormControl,
     Grid,
     GridItem,
     Icon,
-    InputGroup,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
     Spacer,
-    Box,
     Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import React from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import {
-    fetchExercises,
-    selectCategory,
-} from "../../features/exercises/exerciseSlice";
-import { clearSelectedProfile, selectProfile } from "../../features/profiles/profileSlice";
-import { Tooltip } from "react-tooltip";
+import { selectProfile } from "../../features/profiles/profileSlice";
 import { IoIosWarning } from "react-icons/io";
 
 

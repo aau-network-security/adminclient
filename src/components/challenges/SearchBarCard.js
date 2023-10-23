@@ -33,7 +33,7 @@ function SearchBarCard() {
         />}
         />
     
-    <Input placeholder='Search' color='black' size='md' 
+    <Input placeholder='Search for name or description' color='black' size='md' 
     onChange={changeHandler}
     />
     </InputGroup>

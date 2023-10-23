@@ -1,14 +1,10 @@
 import {
-  Box,
   Center,
-  Checkbox,
   CheckboxGroup,
   Flex,
-  FormControl,
   Grid,
   GridItem,
   Icon,
-  InputGroup,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -22,8 +18,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchExercises,
-  selectCategory,
+  fetchExercises
 } from "../../features/exercises/exerciseSlice";
 import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
@@ -40,8 +35,6 @@ function ChallengesCard({
 }) {
 
   const dispatch = useDispatch();
-
-  const categories = useSelector((state) => state.exercise.categories);
 
   const selectedCategory = useSelector(
       (state) => state.exercise.selectedCategory
@@ -63,9 +56,9 @@ function ChallengesCard({
 
 
 useEffect(() => {
-    console.log("fetching exercises for: ", selectedCategory);
+    // console.log("fetching exercises for: ", selectedCategory);
     if (Object.keys(selectedCategory).length > 0) {
-        console.log("fetching exercises for: ", selectedCategory.tag);
+        // console.log("fetching exercises for: ", selectedCategory.tag);
         var reqObj = {
             category: selectedCategory.tag,
         };
@@ -134,16 +127,7 @@ const changeSearchData = (text, exercises) => {
                         <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
                     </Center>
                 ) : (
-                    <CheckboxGroup
-                        value={reqData.exerciseTags}
-                        onChange={(values) =>
-                            setReqDataState({
-                                ...reqData,
-                                ["exerciseTags"]: values,
-                            })
-                        }
-                        name="exercises"
-                    >
+                    <>
                         {Object.entries(filteredExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
@@ -188,7 +172,7 @@ const changeSearchData = (text, exercises) => {
                     
                             </Flex>
                         ))}
-                    </CheckboxGroup>
+                    </>
                 )}
             </GridItem>
 

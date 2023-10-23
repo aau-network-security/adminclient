@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { clearSelectedProfile, deleteProfile, fetchProfiles, selectProfile } from '../../features/profiles/profileSlice'
+import { deleteProfile, fetchProfiles, selectProfile } from '../../features/profiles/profileSlice'
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Flex, IconButton,useToast, } from '@chakra-ui/react';
-import { MdDelete } from 'react-icons/md';
+
 import { NavLink as ReactLink } from "react-router-dom";
 import ProfileDialogDelete from './ProfileDialogDelete';
 function ProfileEditButtons() {  
@@ -18,7 +18,7 @@ function ProfileEditButtons() {
     const onAlertClose = () => setIsAlertOpen(false)
     const cancelRef = React.useRef()
 
-    const [profileNameState, setProfileNameState] = useState(selectedProfile.name)
+    
       
 
     const doDeleteProfile = async (id) => {
@@ -35,7 +35,7 @@ function ProfileEditButtons() {
             })
             dispatch(fetchProfiles())
             dispatch(selectProfile(profiles[0]));
-            console.log(selectedProfile.name)
+            // console.log(selectedProfile.name)
 
         } catch(err) {
             console.log("Got error deleting profile", err)
@@ -49,9 +49,7 @@ function ProfileEditButtons() {
         }
       
         }
-    const openAlertDialog = (profileName) => {
-        setProfileNameState(profileName)
-        // setIndexState(index)
+    const openAlertDialog = (e) => {
         setIsAlertOpen(true)
         }
 
@@ -68,7 +66,7 @@ function ProfileEditButtons() {
             <Button
                 colorScheme="aau.buttonRed"
                 color="white"
-                onClick={() => openAlertDialog(selectedProfile.name)}         
+                onClick={() => openAlertDialog()}         
                 marginRight="30px"         
             >
                 Delete Profile

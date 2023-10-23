@@ -1,13 +1,8 @@
-import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, FormLabel, InputGroup, Input, useEditableControls, IconButton, Editable, EditablePreview, EditableInput, EditableTextarea, useEditableState, useToast, VStack} from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import { MdSave } from 'react-icons/md'
-import { FiEdit3 } from 'react-icons/fi'
-import { fetchProfiles, selectProfile, updateProfile } from "../../features/profiles/profileSlice";
-import { useDispatch, useSelector } from 'react-redux';
+import {Text, Flex} from '@chakra-ui/react'
+import React from 'react'
+
+import { useSelector } from 'react-redux';
 import { defaultTheme } from "../..";
-
-
-
 
 
 function ProfileDescriptionCard() {

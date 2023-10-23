@@ -1,35 +1,19 @@
 import {
-    Center,
-    Checkbox,
-    CheckboxGroup,
     Flex,
-    FormControl,
     Grid,
     GridItem,
     Icon,
-    InputGroup,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
     Spacer,
-    Box,
     Text,
     VStack,
-    Divider,
+
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import React, { useEffect } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import {
-    fetchCategories,
-    fetchExercises,
-    selectCategory,
-} from "../../features/exercises/exerciseSlice";
-import { clearSelectedProfile, fetchProfiles, selectProfile } from "../../features/profiles/profileSlice";
-import { Tooltip } from "react-tooltip";
+
+import { fetchProfiles, selectProfile } from "../../features/profiles/profileSlice";
+
 import { IoIosWarning } from "react-icons/io";
 import ProfileNameCard from "../challenges/ProfileNameCard";
 import ProfileDescriptionCard from "../challenges/ProfileDescriptionCard";
@@ -99,7 +83,6 @@ function NewEventFormProfileSelector( {
 
   return (
     <>
-    {/* <div>NewEventFormProfileSelector</div> */}
 
     <Grid
             templateColumns="repeat(6, 1fr)"

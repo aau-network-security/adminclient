@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Icon, Text } from '@chakra-ui/react';
+import {  Center,  Icon } from '@chakra-ui/react';
 import React from 'react'
 import { useSelector } from 'react-redux';
 
@@ -10,7 +10,7 @@ function ProfilePublishedCard() {
     if (selectedProfile.public === true){
         return (
             <Center>
-                {/* <Text> Private </Text>  */}
+                
                 <Icon
                 as={MdPublic}
                 fontSize="30px"

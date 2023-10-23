@@ -29,7 +29,6 @@ import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
-import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
 import ChallengeLevel from "./ChallengeLevel";
 
 

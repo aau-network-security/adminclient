@@ -8,20 +8,10 @@ import {
     Icon,
     Input,
     InputGroup,
-    InputLeftElement,
-    NumberDecrementStepper,
-    NumberIncrementStepper,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    Select,
-    Text,
     Textarea,
 } from "@chakra-ui/react";
 import React from "react";
-import ReactDatePicker from "react-datepicker";
-import { FaCalendar, FaRegQuestionCircle } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom";
+import { FaRegQuestionCircle } from "react-icons/fa";
 import SelectedChallengesCard from "./SelectedChallengesCard";
 
 function NewProfileFormInputs({ reqData, changeHandler, setReqDataState }) {

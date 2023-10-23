@@ -1,13 +1,8 @@
 import {
-    Center,
-    Checkbox,
-    CheckboxGroup,
     Flex,
-    FormControl,
     Grid,
     GridItem,
     Icon,
-    InputGroup,
     Modal,
     ModalBody,
     ModalCloseButton,
@@ -15,7 +10,6 @@ import {
     ModalHeader,
     ModalOverlay,
     Spacer,
-    Box,
     Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -35,11 +29,6 @@ function ChallengeSelectorCard() {
         (state) => state.exercise.selectedCategory
     );
     
-    const exercises = useSelector((state) => state.exercise.exercises);
-    const fetchingExercises = useSelector(
-        (state) => state.exercise.fetchingExercises
-    );
-
     const [modalContent, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,9 +46,9 @@ function ChallengeSelectorCard() {
     }, [categories]);
 
     useEffect(() => {
-        console.log("fetching exercises for: ", selectedCategory);
+        // console.log("fetching exercises for: ", selectedCategory);
         if (Object.keys(selectedCategory).length > 0) {
-            console.log("fetching exercises for: ", selectedCategory.tag);
+            // console.log("fetching exercises for: ", selectedCategory.tag);
             var reqObj = {
                 category: selectedCategory.tag,
             };
@@ -79,13 +68,6 @@ function ChallengeSelectorCard() {
 
     return (
         <>
-        {/* <Box
-            height="40px"
-            borderRadius="10px"
-            //  className="container"
-            bg={"#f7fafc"}
-            padding="0"
-        > */}
         <Grid
             templateColumns="repeat(6, 1fr)"
             gap={4}
@@ -178,10 +160,9 @@ function ChallengeSelectorCard() {
                 </ModalContent>
             </Modal>
             <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise" />
-        {/* </Box> */}
+        
         </Grid>
         </>
-        // <Text> ChallengeSelectorCard</Text>
         );
 }
 

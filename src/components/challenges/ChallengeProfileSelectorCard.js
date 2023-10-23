@@ -1,7 +1,7 @@
-import { Box, Button, Center, Flex, HStack, Icon, Text, withDefaultColorScheme } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { FiPlus } from "react-icons/fi";
-import { MdOutlinedFlag } from "react-icons/md";
+import { Box, Button, Flex, HStack } from "@chakra-ui/react";
+import React from "react";
+
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectCategoryShow, selectProfileShow } from "../../features/challenges/challengeSlice";
