@@ -16,15 +16,15 @@ function ProfileDescriptionCard() {
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
-
+    console.log(selectedProfile.description)
     var initialExerciseTags = [] 
     const toast = useToast();
     const toastIdRef = React.useRef();
-    useEffect(() => {
-        if (profiles.length > 0) {
-            dispatch(selectProfile(profiles[0]));
-        }
-    }, [profiles]);
+    // useEffect(() => {
+    //     if (profiles.length > 0) {
+    //         dispatch(selectProfile(profiles[0]));
+    //     }
+    // }, [profiles]);
 
     // console.log("profiledescription: ", selectedProfile)
     
@@ -35,7 +35,7 @@ function ProfileDescriptionCard() {
         exerciseTags: [],
     });
 
-    const [fieldValue, setFieldValue] = useState(selectedProfile.description);
+    const [fieldValue, setFieldValue] = useState("");
     useEffect(() => {
        setFieldValue(selectedProfile.description)
        setReqDataState(reqDataState =>({
@@ -122,15 +122,22 @@ function ProfileDescriptionCard() {
         }
 
         var reqData = {
-            name: reqDataState.name,
-            description: fieldValue,
-            exerciseTags: reqDataState.exerciseTags,
-            public:false
+            id: selectedProfile.id,
+            profile: {
+                id:selectedProfile.id,
+                name: selectedProfile.name,
+                description: fieldValue,
+                exerciseTags: initialExerciseTags,
+                public:selectedProfile.public,
+            }            
         };
         
-        console.log("description",reqData.description)
+        console.log("description",reqData.profile.description)
+        console.log("reqData: ", reqData)
 
-        if (reqData.description.length === 0) {
+        if (reqData.profile.description.length === 0) {
+            setFieldValue(selectedProfile.description)
+            
             toastIdRef.current = toast({
                 title: "Profile description cant be empty",
                 description: "Write a description in order to save.",
@@ -182,9 +189,14 @@ function ProfileDescriptionCard() {
 
     return  (
     <> 
-    <VStack alignItems='left'>
-    <Text fontSize={"23px"}>Description</Text>
-    <Editable
+    {/* <VStack alignItems='left'> */}
+    {/* <Text fontSize={"23px"}>Description</Text> */}
+    
+    <Flex flexDir="column" h="100%" w="100%" padding="5px 20px 10px 20px" bg={"#f7fafc"}>
+    <Text whiteSpace="pre-line" >{selectedProfile.description}</Text>
+    </Flex>
+    
+    {/* <Editable
         width="100%"
         bg={"#f7fafc"}
         height="inherit"
@@ -208,15 +220,15 @@ function ProfileDescriptionCard() {
             <EditablePreview />
             <EditableTextarea style={{ height: "130px", padding:"5px"}}/>
             {/* <Text fontSize="15px" > {selectedProfile.description}</Text> */}
-        </Flex>
+        {/* </Flex> */}
         {/* <Spacer /> */}
         
-        <EditableControls style={{ height: "130px" }}/>
+        {/* <EditableControls style={{ height: "130px" }}/> */}
    
-        </HStack>
+        {/* </HStack> */}
         
-        </Editable>
-        </VStack>
+        {/* </Editable> */}
+        {/* </VStack> */}
         
     </>
   

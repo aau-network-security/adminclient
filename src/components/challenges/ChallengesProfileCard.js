@@ -10,6 +10,7 @@ import {
   GridItem,
   Icon,
   InputGroup,
+  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -33,7 +34,13 @@ import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
 import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
-import { BsInfoCircle } from "react-icons/bs";
+import { BsInfoCircle, BsFillCircleFill } from "react-icons/bs";
+import ChallengeLevel from "./ChallengeLevel";
+
+// import { BiSolidCircle } from "react-icons/bi";
+
+
+
 
 function ChallengesProfileCard({
   reqData,
@@ -137,7 +144,7 @@ const openModal = (content) => {
                                 key={key}
                                 width="100%"
                                 height="50px"
-                                padding="0 10px 0 10px"
+                                padding="0 20px 0 20px"
                                 alignItems="center"
                             >
                                 <Flex width="100%" marginRight="30px">
@@ -160,7 +167,9 @@ const openModal = (content) => {
                                         />
                                     )}
                                     <Spacer/>
-                                   
+                                    <ChallengeLevel exercise={exercise}/>
+                                    {/* <DifficulityLevel exercise={exercise}/> */}
+                                    
                                     <Icon
                                         color="grey"
                                         position={"relative"}
@@ -209,7 +218,8 @@ const openModal = (content) => {
                 </ModalContent>
             </Modal>
             <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise" />
-      
+            
+            <Tooltip style={{ zIndex: 999 }} id="tooltip-exercise-difficulity" />
       </Grid>
   )
 }

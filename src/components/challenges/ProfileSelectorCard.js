@@ -31,45 +31,25 @@ import { IoIosWarning } from "react-icons/io";
 
 
 
-
-
-
-
-
 function ProfileSelectorCard() {
     const dispatch = useDispatch();
-
     const profiles = useSelector((state) => state.profile.profiles);
     
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
-        
-    useEffect(() => {
-        if (profiles.length > 0) {
-            dispatch(selectProfile(profiles[0]));
-        }else{
-            dispatch(clearSelectedProfile());
-        }
-    }, [profiles]);
-
-
-   
+  
     return (
         <>
-        {/* <Box
-            height="40px"
-            borderRadius="10px"
-            // className="container"
-            padding="0"
-        > */}
          <Grid
             templateColumns="repeat(6, 1fr)"
             gap={4}
             width="100%"
             // marginLeft="20px"
             height="inherit"
-            // maxH="700px"
+            maxH="650px"
+            overflowY="auto"
+            borderRadius="5px"
         >
             <GridItem
                 backgroundColor="#f7fafc"
@@ -79,6 +59,7 @@ function ProfileSelectorCard() {
                 borderRadius="5px"
                 overflowY="auto"
                 colSpan={6}
+                maxH="650px"
             >
         {Object.entries(profiles).map(([key, profile]) => (
             <Flex
@@ -87,15 +68,15 @@ function ProfileSelectorCard() {
                 height="50px"
                 padding="0 10px 0 10px"
                 alignItems="center"
-                // borderRadius="10px 10px 10px 10px"
+                
                 _hover={{ backgroundColor: "#211a52", color: "#fff" }}
                 backgroundColor={
-                    selectedProfile.name === profile.name
+                    selectedProfile.id === profile.id
                         ? "#211a52"
                         : "#f7fafc"
                 }
                 color={
-                    selectedProfile.name === profile.name
+                    selectedProfile.id === profile.id
                         ? "#fff"
                         : "#211a52"
                 }
@@ -129,9 +110,9 @@ function ProfileSelectorCard() {
         ))}
         </GridItem>
         </Grid>
-        {/* </Box> */}
+        
         </>
-        // <Text> ChallengeSelectorCard</Text>
+        
         );
 }
 

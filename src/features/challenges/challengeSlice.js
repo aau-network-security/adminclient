@@ -6,7 +6,8 @@ const initialState = {
     selector: "category",
     selectedCategory: {},
     searchParam: "",
-    error: ''
+    error: '',
+    selectedChallenges:[]
 }
 
 const challengeSlice = createSlice({

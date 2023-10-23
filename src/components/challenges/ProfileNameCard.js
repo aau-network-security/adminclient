@@ -2,8 +2,9 @@ import { Box, Icon, Text, Flex, Spacer, Button,HStack, Center, FormControl, Inpu
 import React, { useEffect, useState } from 'react'
 import { MdSave } from 'react-icons/md'
 import { FiEdit3 } from 'react-icons/fi'
-import { fetchProfiles, selectProfile, setProfileName, updateProfile } from "../../features/profiles/profileSlice";
+import { clearSelectedProfile, fetchProfiles, selectProfile, setProfileName, updateProfile } from "../../features/profiles/profileSlice";
 import { useDispatch, useSelector } from 'react-redux';
+import ProfilePublishedCard from './ProfilePublishedCard';
 
 
 
@@ -17,18 +18,10 @@ function ProfileNameCard() {
     );
 
 
-    if (profiles.length === 0) {
-        
-    } 
     var initialExerciseTags = [] 
     const toast = useToast();
     const toastIdRef = React.useRef();
-    useEffect(() => {
-        if (profiles.length > 0) {
-            dispatch(selectProfile(profiles[0]));
-        }
-    }, [profiles]);
-
+   
     // console.log("profiledescription: ", selectedProfile)
     
     const [reqDataState, setReqDataState] = useState({
@@ -38,7 +31,7 @@ function ProfileNameCard() {
         exerciseTags: [],
     });
 
-    const [fieldValue, setFieldValue] = useState(selectedProfile.name);
+    const [fieldValue, setFieldValue] = useState("");
     useEffect(() => {
        setFieldValue(selectedProfile.name)
        setReqDataState(reqDataState =>({
@@ -47,7 +40,36 @@ function ProfileNameCard() {
     }))
     }, [selectedProfile]);
 
- 
+
+    useEffect(() => {
+        if (selectedProfile.exercises != null){
+            if (Object.keys(selectedProfile.exercises).length > 0){
+                initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
+                setReqDataState(reqDataState => ({
+                    ...reqDataState,
+                    exerciseTags: initialExerciseTags
+                    
+                }));
+                console.log("tags for editing profile",initialExerciseTags)
+            }
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["id"]: selectedProfile.id
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["name"]: selectedProfile.name
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["description"]: selectedProfile.description
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["public"]: selectedProfile.public
+            }))
+        }
+    }, [profiles,selectedProfile]);
 
     function EditableControls() {
         const {
@@ -103,7 +125,6 @@ function ProfileNameCard() {
         )
     }
     
-
     const handleSubmit = async (e) => {
         // e.preventDefault();
         setReqDataState(reqDataState =>({
@@ -124,16 +145,22 @@ function ProfileNameCard() {
             }));
         }
 
+   
         var reqData = {
-            name: fieldValue,
-            description: reqDataState.description,
-            exerciseTags: reqDataState.exerciseTags,
-            public:false
+            id: selectedProfile.id,
+            profile: {
+                id:selectedProfile.id,
+                name: fieldValue,
+                description: reqDataState.description,
+                exerciseTags: reqDataState.exerciseTags,
+                public:selectedProfile.public,
+            }            
         };
         
-        console.log("profilename",reqData.name)
+        console.log("profilename",reqData)
 
-        if (reqData.name.length === 0) {
+        if (reqData.profile.name.length === 0) {
+            setFieldValue(selectedProfile.name)
             toastIdRef.current = toast({
                 title: "Profile name cant be empty",
                 description: "Write a name in order to save.",
@@ -154,7 +181,7 @@ function ProfileNameCard() {
                 isClosable: true,
             });
             dispatch(fetchProfiles())
-            // navigate("/challenges")
+            
         } catch (err) {
             console.log("got error updating profile name", err);
             toastIdRef.current = toast({
@@ -184,9 +211,14 @@ function ProfileNameCard() {
 
 
     return  (
-    <>  
+    <>
+    <Flex h="100%" w="100%" padding="5px 20px 10px 20px" bg={"#f7fafc"}>
+        <Text fontSize={"30px"}> {selectedProfile.name} </Text>
+        <Spacer/>
+        <ProfilePublishedCard/>
+    </Flex>  
    
-    <Editable
+    {/* <Editable
         height="inherit"
         fontSize={"30px"}
         // defaultValue={selectedProfile.description}
@@ -200,22 +232,23 @@ function ProfileNameCard() {
         borderColor="black"
         bg={"#f7fafc"}
         padding="0"
+        resize={"none"}
         >      
         
         <HStack h="100%" w="100%">
         
         <Flex flexDir="column" h="100%" w="90%" padding="5px 0px 5px 5px">
             <EditablePreview />
-            <EditableTextarea style={{ height: "50px" , padding:"5px"}}/>
-            {/* <Text fontSize="15px" > {selectedProfile.description}</Text> */}
+            <EditableTextarea style={{ height: "50px" , padding:"5px"} }/>
+      
         </Flex>
-        {/* <Spacer /> */}
+      
         
         <EditableControls style={{ height: "50px" }}/>
    
         </HStack>
         
-        </Editable>
+        </Editable> */}
         
     </>
   

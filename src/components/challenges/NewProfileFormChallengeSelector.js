@@ -29,12 +29,16 @@ import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
+import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
+import ChallengeLevel from "./ChallengeLevel";
 
 
 function NewProfileFormChallengeSelector({
     reqData,
     changeHandler,
     setReqDataState,
+    addedExercisesState,
+    setAddedExercisesState
 }) {
     const dispatch = useDispatch();
 
@@ -105,7 +109,7 @@ function NewProfileFormChallengeSelector({
 
         useEffect(() => {
             setFilteredExercises(exercises)
-            console.log(filteredExercises)}, [exercises])
+           }, [exercises])
     return (
         <Grid
             templateColumns="repeat(6, 1fr)"
@@ -184,11 +188,15 @@ function NewProfileFormChallengeSelector({
                 ) : (
                     <CheckboxGroup
                         value={reqData.exerciseTags}
-                        onChange={(values) =>
+                        onChange={(values) =>{
                             setReqDataState({
                                 ...reqData,
                                 ["exerciseTags"]: values,
                             })
+                            console.log(reqData)
+                            
+                        }
+                            
                         }
                         name="exercises"
                     >
@@ -219,6 +227,8 @@ function NewProfileFormChallengeSelector({
                                             data-tooltip-offset={3}
                                         />
                                     )}
+                                    <Spacer/>
+                                    <ChallengeLevel exercise={exercise}/>
                                     <Icon
                                         color="grey"
                                         position={"relative"}

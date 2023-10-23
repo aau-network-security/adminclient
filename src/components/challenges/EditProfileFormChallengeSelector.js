@@ -29,6 +29,7 @@ import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
+import ChallengeLevel from "./ChallengeLevel";
 
 
 function EditProfileFormChallengeSelector({
@@ -219,6 +220,8 @@ function EditProfileFormChallengeSelector({
                                             data-tooltip-offset={3}
                                         />
                                     )}
+                                     <Spacer/>
+                                    <ChallengeLevel exercise={exercise}/>
                                     <Icon
                                         color="grey"
                                         position={"relative"}

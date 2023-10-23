@@ -13,7 +13,7 @@ import {
     NumberInput,
     NumberInputField,
     NumberInputStepper,
-    Select,
+    HStack,
     Text,
     Textarea,
 } from "@chakra-ui/react";
@@ -22,6 +22,7 @@ import ReactDatePicker from "react-datepicker";
 import { FaCalendar, FaRegQuestionCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import SelectedChallengesCard from "./SelectedChallengesCard";
 
 function EditProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
   
@@ -73,12 +74,48 @@ function EditProfileFormInputs({ reqData, changeHandler, setReqDataState }) {
                         borderColor="#edf3f8"
                         focusBorderColor="#c8dcea"
                         maxLength="300"
-                        height = "400px"
+                        height = "160px"
+                        resize={"none"}
                         value={reqData.description}
                         onChange={(event) => changeHandler(event)}
                     />
                 </InputGroup>
             </FormControl>
+
+            <FormControl marginBottom={2}>
+                <HStack spacing="3px">
+                    <FormLabel fontSize="17px" color="aau.primary">
+                       Publish:
+                        <Icon
+                        color="grey"
+                        position="relative"
+                        top="-5px"
+                        marginLeft={1}
+                        as={FaRegQuestionCircle}
+                        fontSize="13px"
+                        data-tooltip-html={
+                            'Check in order to publish profile for anyone to see.'
+                        }
+                        data-tooltip-place="right"
+                        data-tooltip-effect="solid"
+                        data-tooltip-id="tooltip-profile-public"
+                        data-tooltip-offset={15}
+                    />
+                    </FormLabel>
+                    
+                    <Checkbox 
+                        isChecked={reqData.public}
+                        // value={reqData.public}
+                        onClick={(event) => changeHandler(event)}
+                        name="publish"
+                        
+                        onChange={(event) => changeHandler(event)}
+                    />
+                </HStack>
+            </FormControl>
+            <SelectedChallengesCard 
+            reqData={reqData} 
+            setReqDataState={setReqDataState}/>
         </Box>
     );
 }

@@ -15,7 +15,8 @@ const initialState = {
     profiles: [ ],
     selectedProfile: {},
     selectedExercises:[],
-    error: ''
+    error: '',
+    status:""
 }
 
 export const createProfile = createAsyncThunk('exercises/createprofiles', async (reqData, { rejectWithValue }) => {
@@ -37,7 +38,8 @@ export const createProfile = createAsyncThunk('exercises/createprofiles', async 
 export const updateProfile = createAsyncThunk('exercises/profiles', async (reqData, { rejectWithValue }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        const response = await apiClient.put('exercises/profiles', reqData)
+        var profile = reqData.profile
+        const response = await apiClient.put('exercises/profiles/'+reqData.id, profile)
         
         return response.data
     }
@@ -73,7 +75,7 @@ export const fetchProfiles = createAsyncThunk('exercises/fetchprofiles', async (
 export const deleteProfile = createAsyncThunk('exercises/deleteprofile', async (reqData, { rejectWithValue }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        const response = await apiClient.delete('exercises/profiles/'+reqData.name)
+        const response = await apiClient.delete('exercises/profiles/'+reqData)
         
         return response.data
     }
@@ -122,6 +124,10 @@ const profileSlice = createSlice({
         },
         clearSelectedProfile: (state) => {
             state.selectedProfile = {}
+            state.selectedExercises = []
+            console.log("clearSelectedProfileCalled")
+        },
+        clearSelectedExercises: (state) => {
             state.selectedExercises = []
         }
     },
@@ -203,4 +209,4 @@ const profileSlice = createSlice({
 
 
 export default profileSlice.reducer
-export const { selectProfile, setProfileName,clearSelectedProfile } = profileSlice.actions
+export const { selectProfile, setProfileName, clearSelectedProfile,clearSelectedExercises } = profileSlice.actions

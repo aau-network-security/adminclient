@@ -20,7 +20,7 @@ import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
-import { createProfile, updateProfile } from "../features/profiles/profileSlice";
+import { createProfile, fetchProfiles, selectProfile, updateProfile } from "../features/profiles/profileSlice";
 import EditProfileFormInputs from "../components/challenges/EditProfileFormInputs";
 import EditProfileFormChallengeSelector from "../components/challenges/EditProfileFormChallengeSelector";
 
@@ -28,11 +28,13 @@ import EditProfileFormChallengeSelector from "../components/challenges/EditProfi
 function EditProfileChallengesPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    
     const status = useSelector((state) => state.event.status);
+    const profiles = useSelector((state) => state.profile.profiles);
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
-
+    // console.log("challenges page", selectedProfile)
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -40,15 +42,18 @@ function EditProfileChallengesPage() {
     
 
     const [reqDataState, setReqDataState] = useState({
+        id:"",
         name: "",
         description:"",
-        public:"",
+        public:false,
         exerciseTags: [],
     });
-    
+     
     var initialExerciseTags = [] 
     useEffect(() => {
-        if (selectedProfile.exercises != null){
+        console.log("test exer", selectedProfile)
+        if (selectedProfile.exercises !== undefined){
+            console.log("test")
             if (Object.keys(selectedProfile.exercises).length > 0){
                 initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
                 setReqDataState(reqDataState => ({
@@ -60,14 +65,22 @@ function EditProfileChallengesPage() {
             }
             setReqDataState(reqDataState =>({
                 ...reqDataState,
-                ["name"]: selectedProfile.name
+                ["id"]: selectedProfile.id
+            }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                name: selectedProfile.name
             }))
             setReqDataState(reqDataState =>({
                 ...reqDataState,
                 ["description"]: selectedProfile.description
             }))
+            setReqDataState(reqDataState =>({
+                ...reqDataState,
+                ["public"]: selectedProfile.public
+            }))
         }
-    }, [dispatch]);
+    }, []);
     
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
@@ -82,6 +95,12 @@ function EditProfileChallengesPage() {
                 ...reqDataState,
                 ["description"]: e.target.value.trim(),
             });
+        }else if (e.target.name === "publish"){
+            console.log("public", e.target.checked)
+            setReqDataState({
+                ...reqDataState,
+                ["public"]: e.target.checked
+            })
         }
     };
 
@@ -90,17 +109,23 @@ function EditProfileChallengesPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         var reqData = {
-            name: reqDataState.name,
-            description: reqDataState.description,
-            exerciseTags: reqDataState.exerciseTags,
-            public:false
+            id: reqDataState.id,
+            profile: {
+                id:reqDataState.id,
+                name: reqDataState.name,
+                description: reqDataState.description,
+                exerciseTags: reqDataState.exerciseTags,
+                public:reqDataState.public,
+            }            
         };
+        // console.log(reqData)
         // console.log("handlesubmit",reqDataState)
         // Convert type to number that daemon understands
         // TODO: Fix slice and don't use createEvent but another function from "profile slice"
 
-        if (reqData.exerciseTags.length === 0) {
+        if (reqData.profile.exerciseTags.length === 0) {
             toastIdRef.current = toast({
                 title: "No challenges selected",
                 description: "Select some challenges to create a profile",
@@ -120,7 +145,13 @@ function EditProfileChallengesPage() {
                 duration: 5000,
                 isClosable: true,
             });
+            // dispatch(fetchProfiles());
+            // var updatedProfile = profiles.filter(item => item.id === reqDataState.id);
+            // console.log("updated profile", updatedProfile[0])
+            // dispatch(selectProfile(updatedProfile[0]));
             navigate("/challenges")
+            
+            
         } catch (err) {
             console.log("got error saving profile", err);
             toastIdRef.current = toast({
@@ -141,6 +172,7 @@ function EditProfileChallengesPage() {
             backgroundColor="white"
             margin="auto"
             padding="30px"
+            overflowY="auto"
         >
             <Flex>
             <Text color="aau.primary" fontSize="30px" >

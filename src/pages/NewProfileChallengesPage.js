@@ -6,6 +6,7 @@ import {
     Icon,
     Spacer,
     Text,
+    VStack,
     useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -20,14 +21,15 @@ import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
-import { createProfile } from "../features/profiles/profileSlice";
+import { createProfile, fetchProfiles, selectProfile } from "../features/profiles/profileSlice";
+import SelectedChallengesCard from "../components/challenges/SelectedChallengesCard";
 
 
 function NewProfileChallengesPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const status = useSelector((state) => state.event.status);
-
+    const status = useSelector((state) => state.profile.status);
+    const profiles = useSelector((state) => state.profile.profiles);
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -36,10 +38,10 @@ function NewProfileChallengesPage() {
     const [reqDataState, setReqDataState] = useState({
         name: "",
         description:"",
-        public:"",
+        public:false,
         exerciseTags: [],
     });
-
+    
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
             console.log("name", e.target.value.trim())
@@ -53,7 +55,14 @@ function NewProfileChallengesPage() {
                 ...reqDataState,
                 ["description"]: e.target.value.trim(),
             });
+        } else if (e.target.name === "publish"){
+            console.log("public", e.target.checked)
+            setReqDataState({
+                ...reqDataState,
+                ["public"]: e.target.checked
+            })
         }
+    
         
     };
 
@@ -66,7 +75,7 @@ function NewProfileChallengesPage() {
             name: reqDataState.name,
             description: reqDataState.description,
             exerciseTags: reqDataState.exerciseTags,
-            public:false
+            public:reqDataState.public
         };
         
         // Convert type to number that daemon understands
@@ -92,7 +101,13 @@ function NewProfileChallengesPage() {
                 duration: 5000,
                 isClosable: true,
             });
+            
+            // dispatch(fetchProfiles());
+            // var newProfile = profiles.filter(item => item.name === reqDataState.name);
+            // console.log("updated profile", newProfile[0])
+            // dispatch(selectProfile(newProfile[0]));
             navigate("/challenges")
+
         } catch (err) {
             console.log("got error saving profile", err);
             toastIdRef.current = toast({
@@ -113,6 +128,7 @@ function NewProfileChallengesPage() {
             backgroundColor="white"
             margin="auto"
             padding="30px"
+            overflowY="auto"
         >
             <Flex>
             <Text color="aau.primary" fontSize="30px" >
@@ -166,12 +182,16 @@ function NewProfileChallengesPage() {
                                 flexDir="row"
                                 height={"550px"}
                                 marginTop="20px"
-                            >
+                            >   
+                               
+                            
                                 <NewProfileFormInputs
                                     changeHandler={changeHandler}
                                     reqData={reqDataState}
                                     setReqDataState={setReqDataState}
                                 />
+                               
+                               
                                 <NewProfileFormChallengeSelector
                                     changeHandler={changeHandler}
                                     reqData={reqDataState}
@@ -204,15 +224,8 @@ function NewProfileChallengesPage() {
                     </>
                 )}
             </Box>
-            <Tooltip id="tooltip-event-tag" />
-            <Tooltip id="tooltip-secret-key" />
-            <Tooltip id="tooltip-max-labs" />
-            <Tooltip id="tooltip-finish-date" />
-            <Tooltip id="tooltip-dynamic-scoring" />
-            <Tooltip id="tooltip-dynamic-scoring-max" />
-            <Tooltip id="tooltip-dynamic-scoring-min" />
-            <Tooltip id="tooltip-dynamic-scoring-solve-threshold" />
-            <Tooltip id="tooltip-team-size" />
+            <Tooltip id="tooltip-profile-public" />
+            <Tooltip id="tooltip-profile-description" />
         </Flex>
     );
 }
