@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Checkbox,
     Flex,
     FormControl,
@@ -421,7 +422,9 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </InputGroup>
+                                    
                                 </FormControl>
+                                
                             </Flex>
                         )}
                     </InputGroup>

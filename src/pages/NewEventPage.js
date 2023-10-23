@@ -20,6 +20,7 @@ import { createEvent } from "../features/events/eventSlice";
 import NewEventFormProfileSelector from "../components/events/NewEventFormProfileSelector";
 import ChallengeProfileSelectorCard from "../components/events/ChallengeProfileSelectorCard";
 import SearchBarCard from "../components/challenges/SearchBarCard";
+import ClearChallengesDialog from "../components/events/ClearChallengesDialog";
 
 
 function DisplayChallengesOrProfiles({
@@ -46,19 +47,13 @@ function DisplayChallengesOrProfiles({
                             reqData={reqDataState}
                             setReqDataState={setReqDataState}
                         />
-        
-            
-            
 
-            
-            
-            
             </>
         )
         // return (<ChallengesCard/>)
     }
 }
-
+ 
 
 
 function NewEventPage() {
@@ -70,7 +65,9 @@ function NewEventPage() {
         dispatch(fetchCategories());
     }, [dispatch]);
     const [searchParams, setSearchParams] = useSearchParams();
-
+    
+    
+    
     const [reqDataState, setReqDataState] = useState({
         type: searchParams.get("type"),
         name: "",
@@ -116,6 +113,25 @@ function NewEventPage() {
         }
     };
 
+    // states for clear selected challenges dialog. 
+    const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const onAlertClose = () => setIsAlertOpen(false)
+    const cancelRef = React.useRef()
+
+    const openAlertDialog = (e) => {
+        setIsAlertOpen(true)
+        }
+    
+
+    const doClearSelectedChallenges = (e) => {
+        console.log("clear selected challenges")
+        setReqDataState({
+            ...reqDataState,
+            ["exerciseTags"]:
+                [],
+        })
+
+    }
     const toast = useToast();
     const toastIdRef = React.useRef();
     const handleSubmit = async (e) => {
@@ -135,7 +151,7 @@ function NewEventPage() {
             dynamicSolveThreshold: reqDataState.dynamicSolveThreshold,
             secretKey: reqDataState.secretKey,
         };
-        console.log(reqData)
+        // console.log(reqData)
         // Convert type to number that daemon understands
 
 
@@ -172,6 +188,7 @@ function NewEventPage() {
         }
     };
     return (
+        <>
         <Flex
             flexDirection="column"
             width="90%"
@@ -265,7 +282,7 @@ function NewEventPage() {
                             <Flex
                                 width={"100%"}
                                 marginTop="20px"
-                                justifyContent={"center"}
+                                justifyContent={"right"}
                             >
                                 <Button
                                     colorScheme="aau.button"
@@ -280,8 +297,17 @@ function NewEventPage() {
                                     colorScheme="aau.buttonGreen"
                                     color="white"
                                     type="submit"
+                                    marginRight="210px"
                                 >
                                     Create event
+                                </Button>
+                               
+                                <Button
+                                    colorScheme="aau.button"
+                                    color="white"
+                                    onClick={() => openAlertDialog()}
+                                >
+                                    Clear selected challenges
                                 </Button>
                             </Flex>
                         </form>
@@ -301,6 +327,12 @@ function NewEventPage() {
             <Tooltip id="tooltip-dynamic-scoring-solve-threshold" />
             <Tooltip id="tooltip-team-size" />
         </Flex>
+        <ClearChallengesDialog 
+            isOpen={isAlertOpen}
+            onClose={onAlertClose}
+            cancelRef={cancelRef}
+            deleteProfile={doClearSelectedChallenges}> </ClearChallengesDialog>
+        </>
     );
 }
 
