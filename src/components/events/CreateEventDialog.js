@@ -1,31 +1,54 @@
 import React from 'react'
+import SelectedChallengesCard from '../challenges/SelectedChallengesCard'
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    Button,
+    Text,
+    Box,
+    useToast
+  } from '@chakra-ui/react'
+import CreateNewEventChallengesDialog from './CreateNewEventChallengesDialog'
 
-function CreateEventDialog() {
+function CreateEventDialog(props) {
+  
   return (
     <>  
         <AlertDialog
           isOpen={props.isOpen}
           leastDestructiveRef={props.cancelRef}
           onClose={props.onClose}
+          size="xl"
         >
           <AlertDialogOverlay>
             <AlertDialogContent>
               <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                Clear selected challenges
+                Overview
               </AlertDialogHeader>
-  
               <AlertDialogBody>
-                Are you sure you want to clear the selected challenges?<br></br>
-                This means that you will have to start over with selecting challenges. 
+              
+                <Text> This is an overview of the selected challenges:</Text>
+                <CreateNewEventChallengesDialog
+                reqData={props.reqData} 
+                setReqDataState={props.setReqDataState}
+                />
               </AlertDialogBody>
   
               <AlertDialogFooter>
                 <Button ref={props.cancelRef} onClick={props.onClose}>
                   Cancel
                 </Button>
-                <Button colorScheme='aau.buttonRed' onClick={onClickDelete} ml={3}>
-                  Clear
+              
+                <Button colorScheme='aau.buttonGreen' 
+                onClick={props.createEvent} 
+                ml={3}>
+                  Create event
                 </Button>
+              
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>

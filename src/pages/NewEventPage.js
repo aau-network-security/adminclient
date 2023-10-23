@@ -21,6 +21,8 @@ import NewEventFormProfileSelector from "../components/events/NewEventFormProfil
 import ChallengeProfileSelectorCard from "../components/events/ChallengeProfileSelectorCard";
 import SearchBarCard from "../components/challenges/SearchBarCard";
 import ClearChallengesDialog from "../components/events/ClearChallengesDialog";
+import CreateEventDialog from "../components/events/CreateEventDialog";
+import dateNow from "../components/events/dateNow";
 
 
 function DisplayChallengesOrProfiles({
@@ -31,7 +33,7 @@ function DisplayChallengesOrProfiles({
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
     if (challengesOrProfile === "profiles"){
         return (
-           <NewEventFormProfileSelector 
+           <NewEventFormProfileSelector
                 changeHandler={changeHandler}
                 reqData={reqDataState}
                 setReqDataState={setReqDataState}/>
@@ -39,15 +41,12 @@ function DisplayChallengesOrProfiles({
     } else if (challengesOrProfile === "category"){
         return (
             <>
-             
-                {/* <ChallengeProfileSelectorCard/> */}
-             
              <NewEventFormChallengeSelector
                             changeHandler={changeHandler}
                             reqData={reqDataState}
                             setReqDataState={setReqDataState}
                         />
-
+            
             </>
         )
         // return (<ChallengesCard/>)
@@ -132,9 +131,27 @@ function NewEventPage() {
         })
 
     }
+    const noChallengesSelected = () => {
+        toastIdRef.current = toast({
+            title: "No challenges selected",
+            description: "Select some challenges to create an event",
+            status: "error",
+            duration: 5000,
+            isClosable: true,});
+    }
+
+    const [createEventIsAlertOpen, setCreateEventIsAlertOpen] = useState(false)
+    const createEventOnAlertClose = () => setCreateEventIsAlertOpen(false)
+    // const cancelRef = React.useRef()
+
+    const openCreateEventDialog = (e) => {
+        setCreateEventIsAlertOpen(true)
+        }
+
     const toast = useToast();
     const toastIdRef = React.useRef();
     const handleSubmit = async (e) => {
+        setCreateEventIsAlertOpen(false)
         e.preventDefault();
         var reqData = {
             type: reqDataState.type === "advanced" ? 1 : 0,
@@ -153,7 +170,7 @@ function NewEventPage() {
         };
         // console.log(reqData)
         // Convert type to number that daemon understands
-
+        // console.log("expected finish date", reqData.expectedFinishDate)
 
         if (reqData.exerciseTags.length === 0) {
             toastIdRef.current = toast({
@@ -165,6 +182,73 @@ function NewEventPage() {
             });
             return;
         }
+        if (reqData.name === ""){
+            toastIdRef.current = toast({
+                title: "Event name empty",
+                description: "Event name cannot be empty",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+        if (reqData.tag === ""){
+            toastIdRef.current = toast({
+                title: "Event tag empty",
+                description: "Event tag cannot be empty",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        // regex for checking for special characters etc. in eventTag
+        const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/;
+        if (regex.test(reqData.tag)) {
+            toastIdRef.current = toast({
+                title: "Event tag",
+                description: "Event tag must not contain special charactors or numbers",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        if (reqData.expectedFinishDate === "") {
+            toastIdRef.current = toast({
+                title: "Expected finish date has not been set",
+                description: "Set expected finish date",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
+        // console.log("expected finish date", reqDataState.expectedFinishDate)    
+        // console.log("time now", now)
+        // console.log("time expectedFinishDate", expectedFinishDate)
+        // console("typeof expectedFinishDate", typeof reqDataState.expectedFinishDate )
+        // console.log("time compared", now > expectedFinishDate )
+
+        
+        // Check if expected finish date is in the past: 
+        const now = Date()
+        const expectedFinishDate = reqDataState.expectedFinishDate.toString()
+        if ( expectedFinishDate < now) {
+            
+            toastIdRef.current = toast({
+                title: "Expected finish date is in the past",
+                description: "Select an expected finish date in the future",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+            return;
+        }
+
 
         try {
             const response = await dispatch(createEvent(reqData)).unwrap();
@@ -241,15 +325,7 @@ function NewEventPage() {
 
                         </Flex>
                         
-                        
-                        
-                        
-                        
-                        
-
-                        
-
-                        
+                           
                         <form
                             onSubmit={handleSubmit}
                             style={{ height: "100%" }}
@@ -293,23 +369,65 @@ function NewEventPage() {
                                 >
                                     Back
                                 </Button>
-                                <Button
-                                    colorScheme="aau.buttonGreen"
+                                
+                                {reqDataState.exerciseTags.length === 0
+                                
+                                ?(<>
+                                    <Button
+                                    colorScheme="aau.buttonGray"
                                     color="white"
-                                    type="submit"
+                                    // type="submit"
+                                    onClick={()=> noChallengesSelected()}
                                     marginRight="210px"
                                 >
                                     Create event
                                 </Button>
                                
+                               
+                                <Button
+                                    colorScheme="aau.buttonGray"
+                                    color="white"
+                                    onClick={() => noChallengesSelected()}
+                                >
+                                    Clear selected challenges
+                                </Button>
+                                
+                                </>):(
+                                <>
+                                    <Button
+                                    colorScheme="aau.buttonGreen"
+                                    color="white"
+                                    // type="submit"
+                                    onClick={()=> openCreateEventDialog()}
+                                    marginRight="210px"
+                                    // type="submit"
+                                >
+                                    Create event
+                                </Button>
+                               
+                               
                                 <Button
                                     colorScheme="aau.button"
                                     color="white"
+                                    
                                     onClick={() => openAlertDialog()}
                                 >
                                     Clear selected challenges
                                 </Button>
+                                </>
+                                )
+                                
+                                }
+                                
                             </Flex>
+                            <CreateEventDialog
+                                isOpen={createEventIsAlertOpen}
+                                onClose={createEventOnAlertClose}
+                                cancelRef={cancelRef}
+                                createEvent={handleSubmit}
+                                reqData={reqDataState}
+                                setReqDataState={setReqDataState}
+                                />
                         </form>
                         
                     </>
@@ -327,6 +445,7 @@ function NewEventPage() {
             <Tooltip id="tooltip-dynamic-scoring-solve-threshold" />
             <Tooltip id="tooltip-team-size" />
         </Flex>
+        
         <ClearChallengesDialog 
             isOpen={isAlertOpen}
             onClose={onAlertClose}

@@ -262,11 +262,13 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         timeIntervals={10}
                         autoComplete={"off"}
                         selected={reqData.expectedFinishDate}
-                        onChange={(date) => setReqDataState({
-                            ...reqData,
-                            ["expectedFinishDate"]:
-                                date,
-                        })}
+                        onChange={(date) =>
+                            setReqDataState({
+                                ...reqData,
+                                ["expectedFinishDate"]:
+                                    date,
+                            })
+                            }
                     />
                 </InputGroup>
             </FormControl>

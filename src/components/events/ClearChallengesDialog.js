@@ -10,7 +10,9 @@ import {
   } from '@chakra-ui/react'
 
 function ClearChallengesDialog(props) {
-
+    // if (props.reqData.length === 0) {
+    //     props.onClose()
+    // }
     const onClickDelete = () => {
         props.deleteProfile()
         props.onClose()
