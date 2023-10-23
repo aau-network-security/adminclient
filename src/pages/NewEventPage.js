@@ -22,7 +22,8 @@ import ChallengeProfileSelectorCard from "../components/events/ChallengeProfileS
 import SearchBarCard from "../components/challenges/SearchBarCard";
 import ClearChallengesDialog from "../components/events/ClearChallengesDialog";
 import CreateEventDialog from "../components/events/CreateEventDialog";
-import dateNow from "../components/events/dateNow";
+import toastMsg from "../components/events/toastMsg";
+
 
 
 function DisplayChallengesOrProfiles({
@@ -145,7 +146,15 @@ function NewEventPage() {
     // const cancelRef = React.useRef()
 
     const openCreateEventDialog = (e) => {
-        setCreateEventIsAlertOpen(true)
+        const formCheck = toastMsg(reqDataState)
+        console.log("formCheck",formCheck)
+        if (formCheck.msg =! ""){
+            toastIdRef.current = toast(formCheck.toastData);
+            setCreateEventIsAlertOpen(false)
+        }else{
+            setCreateEventIsAlertOpen(true)
+        }
+        
         }
 
     const toast = useToast();
@@ -168,87 +177,12 @@ function NewEventPage() {
             dynamicSolveThreshold: reqDataState.dynamicSolveThreshold,
             secretKey: reqDataState.secretKey,
         };
-        // console.log(reqData)
-        // Convert type to number that daemon understands
-        // console.log("expected finish date", reqData.expectedFinishDate)
-
-        if (reqData.exerciseTags.length === 0) {
-            toastIdRef.current = toast({
-                title: "No challenges selected",
-                description: "Select some challenges to create an event",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
+        const formCheck = toastMsg(reqDataState)
+        console.log("formCheck",formCheck)
+        if (formCheck.msg =! ""){
+            toastIdRef.current = toast(formCheck.toastData);
             return;
         }
-        if (reqData.name === ""){
-            toastIdRef.current = toast({
-                title: "Event name empty",
-                description: "Event name cannot be empty",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
-        if (reqData.tag === ""){
-            toastIdRef.current = toast({
-                title: "Event tag empty",
-                description: "Event tag cannot be empty",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
-
-        // regex for checking for special characters etc. in eventTag
-        const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/;
-        if (regex.test(reqData.tag)) {
-            toastIdRef.current = toast({
-                title: "Event tag",
-                description: "Event tag must not contain special charactors or numbers",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
-
-        if (reqData.expectedFinishDate === "") {
-            toastIdRef.current = toast({
-                title: "Expected finish date has not been set",
-                description: "Set expected finish date",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
-
-        // console.log("expected finish date", reqDataState.expectedFinishDate)    
-        // console.log("time now", now)
-        // console.log("time expectedFinishDate", expectedFinishDate)
-        // console("typeof expectedFinishDate", typeof reqDataState.expectedFinishDate )
-        // console.log("time compared", now > expectedFinishDate )
-
-        
-        // Check if expected finish date is in the past: 
-        const now = Date()
-        const expectedFinishDate = reqDataState.expectedFinishDate.toString()
-        if ( expectedFinishDate < now) {
-            
-            toastIdRef.current = toast({
-                title: "Expected finish date is in the past",
-                description: "Select an expected finish date in the future",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
-
 
         try {
             const response = await dispatch(createEvent(reqData)).unwrap();
