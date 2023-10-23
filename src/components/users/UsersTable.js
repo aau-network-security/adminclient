@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon, Spinner } from "@chakra-ui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrg, fetchOrgs, selectOrg } from '../../features/organizations/organizationSlice';
 import LoadingSpin from 'react-loading-spin';
@@ -22,6 +22,7 @@ import NewUserModal from './NewUserModal';
 import { deleteUser, fetchUsers } from '../../features/users/userSlice';
 import { MdDelete } from 'react-icons/md';
 import { defaultTheme } from '../..';
+import { IoInfiniteOutline } from 'react-icons/io5';
 
 function UsersTable({ byRole }) {
   const IconFa = chakra(FontAwesomeIcon)
@@ -108,15 +109,9 @@ function UsersTable({ byRole }) {
             </Flex>
               {status === 'fetching'
               ?
-                <Center
-                  position="relative"
-                  transform="translateY(100%)"
-                >
-                  <LoadingSpin
-                    primaryColor={defaultTheme.colors.aau.primary}
-                    size="100px"
-                  />
-                </Center>
+              <Center height="100%" width="100%" position="relative">
+                <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+              </Center>
                             
               : Object.keys(users).length === 0 
               ?
@@ -134,6 +129,7 @@ function UsersTable({ byRole }) {
                           <Th>Email</Th>
                           <Th>Organization</Th>
                           <Th>Role</Th>
+                          <Th isNumeric>Lab quota</Th>
                           <Th textAlign="center">Action</Th>           
                         </Tr>
                       </Thead>
@@ -141,28 +137,43 @@ function UsersTable({ byRole }) {
                         {Object.entries(users).map(([key, user]) => (
                           <Tr 
                             key={user.user.Username}
+                            height="57px"
                           >
                             <Td>{user.user.Username}</Td>
                             <Td>{user.user.FullName}</Td>
                             <Td>{user.user.Email}</Td>
                             <Td>{user.user.Organization}</Td>
                             <Td>{user.user.Role.split('role::')[1]}</Td>
+                            <Td isNumeric>{user.user.LabQuota != null ? 
+                              user.user.LabQuota 
+                            : (
+                            <Icon fontSize={"17px"} as={IoInfiniteOutline}/>
+                            )}
+                            </Td>
                             <Td textAlign="center">
-                              <IconButton
-                                aria-label='Edit user'
-                                colorScheme='gray'
-                                variant='ghost'
-                                icon={<RiEditLine />}      
-                                marginRight={"10px"}          
-                              />       
-                              <IconButton
-                                aria-label='Delete organization'
-                                colorScheme='aau.buttonRed'
-                                variant='ghost'
-                                fontSize="20px"
-                                icon={<MdDelete />}
-                                onClick={() => openAlertDialog(user.user.Username, key)}                  
-                              />                    
+                              {(loggedInUser.user.Role === "role::administrator" || loggedInUser.user.Role === "role::superadmin" || user.user.Username === loggedInUser.user.Username) && (
+                                <>
+                                  <IconButton
+                                    aria-label='Edit user'
+                                    colorScheme='gray'
+                                    variant='ghost'
+                                    icon={<RiEditLine />}      
+                                    marginRight={"10px"}          
+                                  />       
+                                  {user.user.Username !== loggedInUser.user.Username && (
+                                    <IconButton
+                                      aria-label='Delete organization'
+                                      colorScheme='aau.buttonRed'
+                                      variant='ghost'
+                                      fontSize="20px"
+                                      icon={<MdDelete />}
+                                      onClick={() => openAlertDialog(user.user.Username, key)}                  
+                                    />  
+                                  )}
+                                </>
+                              )}
+                              
+                                                
                             </Td>
                             
                             <Td textAlign="center">

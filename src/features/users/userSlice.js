@@ -23,6 +23,7 @@ export const addUser = createAsyncThunk('user/addUser', async (user, { rejectWit
                 Email: user.email,
                 Role: "role::" + user.role,
                 Organization: user.organization,
+                LabQuota: user.labQuota
             }
         }
         if (org.selectedOrg !== null) {

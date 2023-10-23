@@ -14,6 +14,7 @@ export const defaultTheme = {
     aau: {
       text: "#FFFFFF",
       primary: "#211A52",
+      bg: "#f7fafc",
       hover: "#211A525C",
       green: "#0E8563",
       yellow: "#FFC107",

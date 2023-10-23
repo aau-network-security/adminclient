@@ -15,6 +15,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Spacer,
+    Spinner,
     Text,
 } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
@@ -46,6 +47,9 @@ function NewEventFormChallengeSelector({
     const [filteredExercises, setFilteredExercises] = useState("");
     const fetchingExercises = useSelector(
         (state) => state.exercise.fetchingExercises
+    );
+    const fetchingCategories = useSelector(
+        (state) => state.exercise.fetchingCategories
     );
     const [modalContent, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
@@ -129,49 +133,58 @@ const changeSearchData = (text, exercises) => {
                 overflowY="auto"
                 colSpan={2}
             >
-                {Object.entries(categories).map(([key, category]) => (
-                    <Flex
-                        key={key}
-                        width="100%"
-                        height="50px"
-                        padding="0 10px 0 10px"
-                        alignItems="center"
-                        _hover={{ backgroundColor: "aau.primary", color: "#fff" }}
-                        backgroundColor={
-                            selectedCategory.tag === category.tag
-                                ? "aau.primary"
-                                : "#f7fafc"
-                        }
-                        color={
-                            selectedCategory.tag === category.tag
-                                ? "#fff"
-                                : "aau.primary"
-                        }
-                        onClick={() => dispatch(selectCategory(category))}
-                    >
-                        <Text
-                            overflow="hidden"
-                            whiteSpace="nowrap"
-                            textOverflow="ellipsis"
-                            cursor="default"
-                        >
-                            {category.name}
-                        </Text>
-                        <Spacer></Spacer>
-                        <Icon
-                            color="grey"
-                            position="relative"
-                            top="-5px"
-                            right="0"
-                            marginLeft={1}
-                            as={FaRegQuestionCircle}
-                            fontSize="13px"
-                            cursor="pointer"
-                            onClick={() => openModal(category)}
-                            zIndex="999"
-                        />
-                    </Flex>
-                ))}
+                {fetchingCategories ? (
+                    <Center height="100%" width="100%" position="relative">
+                        <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+                    </Center>
+                ):(
+                    <>
+                        {Object.entries(categories).map(([key, category]) => (
+                            <Flex
+                                key={key}
+                                width="100%"
+                                height="50px"
+                                padding="0 10px 0 10px"
+                                alignItems="center"
+                                _hover={{ backgroundColor: "aau.primary", color: "#fff" }}
+                                backgroundColor={
+                                    selectedCategory.tag === category.tag
+                                        ? "aau.primary"
+                                        : "#f7fafc"
+                                }
+                                color={
+                                    selectedCategory.tag === category.tag
+                                        ? "#fff"
+                                        : "aau.primary"
+                                }
+                                onClick={() => dispatch(selectCategory(category))}
+                            >
+                                <Text
+                                    overflow="hidden"
+                                    whiteSpace="nowrap"
+                                    textOverflow="ellipsis"
+                                    cursor="default"
+                                >
+                                    {category.name}
+                                </Text>
+                                <Spacer></Spacer>
+                                <Icon
+                                    color="grey"
+                                    position="relative"
+                                    top="-5px"
+                                    right="0"
+                                    marginLeft={1}
+                                    as={FaRegQuestionCircle}
+                                    fontSize="13px"
+                                    cursor="pointer"
+                                    onClick={() => openModal(category)}
+                                    zIndex="999"
+                                />
+                            </Flex>
+                        ))}
+                    </>
+                )}
+                
             </GridItem>
 
             <GridItem
@@ -183,8 +196,8 @@ const changeSearchData = (text, exercises) => {
                 colSpan={4}
             >
                 {fetchingExercises ? (
-                    <Center h="100%" width="inherit" alignItems="center">
-                        <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
+                    <Center height="100%" width="100%" position="relative">
+                        <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
                     </Center>
                 ) : (
                     <CheckboxGroup
