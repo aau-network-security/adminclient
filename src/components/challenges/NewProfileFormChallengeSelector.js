@@ -93,7 +93,7 @@ function NewProfileFormChallengeSelector({
             setFilteredExercises(
                 cloneDeep(
                     exercises.filter((el) => {
-                    return el.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
+                    return (el.name.toLowerCase().indexOf(text.toLowerCase()) > -1 || el.organizer_description.toLowerCase().indexOf(text.toLowerCase()) > -1);
                 })
                 )
             )
