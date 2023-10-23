@@ -17,6 +17,8 @@ import { BASE_URL } from './api/client'
 import { useFetch } from 'react-async'
 import { Buffer } from 'buffer'
 import NewEventPage from './pages/NewEventPage'
+import NewProfileChallengesPage from './pages/NewProfileChallengesPage'
+import EditProfileChallengesPage from './pages/EditProfileChallengesPage'
 
 export const getUsernameFromToken = (token) => {
     try {            
@@ -75,7 +77,8 @@ function AppRouter() {
                     </>
                 }>
                     <Route element={<AuthWrapper />}>
-                            <Route path="" element={<HomePage />} />
+                            {/* <Route path="" element={<HomePage />} /> */}
+                            <Route path="" element={<Navigate to="/events"/>} />
                             <Route path="users" element={<Users />} />
                             <Route path="events" element={<EventsPage />} />
                             <Route path="organizations" element={<OrganizationsPage />} />
@@ -83,6 +86,8 @@ function AppRouter() {
                             <Route path="profile" element={<ProfilePage />} />
                             <Route path="agents" element={<AgentsPage />} />
                             <Route path="challenges" element={<ChallengesPage />} />
+                            <Route path="challenges/new" element={<NewProfileChallengesPage/>} />
+                            <Route path="challenges/edit" element={<EditProfileChallengesPage/>} />
                             <Route path="events/new" element={<NewEventPage />} />
                         </Route>                        
                     </Route>  

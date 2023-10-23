@@ -6,6 +6,7 @@ const initialState = {
     events: [],
     selectedEvent: null,
     eventsStopping: {},
+    eventsDeleting: {},
     statusCode: 200,
     error: {}
 }
@@ -68,11 +69,11 @@ export const stopEvent = createAsyncThunk('event/stopEvent', async (event, { rej
 })
 
 // Tells the demon to reconnect, object holds agent array index to update the connected state of a specific agent
-export const deleteEvent = createAsyncThunk('event/deleteEvent', async (agentObj, { rejectWithValue, getState }) => {
+export const deleteEvent = createAsyncThunk('event/deleteEvent', async (event, { rejectWithValue, getState }) => {
     try {
         const { agent: {agents} } = getState()
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        const response = await apiClient.get('agents/reconnect/'+agentObj.name)
+        const response = await apiClient.delete('events/'+event.tag)
         
         return response.data
     }
@@ -139,16 +140,19 @@ const eventSlice = createSlice({
         })
 
         // Delete event
-        builder.addCase(deleteEvent.pending, (state) => {
+        builder.addCase(deleteEvent.pending, (state, action) => {
             state.status = 'deletingEvent'
+            state.eventsDeleting[action.meta.arg.tag] = 'deleting'
         })
         builder.addCase(deleteEvent.fulfilled, (state, action) => {
             state.status = ''
             state.error = ''
+            delete state.eventsDeleting[action.meta.arg.tag]
         })
         builder.addCase(deleteEvent.rejected, (state, action) => {
             state.error = action.payload
             state.status = ''
+            delete state.eventsDeleting[action.meta.arg.tag]
         })
     }
 })

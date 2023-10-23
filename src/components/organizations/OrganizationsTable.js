@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon, Spinner } from "@chakra-ui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrg, fetchOrgs, selectOrg } from '../../features/organizations/organizationSlice';
 import LoadingSpin from 'react-loading-spin';
@@ -9,8 +9,12 @@ import OrgDialogDelete from './OrgDialogDelete';
 import { Tooltip } from 'react-tooltip';
 import {
   IoMdAdd,
+  IoMdInfinite,
   IoMdRefresh,
 } from 'react-icons/io'
+import {
+  IoInfiniteOutline
+} from 'react-icons/io5'
 import {
   TiTick
 } from 'react-icons/ti'
@@ -100,15 +104,9 @@ function OrganizationsTable() {
             </Flex>
               {status === 'fetching'
               ?
-                <Center
-                  position="relative"
-                  transform="translateY(100%)"
-                >
-                  <LoadingSpin
-                    primaryColor={defaultTheme.colors.aau.primary}
-                    size="100px"
-                  />
-                </Center>
+              <Center height="100%" width="100%" position="relative">
+                <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+              </Center>
                             
               : Object.keys(orgs).length === 0 
               ?
@@ -123,7 +121,8 @@ function OrganizationsTable() {
                         <Tr>
                           <Th>Name</Th>
                           <Th>Owner</Th>
-                          <Th>Owner Email</Th>    
+                          <Th>Owner Email</Th>
+                          <Th isNumeric>Lab Quota</Th>  
                           <Th textAlign="center">Delete</Th>                  
                         </Tr>
                       </Thead>
@@ -138,6 +137,12 @@ function OrganizationsTable() {
                             <Td>{org.Name}</Td>
                             <Td>{org.OwnerUser}</Td>
                             <Td>{org.OwnerEmail}</Td>
+                            <Td isNumeric>{org.LabQuota != null ? 
+                              org.LabQuota 
+                            : (
+                            <Icon fontSize={"17px"} as={IoInfiniteOutline}/>
+                            )}
+                            </Td>
                             <Td textAlign="center">
                               <IconButton
                                 aria-label='Delete organization'

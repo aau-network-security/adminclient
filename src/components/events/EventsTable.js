@@ -1,10 +1,18 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Button,
   Center,
   Flex,
   IconButton,
   Link,
   Select,
   Spacer,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -13,6 +21,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -21,7 +30,7 @@ import { MdDelete } from "react-icons/md";
 import LoadingSpin from "react-loading-spin";
 import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "react-tooltip";
-import { fetchEvents, selectEvent, stopEvent } from "../../features/events/eventSlice";
+import { deleteEvent, fetchEvents, selectEvent, stopEvent } from "../../features/events/eventSlice";
 import moment from "moment";
 import { defaultTheme } from "../..";
 
@@ -29,11 +38,13 @@ function EventsTable() {
   const eventState = useSelector((state) => state.event);
   const selectedEvent = useSelector((state) => state.event.selectedEvent);
   const eventsStopping = useSelector((state) => state.event.eventsStopping);
+  const eventsDeleting = useSelector((state) => state.event.eventsDeleting);
   const [eventStatusSelector, setEventStatusSelector] = useState(0);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setEventStatusSelector(event.target.value);
+    dispatch(selectEvent(null))
   };
 
   const setSelectedEvent = (event) => {
@@ -56,9 +67,9 @@ function EventsTable() {
         duration: 5000,
         isClosable: true,
       })
+      dispatch(selectEvent(null));
       dispatch(fetchEvents({ status: eventStatusSelector }))
     } catch (err) {
-      console.log("got error starting exercise", err)
       toastIdRef.current = toast({
         title: 'Error stopping event',
         description: err.apiError.status,
@@ -69,6 +80,8 @@ function EventsTable() {
     }
   }
 
+  
+
   useEffect(() => {
     if (eventStatusSelector !== "all") {
       dispatch(fetchEvents({ status: eventStatusSelector }));
@@ -76,6 +89,72 @@ function EventsTable() {
       dispatch(fetchEvents());
     }
   }, [eventStatusSelector]);
+
+  const cancelRef = React.useRef()
+  const {isOpen: isDeleteDialogOpen, onClose: onDeleteDialogClose, onOpen: onDeleteDialogOpen} = useDisclosure()
+  const [ eventToDelete, setEventToDelete ] = useState({})
+  const openDeleteDialog = (event) => {
+    setEventToDelete(event)
+    onDeleteDialogOpen()
+  }
+  const eventDelete = async (eventTag) => {
+    let request = {
+      tag: eventTag,
+    }
+    try {
+      onDeleteDialogClose()
+      const response = await dispatch(deleteEvent(request)).unwrap()
+      toastIdRef.current = toast({
+        title: 'Event successfully deleted',
+        description: "The event delete request was successfully processed",
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+      dispatch(selectEvent(null));
+      dispatch(fetchEvents({ status: eventStatusSelector }))
+    } catch (err) {
+      toastIdRef.current = toast({
+        title: 'Error deleting event',
+        description: err.apiError.status,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+    }
+  }
+  const EventDeleteDialog = () => {
+    return (
+      <>
+      <AlertDialog
+        isOpen={isDeleteDialogOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onDeleteDialogClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Delete {eventToDelete.name}
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? All userdata and solvedata will be lost, you can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onDeleteDialogClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='aau.buttonRed' onClick={() => eventDelete(eventToDelete.tag)} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+    )
+  }
   return (
     <>
       <Flex className="container-header" height="60px">
@@ -98,8 +177,8 @@ function EventsTable() {
         </Select>
       </Flex>
       {eventState.status === "fetchingEvents" ? (
-        <Center position="relative" transform="translateY(100%)">
-          <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
+        <Center height="100%" width="100%" position="relative">
+          <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
         </Center>
       ) : (
         <TableContainer overflowY="unset" h="100%">
@@ -169,8 +248,10 @@ function EventsTable() {
                           data-tooltip-place="right"
                           data-tooltip-effect="solid"
                           data-tooltip-id="tooltip-delete-event"
+                          onClick={() => openDeleteDialog(event)}
+                          isLoading={typeof eventsDeleting[event.tag] !== "undefined" ? true : false}
                         />
-                        <IconButton
+                        {/* <IconButton
                           colorScheme="aau.buttonGreen"
                           variant="ghost"
                           icon={<FaPlay />}
@@ -178,7 +259,7 @@ function EventsTable() {
                           data-tooltip-place="right"
                           data-tooltip-effect="solid"
                           data-tooltip-id="tooltip-restart-event"
-                        />
+                        /> */}
                       </>
                     )}
                   </Td>
@@ -213,6 +294,7 @@ function EventsTable() {
           </Table>
         </TableContainer>
       )}
+      <EventDeleteDialog />
       <Tooltip id={"tooltip-stop-event"} style={{ zIndex: "9999" }} />
       <Tooltip id={"tooltip-restart-event"} style={{ zIndex: "9999" }} />
       <Tooltip id={"tooltip-delete-event"} style={{ zIndex: "9999" }} />

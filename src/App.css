@@ -83,6 +83,10 @@ body{
   font-weight: bold;
 }
 
+.custom-table-header {
+  font-size: 10px!important;
+}
+
 .metric-title {
   font-weight: bold;
   font-size: 1vw;

@@ -15,10 +15,9 @@ import {
     ModalHeader,
     ModalOverlay,
     Spacer,
-    Spinner,
     Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,11 +28,17 @@ import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
+import { cloneDeep, debounce } from "lodash";
+import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
+import ChallengeLevel from "./ChallengeLevel";
 
-function NewEventFormChallengeSelector({
+
+function NewProfileFormChallengeSelector({
     reqData,
     changeHandler,
     setReqDataState,
+    addedExercisesState,
+    setAddedExercisesState
 }) {
     const dispatch = useDispatch();
 
@@ -44,9 +49,6 @@ function NewEventFormChallengeSelector({
     const exercises = useSelector((state) => state.exercise.exercises);
     const fetchingExercises = useSelector(
         (state) => state.exercise.fetchingExercises
-    );
-    const fetchingCategories = useSelector(
-        (state) => state.exercise.fetchingCategories
     );
     const [modalContent, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
@@ -81,6 +83,33 @@ function NewEventFormChallengeSelector({
         }
         setIsModalOpen(true);
     };
+    const searchValue = useSelector((state) => state.challenge.searchParam);
+    const [filteredExercises, setFilteredExercises] = useState("");
+    
+
+    const changeSearchData = (text, exercises) => { 
+        if (text === "") {
+            setFilteredExercises(cloneDeep(exercises));
+        }else {
+            setFilteredExercises(
+                cloneDeep(
+                    exercises.filter((el) => {
+                    return el.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
+                })
+                )
+            )
+        }
+    };
+    
+    const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
+
+        useEffect(() => {
+            debounceLoadData(searchValue, exercises);
+        }, [searchValue, exercises]);
+
+        useEffect(() => {
+            setFilteredExercises(exercises)
+           }, [exercises])
     return (
         <Grid
             templateColumns="repeat(6, 1fr)"
@@ -99,58 +128,49 @@ function NewEventFormChallengeSelector({
                 overflowY="auto"
                 colSpan={2}
             >
-                {fetchingCategories ? (
-                    <Center height="100%" width="100%" position="relative">
-                        <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
-                    </Center>
-                ):(
-                    <>
-                        {Object.entries(categories).map(([key, category]) => (
-                            <Flex
-                                key={key}
-                                width="100%"
-                                height="50px"
-                                padding="0 10px 0 10px"
-                                alignItems="center"
-                                _hover={{ backgroundColor: "aau.primary", color: "#fff" }}
-                                backgroundColor={
-                                    selectedCategory.tag === category.tag
-                                        ? "aau.primary"
-                                        : "#f7fafc"
-                                }
-                                color={
-                                    selectedCategory.tag === category.tag
-                                        ? "#fff"
-                                        : "aau.primary"
-                                }
-                                onClick={() => dispatch(selectCategory(category))}
-                            >
-                                <Text
-                                    overflow="hidden"
-                                    whiteSpace="nowrap"
-                                    textOverflow="ellipsis"
-                                    cursor="default"
-                                >
-                                    {category.name}
-                                </Text>
-                                <Spacer></Spacer>
-                                <Icon
-                                    color="grey"
-                                    position="relative"
-                                    top="-5px"
-                                    right="0"
-                                    marginLeft={1}
-                                    as={FaRegQuestionCircle}
-                                    fontSize="13px"
-                                    cursor="pointer"
-                                    onClick={() => openModal(category)}
-                                    zIndex="999"
-                                />
-                            </Flex>
-                        ))}
-                    </>
-                )}
-                
+                {Object.entries(categories).map(([key, category]) => (
+                    <Flex
+                        key={key}
+                        width="100%"
+                        height="50px"
+                        padding="0 10px 0 10px"
+                        alignItems="center"
+                        _hover={{ backgroundColor: "aau.primary", color: "#fff" }}
+                        backgroundColor={
+                            selectedCategory.tag === category.tag
+                                ? "aau.primary"
+                                : "#f7fafc"
+                        }
+                        color={
+                            selectedCategory.tag === category.tag
+                                ? "#fff"
+                                : "aau.primary"
+                        }
+                        onClick={() => dispatch(selectCategory(category))}
+                    >
+                        <Text
+                            overflow="hidden"
+                            whiteSpace="nowrap"
+                            textOverflow="ellipsis"
+                            cursor="default"
+                        >
+                            {category.name}
+                        </Text>
+                        <Spacer></Spacer>
+                        <Icon
+                            color="grey"
+                            position="relative"
+                            top="-5px"
+                            right="0"
+                            marginLeft={1}
+                            as={FaRegQuestionCircle}
+                            fontSize="13px"
+                            cursor="pointer"
+                            onClick={() => openModal(category)}
+                            zIndex="999"
+                        />
+                    </Flex>
+                ))}
             </GridItem>
 
             <GridItem
@@ -162,21 +182,25 @@ function NewEventFormChallengeSelector({
                 colSpan={4}
             >
                 {fetchingExercises ? (
-                    <Center height="100%" width="100%" position="relative">
-                        <Spinner color="aau.primary" size="" height="100px" width="100px" thickness="5px"/>
+                    <Center h="100%" width="inherit" alignItems="center">
+                        <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
                     </Center>
                 ) : (
                     <CheckboxGroup
                         value={reqData.exerciseTags}
-                        onChange={(values) =>
+                        onChange={(values) =>{
                             setReqDataState({
                                 ...reqData,
                                 ["exerciseTags"]: values,
                             })
+                            console.log(reqData)
+                            
+                        }
+                            
                         }
                         name="exercises"
                     >
-                        {Object.entries(exercises).map(([key, exercise]) => (
+                        {Object.entries(filteredExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
                                 width="100%"
@@ -203,6 +227,8 @@ function NewEventFormChallengeSelector({
                                             data-tooltip-offset={3}
                                         />
                                     )}
+                                    <Spacer/>
+                                    <ChallengeLevel exercise={exercise}/>
                                     <Icon
                                         color="grey"
                                         position={"relative"}
@@ -258,4 +284,4 @@ function NewEventFormChallengeSelector({
     );
 }
 
-export default NewEventFormChallengeSelector;
+export default NewProfileFormChallengeSelector;

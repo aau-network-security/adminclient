@@ -16,7 +16,8 @@ export const addOrg = createAsyncThunk('org/addOrg', async (org, { rejectWithVal
         let newOrg = {
             Name: org.orgName,
             OwnerUser: org.orgOwner.username,
-            OwnerEmail: org.orgOwner.email
+            OwnerEmail: org.orgOwner.email,
+            LabQuota: org.labQuota
         }
         return newOrg
     }
@@ -107,7 +108,7 @@ const orgSlice = createSlice({
 
         // Fetch
         builder.addCase(fetchOrgs.pending, (state) => {
-            state.status = 'fetchin'
+            state.status = 'fetching'
         })
         builder.addCase(fetchOrgs.fulfilled, (state, action) => {
             state.status = ''
