@@ -1,12 +1,13 @@
 import React from 'react'
 
 function toastMsg(reqData) {
-        console.log(reqData.exerciseTags.length)
+        // console.log(reqData.exerciseTags.length)
         var result = {
             msg: "",
             toastData:{}
         }
         if (reqData.exerciseTags.length === 0) {
+          console.log("no challenges has been selected")
             result.toastData= {
                 title: "No challenges selected",
                 description: "Select some challenges to create an event",
@@ -42,9 +43,10 @@ function toastMsg(reqData) {
       // regex for checking for special characters etc. in eventTag
       const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/;
       if (regex.test(reqData.tag)) {
+        console.log("event tag contains special characters")
         result.toastData= {
               title: "Event tag",
-              description: "Event tag must not contain special charactors or numbers",
+              description: "Event tag must not contain special characters or numbers",
               status: "error",
               duration: 5000,
               isClosable: true,
@@ -54,6 +56,7 @@ function toastMsg(reqData) {
       }
     
       if (reqData.expectedFinishDate === "") {
+        console.log("expected finish date has not been set")
         result.toastData= {
               title: "Expected finish date has not been set",
               description: "Set expected finish date",
@@ -72,11 +75,11 @@ function toastMsg(reqData) {
     
     
       // Check if expected finish date is in the past: 
-      const now = Date()
-      const expectedFinishDate = reqData.expectedFinishDate.toString()
+      const now = new Date()
+      const expectedFinishDate = reqData.expectedFinishDate
     
       if ( expectedFinishDate < now) {
-          
+        console.log("expected finish date is in the past")
         result.toastData= {
               title: "Expected finish date is in the past",
               description: "Select an expected finish date in the future",

@@ -148,7 +148,7 @@ function NewEventPage() {
     const openCreateEventDialog = (e) => {
         const formCheck = toastMsg(reqDataState)
         console.log("formCheck",formCheck)
-        if (formCheck.msg =! ""){
+        if (formCheck.msg === ""){
             toastIdRef.current = toast(formCheck.toastData);
             setCreateEventIsAlertOpen(false)
         }else{
@@ -177,15 +177,18 @@ function NewEventPage() {
             dynamicSolveThreshold: reqDataState.dynamicSolveThreshold,
             secretKey: reqDataState.secretKey,
         };
-        const formCheck = toastMsg(reqDataState)
-        console.log("formCheck",formCheck)
-        if (formCheck.msg =! ""){
-            toastIdRef.current = toast(formCheck.toastData);
-            return;
-        }
+        // const formCheck = toastMsg(reqDataState)
+        // console.log("formCheck",formCheck)
+        
+        // if (formCheck.msg === ""){
+        //     console.log("lets goo")
+        //     toastIdRef.current = toast(formCheck.toastData);
+        //     return;
+        // }
 
         try {
             const response = await dispatch(createEvent(reqData)).unwrap();
+            console.log("try success")
             toastIdRef.current = toast({
                 title: "Event successfully created",
                 description: "The event was successfully created",
