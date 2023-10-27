@@ -24,6 +24,20 @@ import { useSearchParams } from "react-router-dom";
 
 function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
     const [searchParams, setSearchParams] = useSearchParams();
+    // Disable past dates and times
+    const isDateTimeDisabled = (date) => {
+    const currentDateTime = new Date();  
+    return date > currentDateTime;
+    };
+
+    const handleDateChange = (date) => {
+    setReqDataState({
+        ...reqData,
+        ["expectedFinishDate"]:
+            date,
+    })
+    };
+
     return (
         <Box width="40%">
             <FormControl marginBottom={7} isRequired>
@@ -262,13 +276,9 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         timeIntervals={10}
                         autoComplete={"off"}
                         selected={reqData.expectedFinishDate}
-                        onChange={(date) =>
-                            setReqDataState({
-                                ...reqData,
-                                ["expectedFinishDate"]:
-                                    date,
-                            })
-                            }
+                        onChange={handleDateChange}
+                        minDate={new Date()} 
+                        filterTime={isDateTimeDisabled}
                     />
                 </InputGroup>
             </FormControl>

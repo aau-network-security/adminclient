@@ -25,7 +25,7 @@ function CreateEventDialog(props) {
           size="xl"
         >
           <AlertDialogOverlay>
-            <AlertDialogContent>
+            <AlertDialogContent height="500px">
               <AlertDialogHeader fontSize='lg' fontWeight='bold'>
                 Overview
               </AlertDialogHeader>
