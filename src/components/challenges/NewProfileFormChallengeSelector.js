@@ -192,7 +192,7 @@ function NewProfileFormChallengeSelector({
                                 ...reqData,
                                 ["exerciseTags"]: values,
                             })
-                            console.log(reqData)
+                            // console.log(reqData)
                             
                         }
                             

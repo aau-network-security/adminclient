@@ -124,7 +124,7 @@ function NewEventPage() {
     
 
     const doClearSelectedChallenges = (e) => {
-        console.log("clear selected challenges")
+        // console.log("clear selected challenges")
         setReqDataState({
             ...reqDataState,
             ["exerciseTags"]:
@@ -147,7 +147,7 @@ function NewEventPage() {
 
     const openCreateEventDialog = (e) => {
         const formCheck = toastMsg(reqDataState)
-        console.log("formCheck",formCheck)
+        // console.log("formCheck",formCheck)
         if (formCheck.msg === ""){
             toastIdRef.current = toast(formCheck.toastData);
             setCreateEventIsAlertOpen(false)
@@ -188,7 +188,7 @@ function NewEventPage() {
 
         try {
             const response = await dispatch(createEvent(reqData)).unwrap();
-            console.log("try success")
+            // console.log("try success")
             toastIdRef.current = toast({
                 title: "Event successfully created",
                 description: "The event was successfully created",
@@ -198,7 +198,7 @@ function NewEventPage() {
             });
             navigate("/events")
         } catch (err) {
-            console.log("got error starting exercise", err);
+            // console.log("got error starting exercise", err);
             toastIdRef.current = toast({
                 title: "Error creating event",
                 description: err.apiError.status,

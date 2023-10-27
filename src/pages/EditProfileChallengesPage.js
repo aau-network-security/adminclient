@@ -149,7 +149,7 @@ function EditProfileChallengesPage() {
             
             
         } catch (err) {
-            console.log("got error saving profile", err);
+            // console.log("got error saving profile", err);
             toastIdRef.current = toast({
                 title: "Saving profile",
                 description: err.apiError.status,

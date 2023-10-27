@@ -38,7 +38,7 @@ function ProfileEditButtons() {
             // console.log(selectedProfile.name)
 
         } catch(err) {
-            console.log("Got error deleting profile", err)
+            // console.log("Got error deleting profile", err)
             toastIdRef.current = toast({
               title: 'Error deleting profile',
               description: err.apiError.status,

@@ -106,7 +106,8 @@ function EditProfileFormChallengeSelector({
 
         useEffect(() => {
             setFilteredExercises(exercises)
-            console.log(filteredExercises)}, [exercises])
+            // console.log(filteredExercises)
+        }, [exercises])
     return (
         <Grid
             templateColumns="repeat(6, 1fr)"
