@@ -25,16 +25,22 @@ function CreateEventDialog(props) {
           size="xl"
         >
           <AlertDialogOverlay>
-            <AlertDialogContent height="500px">
-              <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogContent height="600px">
+              <AlertDialogHeader fontSize='lg' fontWeight='bold' marginLeft="15px">
                 Overview
               </AlertDialogHeader>
               <AlertDialogBody>
-              
+                <Box marginLeft="15px">
+
+                
+                <Text> Event name: <b>{props.reqData.name}</b></Text>
+                <Text> Event will be available at: https://<b>{props.reqData.tag}</b>.haaukins.com </Text>
+                <Text> Number of participants: {props.reqData.maxLabs}</Text>
                 <Text> This is an overview of the selected challenges:</Text>
+                </Box>
                 <CreateNewEventChallengesDialog
                 reqData={props.reqData} 
-                setReqDataState={props.setReqDataState}
+                // setReqDataState={props.setReqDataState}
                 />
               </AlertDialogBody>
   
