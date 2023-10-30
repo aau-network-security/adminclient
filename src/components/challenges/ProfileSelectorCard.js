@@ -10,7 +10,7 @@ import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectProfile } from "../../features/profiles/profileSlice";
-import { IoIosWarning } from "react-icons/io";
+
 import { GoStop } from "react-icons/go";
 
 
