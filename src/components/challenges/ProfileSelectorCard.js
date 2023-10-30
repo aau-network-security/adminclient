@@ -11,7 +11,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProfile } from "../../features/profiles/profileSlice";
 import { IoIosWarning } from "react-icons/io";
-
+import { GoStop } from "react-icons/go";
 
 
 function ProfileSelectorCard() {
@@ -76,8 +76,8 @@ function ProfileSelectorCard() {
                 <Spacer></Spacer>
                 {profile.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={

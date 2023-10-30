@@ -26,7 +26,8 @@ import {
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
 import LoadingSpin from "react-loading-spin";
-import { IoIosWarning } from "react-icons/io";
+
+import { GoStop } from "react-icons/go";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import ChallengeLevel from "../challenges/ChallengeLevel";
@@ -224,8 +225,8 @@ const changeSearchData = (text, exercises) => {
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={
@@ -234,7 +235,7 @@ const changeSearchData = (text, exercises) => {
                                             data-tooltip-place="right"
                                             data-tooltip-effect="solid"
                                             data-tooltip-id="tooltip-secret-exercise"
-                                            data-tooltip-offset={3}
+                                            data-tooltip-offset={6}
                                         />
                                     )}
                                     <Icon

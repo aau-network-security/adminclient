@@ -26,6 +26,7 @@ import {
 } from "../../features/exercises/exerciseSlice";
 import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
+import { GoStop } from "react-icons/go";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
@@ -208,8 +209,8 @@ function EditProfileFormChallengeSelector({
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={

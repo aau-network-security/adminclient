@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
+import { GoStop } from "react-icons/go";
 import { Tooltip } from "react-tooltip";
 
 import { defaultTheme } from "../..";
@@ -123,8 +124,8 @@ const openModal = (content) => {
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={

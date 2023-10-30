@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearSelectedProfile, fetchSelectedExercises } from '../../features/profiles/profileSlice';
 import { Tooltip } from "react-tooltip";
 import { FaRegQuestionCircle } from "react-icons/fa";
-
+import { GoStop } from "react-icons/go";
 function CharacterLimitedText({ text, maxLength }) {
     const [isTruncated, setIsTruncated] = useState(true);
   
@@ -94,6 +94,21 @@ function SelectedChallengesCard({reqData,setReqDataState, mode}) {
             >
                 <HStack marginLeft={"5px"} marginRight={"10px"}>
                 <CharacterLimitedText text={exercise.name} maxLength={20}/>
+                {exercise.secret && (
+                                        <Icon
+                                            color="orange.500"
+                                            as={GoStop}
+                                            fontSize="16px"
+                                            marginRight="3px"
+                                            data-tooltip-html={
+                                                "Challenge is secret"
+                                            }
+                                            data-tooltip-place="top"
+                                            data-tooltip-effect="solid"
+                                            data-tooltip-id="tooltip-secret-exercise"
+                                            data-tooltip-offset={6}
+                                        />
+                                    )}
                 <Spacer/>
                 <Icon
                                         color="grey"

@@ -14,7 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchProfiles, selectProfile } from "../../features/profiles/profileSlice";
 
-import { IoIosWarning } from "react-icons/io";
+
+import { GoStop } from "react-icons/go";
 import ProfileNameCard from "../challenges/ProfileNameCard";
 import ProfileDescriptionCard from "../challenges/ProfileDescriptionCard";
 import ChallengesProfileCard from "../events/ChallengesProfileCard";
@@ -135,8 +136,8 @@ function NewEventFormProfileSelector( {
                 <Spacer/>
                 {profile.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={
@@ -145,7 +146,7 @@ function NewEventFormProfileSelector( {
                                             data-tooltip-place="right"
                                             data-tooltip-effect="solid"
                                             data-tooltip-id="tooltip-secret-exercise"
-                                            data-tooltip-offset={3}
+                                            data-tooltip-offset={6}
                                         />
                                     )}
             </Flex>
