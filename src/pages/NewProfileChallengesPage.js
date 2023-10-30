@@ -62,8 +62,6 @@ function NewProfileChallengesPage() {
                 ["public"]: e.target.checked
             })
         }
-    
-        
     };
 
     const toast = useToast();

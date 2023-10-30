@@ -63,10 +63,10 @@ export default function EventsPage() {
             gap={4}
         >
             <GridItem rowSpan={2} colSpan={24}>
-                <Flex margin="auto" w="fit-content">
+                <Flex w="fit-content">
                     <CreateEventCard />
                     <Spacer marginLeft="100px" marginRight="100px" />
-                    <AddChallengeCard />
+                    {/* <AddChallengeCard /> */}
                 </Flex>
             </GridItem>
             <GridItem rowStart={5} rowSpan={10} colSpan={24}>

@@ -17,7 +17,7 @@ import CreateNewEventChallengesDialog from './CreateNewEventChallengesDialog'
 function CreateEventDialog(props) {
   
   return (
-    <>  
+    <>
         <AlertDialog
           isOpen={props.isOpen}
           leastDestructiveRef={props.cancelRef}
@@ -31,8 +31,6 @@ function CreateEventDialog(props) {
               </AlertDialogHeader>
               <AlertDialogBody>
                 <Box marginLeft="15px">
-
-                
                 <Text> Event name: <b>{props.reqData.name}</b></Text>
                 <Text> Event will be available at: https://<b>{props.reqData.tag}</b>.haaukins.com </Text>
                 <Text> Number of participants: {props.reqData.maxLabs}</Text>
@@ -48,7 +46,6 @@ function CreateEventDialog(props) {
                 <Button ref={props.cancelRef} onClick={props.onClose}>
                   Cancel
                 </Button>
-              
                 <Button colorScheme='aau.buttonGreen' 
                 onClick={props.createEvent} 
                 ml={3}>
