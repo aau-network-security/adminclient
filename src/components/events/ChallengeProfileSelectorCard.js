@@ -1,5 +1,5 @@
 import { Box, Button, Flex, HStack } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { selectCategoryShow, selectProfileShow } from "../../features/challenges/challengeSlice";
@@ -8,6 +8,7 @@ import { selectCategoryShow, selectProfileShow } from "../../features/challenges
 function ChallengeProfileSelectorCard() {
     const dispatch = useDispatch();
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
+
     
   return (
     <>

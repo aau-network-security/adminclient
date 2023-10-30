@@ -23,6 +23,8 @@ import SearchBarCard from "../components/challenges/SearchBarCard";
 import ClearChallengesDialog from "../components/events/ClearChallengesDialog";
 import CreateEventDialog from "../components/events/CreateEventDialog";
 import toastMsg from "../components/events/toastMsg";
+import { selectCategoryShow } from "../features/challenges/challengeSlice";
+import { clearSelectedProfile } from "../features/profiles/profileSlice";
 
 
 
@@ -32,6 +34,7 @@ function DisplayChallengesOrProfiles({
     setReqDataState
 }){
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
+    
     if (challengesOrProfile === "profiles"){
         return (
            <NewEventFormProfileSelector
@@ -65,7 +68,7 @@ function NewEventPage() {
         dispatch(fetchCategories());
     }, [dispatch]);
     const [searchParams, setSearchParams] = useSearchParams();
-    
+ 
     
     
     const [reqDataState, setReqDataState] = useState({
@@ -83,6 +86,17 @@ function NewEventPage() {
         dynamicSolveThreshold: 100,
         secretKey: "",
     });
+
+    // reset states if profile has been selected recently
+    useEffect(() => {
+        dispatch(selectCategoryShow())
+        dispatch(clearSelectedProfile())
+        setReqDataState({
+            ...reqDataState,
+            ["exerciseTags"]:
+                [],
+        })
+    }, []);
 
     const changeHandler = (e) => {
         if (e.target.name === "eventName") {
@@ -112,6 +126,7 @@ function NewEventPage() {
             });
         }
     };
+
 
     // states for clear selected challenges dialog. 
     const [isAlertOpen, setIsAlertOpen] = useState(false)
