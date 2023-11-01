@@ -11,7 +11,6 @@ import {
     ModalHeader,
     ModalOverlay,
     Center,
-
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from "react";
 
@@ -36,6 +35,7 @@ import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
 import Logo from '../components/Logo';
 import { selectCategoryShow } from '../features/challenges/challengeSlice';
 import { isEmpty } from 'lodash';
+import { Navigate } from 'react-router-dom';
 
 
 
@@ -54,7 +54,7 @@ function DisplayCategoriesOrProfile(){
 }
 
 function ViewProfilesOrChallenges({  reqDataState,
-    setReqDataState}){
+    setReqDataState, permissions}){
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
     const profiles = useSelector((state) => state.profile.profiles);
     if (challengesOrProfile === "profiles"){
@@ -69,7 +69,9 @@ function ViewProfilesOrChallenges({  reqDataState,
                             <ProfileNameCard/>
                             <ProfileDescriptionCard/>
                             <ChallengesProfileCard reqData={reqDataState} setReqDataState={setReqDataState}/>
-                            <ProfileEditButtons/>
+                            {permissions === "(read|write)"
+                            ? <ProfileEditButtons/>
+                            :<></>}
                     
                         </VStack>
                     </Flex>
@@ -108,7 +110,17 @@ function ViewProfilesOrChallenges({  reqDataState,
 
 
 export default function ChallengesPage() {
-
+    const perms = useSelector((state) => state.user.loggedInUser.perms);
+    var permissions = ""
+    if (typeof perms !== "undefined") {
+        if (perms.challengeProfiles != "(read|write)"){
+            permissions = "read" 
+            // console.log("no permission to")
+        } else if (perms.challengeProfiles === "(read|write)"){
+            permissions = "(read|write)"
+        }
+    }
+    
     const dispatch = useDispatch();
     
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
@@ -147,7 +159,7 @@ export default function ChallengesPage() {
                 // dispatch(clearSelectedProfile())
             } else if (isEmpty(selectedProfile)){
                 dispatch(selectProfile(profiles[0]))
-                console.log(profiles)
+                // console.log(profiles)
                 setIsModalOpen(false)
             }else {
                 var updatedProfile = profiles.filter(item => item.id === selectedProfile.id);
@@ -193,7 +205,11 @@ export default function ChallengesPage() {
                 <VStack
                 spacing="40px"
                 align='stretch'>
-                    <AddProfileCard/>
+                    {permissions === "(read|write)"
+                    ? <AddProfileCard/>
+                    :<></>
+                    }
+                    
                     <ChallengeProfileSelectorCard/>
                     <DisplayCategoriesOrProfile/>
                 </VStack>
@@ -205,7 +221,8 @@ export default function ChallengesPage() {
                 
                 
                 <ViewProfilesOrChallenges reqDataState={reqDataState}
-                                    setReqDataState={setReqDataState}/>
+                                    setReqDataState={setReqDataState}
+                                    permissions={permissions}/>
                 
                
                 

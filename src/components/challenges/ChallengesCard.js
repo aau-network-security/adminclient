@@ -68,8 +68,8 @@ useEffect(() => {
         if (Object.keys(exercises).length > 0){
             
             if (exercises[0].category != selectedCategory.tag){
-                console.log(exercises[0].category)
-                console.log(selectedCategory.tag)
+                // console.log(exercises[0].category)
+                // console.log(selectedCategory.tag)
                 dispatch(fetchExercises(reqObj));
                 
             }

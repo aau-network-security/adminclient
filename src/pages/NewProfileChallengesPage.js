@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Logo from "../components/Logo";
 import { Tooltip } from "react-tooltip";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import NewProfileFormInputs from "../components/challenges/NewProfileFormInputs";
 import NewProfileFormChallengeSelector from "../components/challenges/NewProfileFormChallengeSelector";
 import { NavLink as ReactLink } from "react-router-dom";
@@ -26,6 +26,18 @@ import SelectedChallengesCard from "../components/challenges/SelectedChallengesC
 
 
 function NewProfileChallengesPage() {
+    const perms = useSelector((state) => state.user.loggedInUser.perms);
+
+    var permissions = ""
+    if (typeof perms !== "undefined") {
+        if (perms.challengeProfiles != "(read|write)"){
+            permissions = "read" 
+            // console.log("no permission to")
+        } else if (perms.challengeProfiles === "(read|write)"){
+            permissions = "(read|write)"
+        }
+    }
+
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const status = useSelector((state) => state.profile.status);
@@ -33,7 +45,7 @@ function NewProfileChallengesPage() {
     useEffect(() => {
         dispatch(fetchCategories());
     }, []);
-   
+    
 
     const [reqDataState, setReqDataState] = useState({
         name: "",
@@ -117,7 +129,9 @@ function NewProfileChallengesPage() {
             });
         }
     };
+ 
     return (
+
         <Flex
             flexDirection="column"
             width="90%"
@@ -227,5 +241,8 @@ function NewProfileChallengesPage() {
         </Flex>
     );
 }
+
+
+
 
 export default NewProfileChallengesPage;
