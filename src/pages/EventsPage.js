@@ -19,6 +19,7 @@ import CreateEventCard from "../components/events/CreateEventCard";
 import AddChallengeCard from "../components/events/AddChallengeCard";
 import EventsTable from "../components/events/EventsTable";
 import EventTeamsTable from "../components/events/EventTeamsTable";
+import GotoChallengesCard from "../components/events/GotoChallengesCard";
 
 export default function EventsPage() {
     return (
@@ -63,10 +64,10 @@ export default function EventsPage() {
             gap={4}
         >
             <GridItem rowSpan={2} colSpan={24}>
-                <Flex w="fit-content">
+                <Flex w="fit-content" margin="auto">
                     <CreateEventCard />
                     <Spacer marginLeft="100px" marginRight="100px" />
-                    {/* <AddChallengeCard /> */}
+                    <GotoChallengesCard />
                 </Flex>
             </GridItem>
             <GridItem rowStart={5} rowSpan={10} colSpan={24}>
