@@ -37,24 +37,29 @@ function ChallengeSelectorCard() {
 
     useEffect(() => {
         if (categories.length > 0) {
-            dispatch(selectCategory(categories[0]));
-            var reqObj = {
-                category: categories[0].tag,
-            };
-            dispatch(fetchExercises(reqObj));
+            if (selectedCategory.tag ==! categories[0].tag){
+                dispatch(selectCategory(categories[0]));
+            }
+            else{
+                dispatch(selectCategory(categories[0]));
+            }        
+            // var reqObj = {
+            //     category: categories[0].tag,
+            // };
+            // dispatch(fetchExercises(reqObj));
         }
     }, [categories]);
 
-    useEffect(() => {
-        // console.log("fetching exercises for: ", selectedCategory);
-        if (Object.keys(selectedCategory).length > 0) {
-            // console.log("fetching exercises for: ", selectedCategory.tag);
-            var reqObj = {
-                category: selectedCategory.tag,
-            };
-            dispatch(fetchExercises(reqObj));
-        }
-    }, [selectedCategory]);
+    // useEffect(() => {
+    //     // console.log("fetching exercises for: ", selectedCategory);
+    //     if (Object.keys(selectedCategory).length > 0) {
+    //         // console.log("fetching exercises for: ", selectedCategory.tag);
+    //         var reqObj = {
+    //             category: selectedCategory.tag,
+    //         };
+    //         dispatch(fetchExercises(reqObj));
+    //     }
+    // }, [selectedCategory]);
 
     const openModal = (content) => {
         setModalTitle(content.name);

@@ -54,7 +54,8 @@ function ChallengesCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => setIsModalOpen(false);
 
- 
+
+
 
 
 useEffect(() => {
@@ -64,7 +65,19 @@ useEffect(() => {
         var reqObj = {
             category: selectedCategory.tag,
         };
-        dispatch(fetchExercises(reqObj));
+        if (Object.keys(exercises).length > 0){
+            
+            if (exercises[0].category != selectedCategory.tag){
+                console.log(exercises[0].category)
+                console.log(selectedCategory.tag)
+                dispatch(fetchExercises(reqObj));
+                
+            }
+        }
+        else if (Object.keys(exercises).length === 0){
+            dispatch(fetchExercises(reqObj));
+        }
+        // console.log("exercises",exercises)
     }
 }, [selectedCategory]);
 

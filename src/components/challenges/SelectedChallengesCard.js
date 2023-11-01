@@ -47,7 +47,7 @@ function SelectedChallengesCard({reqData,setReqDataState, mode}) {
             dispatch(fetchSelectedExercises(reqObj));
             // console.log("reqdata", reqData.exerciseTags)
             // console.log("selectedExercises",selectedExercises)
-    }else if (mode === "create") {
+    } if (mode === "create") {
         // console.log("clearing in selected")
         dispatch(clearSelectedProfile())
     }

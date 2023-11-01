@@ -55,11 +55,9 @@ function EditProfileFormChallengeSelector({
 
     useEffect(() => {
         if (categories.length > 0) {
-            dispatch(selectCategory(categories[0]));
-            var reqObj = {
-                category: categories[0].tag,
-            };
-            dispatch(fetchExercises(reqObj));
+            if (selectedCategory.tag != categories[0].tag){
+                dispatch(selectCategory(categories[0]));
+            }
         }
     }, [categories]);
 
@@ -68,7 +66,18 @@ function EditProfileFormChallengeSelector({
             var reqObj = {
                 category: selectedCategory.tag,
             };
-            dispatch(fetchExercises(reqObj));
+            if (Object.keys(exercises).length > 0){
+            
+                if (exercises[0].category != selectedCategory.tag){
+                    console.log(exercises[0].category)
+                    console.log(selectedCategory.tag)
+                    dispatch(fetchExercises(reqObj));
+                    
+                }
+            }
+            else if (Object.keys(exercises).length === 0){
+                dispatch(fetchExercises(reqObj));
+            }
         }
     }, [selectedCategory]);
 

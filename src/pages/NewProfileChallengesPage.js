@@ -32,8 +32,8 @@ function NewProfileChallengesPage() {
     
     useEffect(() => {
         dispatch(fetchCategories());
-    }, [dispatch]);
-    
+    }, []);
+   
 
     const [reqDataState, setReqDataState] = useState({
         name: "",

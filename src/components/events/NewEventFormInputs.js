@@ -5,6 +5,7 @@ import {
     Flex,
     FormControl,
     FormLabel,
+    HStack,
     Icon,
     Input,
     InputGroup,
@@ -95,7 +96,10 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
             </FormControl>
             <FormControl marginBottom={7}>
                 <FormLabel fontSize="17px" color="aau.primary">
-                    Secret key
+                    <HStack>
+
+                    <Text> Secret key</Text>
+                    <Text color="gray.500">(Optional)</Text>
                     <Icon
                         color="grey"
                         position="relative"
@@ -111,6 +115,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         data-tooltip-id="tooltip-secret-key"
                         data-tooltip-offset={15}
                     />
+                    </HStack>
                 </FormLabel>
                 <InputGroup>
                     <Input

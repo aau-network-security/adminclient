@@ -44,7 +44,6 @@ function DisplayCategoriesOrProfile(){
     if (challengesOrProfile === "profiles"){
         return (
             <ProfileSelectorCard/>
-            
 
         )
     } else if (challengesOrProfile === "category"){
@@ -115,6 +114,7 @@ export default function ChallengesPage() {
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
     
     const profiles = useSelector((state) => state.profile.profiles);
+    
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
@@ -123,16 +123,12 @@ export default function ChallengesPage() {
         exerciseTags: [],
     });
     
-    
-
     useEffect(() => {
         dispatch(fetchCategories());
         dispatch(fetchProfiles());
     }, [dispatch]);
     
     
-
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const closeModal = () => {
         dispatch(selectCategoryShow())
@@ -148,9 +144,10 @@ export default function ChallengesPage() {
             if (profiles.length === 0){
                 // console.log("openmodal")
                 openModal("test")
-                dispatch(clearSelectedProfile())
+                // dispatch(clearSelectedProfile())
             } else if (isEmpty(selectedProfile)){
                 dispatch(selectProfile(profiles[0]))
+                console.log(profiles)
                 setIsModalOpen(false)
             }else {
                 var updatedProfile = profiles.filter(item => item.id === selectedProfile.id);
@@ -166,7 +163,7 @@ export default function ChallengesPage() {
                 setIsModalOpen(false)
             } 
     }
-    }, [challengesOrProfile,profiles,selectedProfile,dispatch]);
+    }, [challengesOrProfile,profiles,selectedProfile]);
 
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {     
