@@ -167,9 +167,20 @@ function UsersTable({ byRole }) {
                                       variant='ghost'
                                       fontSize="20px"
                                       icon={<MdDelete />}
+                                      data-tooltip-content="Delete user"
+                                      data-tooltip-place="left"
+                                      data-tooltip-effect="solid"
+                                      data-tooltip-id="tooltip-delete-user"
                                       onClick={() => openAlertDialog(user.user.Username, key)}                  
                                     />  
+                                    
                                   )}
+                                  <Tooltip 
+                                  id={"tooltip-delete-user"}
+                                  style={{
+                                      backgroundColor: defaultTheme.colors.aau.primary
+                                  }}
+                                />
                                 </>
                               )}
                               
