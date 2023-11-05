@@ -37,7 +37,7 @@ function ChallengeLevel(props) {
             for (let i in props.exercise.instance){
             
                 // check if children object exists
-                if (props.exercise.instance[i].children != undefined){
+                if (props.exercise.instance[i].children !== undefined){
                     // check if more than 1 child exists
                     if (props.exercise.instance[i].children.length > 1){
                         // Take a look at points for each of the flags
@@ -55,16 +55,16 @@ function ChallengeLevel(props) {
         
     } catch (error) {
         console.error();
-        console.log("Problem occured with: ", props.exercise)
+        // console.log("Problem occured with: ", props.exercise)
     }
   
     return (
         <>
         <HStack marginRight={5} spacing={2} >
-         {level.veryEasy == true && 
+         {level.veryEasy === true && 
         //    <Text color="green.200"> {sum}</Text> 
            <Icon
-                color="green.200"
+                color="green.400"
                 as={BsFillCircleFill}
                 fontSize="13px"
                 // marginRight="4px"
@@ -77,15 +77,15 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          } 
-         {level.easy == true && 
+         {level.easy === true && 
         //    <Text color="green"> {sum}</Text>  
            <Icon
-                color="aau.green"
+                color="blue.400"
                 as={BsFillCircleFill}
                 fontSize="13px"
                 // marginRight="3px"
                 data-tooltip-html={
-                    "Easy Challenge "
+                    "Easy Challenge"
                 }
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
@@ -93,7 +93,7 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          }
-         {level.medium == true && 
+         {level.medium === true && 
         //    <Text color="aau.green"> {sum}</Text>  
            <Icon
                 color="aau.yellow"
@@ -109,10 +109,10 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          } 
-         {level.hard == true && 
+         {level.hard === true && 
         //    <Text color="orange"> {sum}</Text>  
            <Icon
-                color="aau.orange"
+                color="orange.400"
                 as={BsFillCircleFill}
                 fontSize="13px"
                 // marginRight="3px"
@@ -125,7 +125,7 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          } 
-         {level.veryHard == true && 
+         {level.veryHard === true && 
         //    <Text color="aau.red"> {sum}</Text>  
            <Icon
                 color="aau.red"

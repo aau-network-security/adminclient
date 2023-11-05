@@ -11,7 +11,7 @@ const initialState = {
 }
 
 const challengeSlice = createSlice({
-    name: 'exercise',
+    name: 'challenges',
     initialState,
     reducers: {
         selectCategoryShow: (state) => {

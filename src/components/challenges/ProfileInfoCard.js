@@ -1,4 +1,4 @@
-import { Center, Flex, Grid, GridItem, HStack, Image, Spacer, Text, VStack } from '@chakra-ui/react'
+import { Center, Flex, Grid, GridItem, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 import AddProfileCard from './AddProfileCard'
 import Logo from '../Logo'
@@ -16,7 +16,7 @@ function ProfileInfoCard() {
     >
        
         <GridItem rowSpan={6} colSpan={13}>
-        {/* */}
+        
         </GridItem>
         <GridItem rowSpan={24} colSpan={9} >
         <Center h='100%'>
@@ -35,11 +35,6 @@ function ProfileInfoCard() {
         </GridItem>
 
         <GridItem rowSpan={6} colSpan={13} ></GridItem>
-      
-        
-        
-        
-        
     </Grid>
     
     

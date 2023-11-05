@@ -1,34 +1,17 @@
 import {
-    Center,
-    Checkbox,
-    CheckboxGroup,
     Flex,
-    FormControl,
     Grid,
     GridItem,
     Icon,
-    InputGroup,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
     Spacer,
-    Box,
     Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { FaRegQuestionCircle } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    fetchExercises,
-    selectCategory,
-} from "../../features/exercises/exerciseSlice";
-import { clearSelectedProfile, selectProfile } from "../../features/profiles/profileSlice";
-import { Tooltip } from "react-tooltip";
-import { IoIosWarning } from "react-icons/io";
+import React from "react";
 
+import { useDispatch, useSelector } from "react-redux";
+import { selectProfile } from "../../features/profiles/profileSlice";
+
+import { GoStop } from "react-icons/go";
 
 
 function ProfileSelectorCard() {
@@ -93,8 +76,8 @@ function ProfileSelectorCard() {
                 <Spacer></Spacer>
                 {profile.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={

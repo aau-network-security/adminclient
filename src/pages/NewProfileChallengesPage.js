@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Logo from "../components/Logo";
 import { Tooltip } from "react-tooltip";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import NewProfileFormInputs from "../components/challenges/NewProfileFormInputs";
 import NewProfileFormChallengeSelector from "../components/challenges/NewProfileFormChallengeSelector";
 import { NavLink as ReactLink } from "react-router-dom";
@@ -26,14 +26,26 @@ import SelectedChallengesCard from "../components/challenges/SelectedChallengesC
 
 
 function NewProfileChallengesPage() {
+    const perms = useSelector((state) => state.user.loggedInUser.perms);
+
+    var permissions = ""
+    if (typeof perms !== "undefined") {
+        if (perms.challengeProfiles != "(read|write)"){
+            permissions = "read" 
+            // console.log("no permission to")
+        } else if (perms.challengeProfiles === "(read|write)"){
+            permissions = "(read|write)"
+        }
+    }
+
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const status = useSelector((state) => state.profile.status);
-    const profiles = useSelector((state) => state.profile.profiles);
+    
     useEffect(() => {
         dispatch(fetchCategories());
-    }, [dispatch]);
-    const [searchParams, setSearchParams] = useSearchParams();
+    }, []);
+    
 
     const [reqDataState, setReqDataState] = useState({
         name: "",
@@ -44,26 +56,24 @@ function NewProfileChallengesPage() {
     
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
-            console.log("name", e.target.value.trim())
+            // console.log("name", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["name"]: e.target.value.trim(),
             });
         } else if (e.target.name === "profileDescription") {
-            console.log("description", e.target.value.trim())
+            // console.log("description", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["description"]: e.target.value.trim(),
             });
         } else if (e.target.name === "publish"){
-            console.log("public", e.target.checked)
+            // console.log("public", e.target.checked)
             setReqDataState({
                 ...reqDataState,
                 ["public"]: e.target.checked
             })
         }
-    
-        
     };
 
     const toast = useToast();
@@ -109,7 +119,7 @@ function NewProfileChallengesPage() {
             navigate("/challenges")
 
         } catch (err) {
-            console.log("got error saving profile", err);
+            // console.log("got error saving profile", err);
             toastIdRef.current = toast({
                 title: "Saving profile",
                 description: err.apiError.status,
@@ -119,7 +129,9 @@ function NewProfileChallengesPage() {
             });
         }
     };
+ 
     return (
+
         <Flex
             flexDirection="column"
             width="90%"
@@ -229,5 +241,8 @@ function NewProfileChallengesPage() {
         </Flex>
     );
 }
+
+
+
 
 export default NewProfileChallengesPage;

@@ -6,8 +6,9 @@ import { setSearchParam } from '../../features/challenges/challengeSlice';
 
 function SearchBarCard() {
   const dispatch = useDispatch();
+  useEffect(() => {
   dispatch(setSearchParam("")) //reset state when rerender. 
-  
+  },[])
   const changeHandler = (e) => {
     var lowerCase = e.target.value.toLowerCase();
     dispatch(setSearchParam(lowerCase))
@@ -33,15 +34,16 @@ function SearchBarCard() {
         />}
         />
     
-    <Input placeholder='Search' color='black' size='md' 
+    <Input placeholder='Search for name or description' color='black' size='md' 
     onChange={changeHandler}
     />
     </InputGroup>
-    
-    
     </>
     
   )
 }
 
 export default SearchBarCard
+
+
+

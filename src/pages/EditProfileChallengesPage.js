@@ -11,16 +11,13 @@ import {
 import React, { useEffect, useState } from "react";
 import Logo from "../components/Logo";
 import { Tooltip } from "react-tooltip";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import NewProfileFormInputs from "../components/challenges/NewProfileFormInputs";
-import NewProfileFormChallengeSelector from "../components/challenges/NewProfileFormChallengeSelector";
+import { useNavigate } from "react-router-dom";
 import { NavLink as ReactLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../features/exercises/exerciseSlice";
-import { createEvent } from "../features/events/eventSlice";
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
-import { createProfile, fetchProfiles, selectProfile, updateProfile } from "../features/profiles/profileSlice";
+import { updateProfile } from "../features/profiles/profileSlice";
 import EditProfileFormInputs from "../components/challenges/EditProfileFormInputs";
 import EditProfileFormChallengeSelector from "../components/challenges/EditProfileFormChallengeSelector";
 
@@ -30,7 +27,6 @@ function EditProfileChallengesPage() {
     const navigate = useNavigate()
     
     const status = useSelector((state) => state.event.status);
-    const profiles = useSelector((state) => state.profile.profiles);
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
@@ -51,9 +47,9 @@ function EditProfileChallengesPage() {
      
     var initialExerciseTags = [] 
     useEffect(() => {
-        console.log("test exer", selectedProfile)
+        // console.log("test exer", selectedProfile)
         if (selectedProfile.exercises !== undefined){
-            console.log("test")
+            // console.log("test")
             if (Object.keys(selectedProfile.exercises).length > 0){
                 initialExerciseTags = selectedProfile.exercises.map(exercise => exercise.Tag)
                 setReqDataState(reqDataState => ({
@@ -61,7 +57,7 @@ function EditProfileChallengesPage() {
                     exerciseTags: initialExerciseTags
                     
                 }));
-                console.log("tags for editing profile",initialExerciseTags)
+                // console.log("tags for editing profile",initialExerciseTags)
             }
             setReqDataState(reqDataState =>({
                 ...reqDataState,
@@ -84,19 +80,19 @@ function EditProfileChallengesPage() {
     
     const changeHandler = (e) => {
         if (e.target.name === "profileName") {
-            console.log("name", e.target.value.trim())
+            // console.log("name", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["name"]: e.target.value.trim(),
             });
         } else if (e.target.name === "profileDescription") {
-            console.log("description", e.target.value.trim())
+            // console.log("description", e.target.value.trim())
             setReqDataState({
                 ...reqDataState,
                 ["description"]: e.target.value.trim(),
             });
         }else if (e.target.name === "publish"){
-            console.log("public", e.target.checked)
+            // console.log("public", e.target.checked)
             setReqDataState({
                 ...reqDataState,
                 ["public"]: e.target.checked
@@ -153,7 +149,7 @@ function EditProfileChallengesPage() {
             
             
         } catch (err) {
-            console.log("got error saving profile", err);
+            // console.log("got error saving profile", err);
             toastIdRef.current = toast({
                 title: "Saving profile",
                 description: err.apiError.status,
@@ -264,15 +260,8 @@ function EditProfileChallengesPage() {
                     </>
                 )}
             </Box>
-            <Tooltip id="tooltip-event-tag" />
-            <Tooltip id="tooltip-secret-key" />
-            <Tooltip id="tooltip-max-labs" />
-            <Tooltip id="tooltip-finish-date" />
-            <Tooltip id="tooltip-dynamic-scoring" />
-            <Tooltip id="tooltip-dynamic-scoring-max" />
-            <Tooltip id="tooltip-dynamic-scoring-min" />
-            <Tooltip id="tooltip-dynamic-scoring-solve-threshold" />
-            <Tooltip id="tooltip-team-size" />
+            <Tooltip id="tooltip-profile-public" />
+            <Tooltip id="tooltip-profile-description" />
         </Flex>
     );
 }

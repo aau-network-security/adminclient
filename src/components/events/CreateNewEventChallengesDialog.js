@@ -1,6 +1,5 @@
 import {
   Center,
-  CheckboxGroup,
   Flex,
   Grid,
   GridItem,
@@ -14,38 +13,36 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchExercises
-} from "../../features/exercises/exerciseSlice";
+
 import LoadingSpin from "react-loading-spin";
-
-import { GoStop } from "react-icons/go";
-
+import { IoIosWarning } from "react-icons/io";
 import { Tooltip } from "react-tooltip";
-
 import { defaultTheme } from "../..";
-import { cloneDeep, debounce } from "lodash";
-import ChallengeLevel from "./ChallengeLevel";
+import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
+import { BsInfoCircle } from "react-icons/bs";
+import ChallengeLevel from "../challenges/ChallengeLevel";
 
-function ChallengesCard({
+
+
+
+
+function CreateNewEventChallengesDialog({
   reqData,
-  setReqDataState,
-  challengesOrProfile
+  setReqDataState
 }) {
-
+ 
   const dispatch = useDispatch();
 
-  const selectedCategory = useSelector(
-      (state) => state.exercise.selectedCategory
-  );
-
-  const exercises = useSelector((state) => state.exercise.exercises);
-  const [filteredExercises, setFilteredExercises] = useState("");
+  const selectedProfile = useSelector(
+    (state) => state.profile.selectedProfile
+    );
+  const selectedExercises = useSelector((state) => state.profile.selectedExercises);
+ 
+  
   const fetchingExercises = useSelector(
-      (state) => state.exercise.fetchingExercises
+      (state) => state.profile.fetchingSelectedExercises
   );
 
 
@@ -54,32 +51,22 @@ function ChallengesCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => setIsModalOpen(false);
 
-
-
-
-
-useEffect(() => {
-    // console.log("fetching exercises for: ", selectedCategory);
-    if (Object.keys(selectedCategory).length > 0) {
-        // console.log("fetching exercises for: ", selectedCategory.tag);
-        var reqObj = {
-            category: selectedCategory.tag,
-        };
-        if (Object.keys(exercises).length > 0){
-            
-            if (exercises[0].category != selectedCategory.tag){
-                // console.log(exercises[0].category)
-                // console.log(selectedCategory.tag)
-                dispatch(fetchExercises(reqObj));
-                
-            }
+  useEffect(() => {
+    if (reqData.exerciseTags != null){
+        if (reqData.exerciseTags.length > 0){
+            var reqObj = {
+                tags: reqData.exerciseTags
+            }   
+            dispatch(fetchSelectedExercises(reqObj));
+            // console.log("reqObj",reqObj)
+            // console.log("selectedExercises",selectedExercises)
         }
-        else if (Object.keys(exercises).length === 0){
-            dispatch(fetchExercises(reqObj));
-        }
-        // console.log("exercises",exercises)
     }
-}, [selectedCategory]);
+    
+}, []);
+
+
+
 
 const openModal = (content) => {
   setModalTitle(content.name);
@@ -91,32 +78,6 @@ const openModal = (content) => {
   setIsModalOpen(true);
 };
 
-const searchValue = useSelector((state) => state.challenge.searchParam);
-
-const changeSearchData = (text, exercises) => { 
-    if (text === "") {
-        setFilteredExercises(cloneDeep(exercises));
-      }else {
-        setFilteredExercises(
-            cloneDeep(
-                exercises.filter((el) => {
-                return (el.name.toLowerCase().indexOf(text.toLowerCase()) > -1 || el.organizer_description.toLowerCase().indexOf(text.toLowerCase()) > -1);
-            })
-            )
-        )
-    }
-  };
-  
-  const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
-
-      useEffect(() => {
-        debounceLoadData(searchValue, exercises);
-      }, [searchValue, exercises]);
-
-      useEffect(() => {
-        setFilteredExercises(exercises)
-        // console.log(filteredExercises)
-        }, [exercises])
 
 
   return (
@@ -127,7 +88,8 @@ const changeSearchData = (text, exercises) => {
         width="100%"
         marginLeft="15px"
         height="100%"
-        maxH="700px"
+        paddingTop={"5px"}
+        maxH="330px"
         
       >
             <GridItem
@@ -144,12 +106,13 @@ const changeSearchData = (text, exercises) => {
                     </Center>
                 ) : (
                     <>
-                        {Object.entries(filteredExercises).map(([key, exercise]) => (
+                    
+                    {Object.entries(selectedExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
                                 width="100%"
-                                height="50px"
-                                padding="0 10px 0 10px"
+                                height="35px"
+                                padding="0 20px 0 20px"
                                 alignItems="center"
                             >
                                 <Flex width="100%" marginRight="30px">
@@ -158,8 +121,8 @@ const changeSearchData = (text, exercises) => {
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="orange.500"
-                                            as={GoStop}
+                                            color="aau.red"
+                                            as={IoIosWarning}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={
@@ -173,22 +136,26 @@ const changeSearchData = (text, exercises) => {
                                     )}
                                     <Spacer/>
                                     <ChallengeLevel exercise={exercise}/>
+                                    {/* <DifficulityLevel exercise={exercise}/> */}
+                                    
                                     <Icon
                                         color="grey"
                                         position={"relative"}
                                         top="1px"
-                                        as={FaRegQuestionCircle}
-                                        fontSize="16px"
+                                        as={BsInfoCircle}
+                                        fontSize="20px"
                                         cursor="pointer"
                                         onClick={() => openModal(exercise)}
                                         zIndex="999"
                                     />
+                                    
                                 </Flex>
                                 
                     
                             </Flex>
                         ))}
-                    </>
+                     
+                     </>
                 )}
             </GridItem>
 
@@ -219,10 +186,11 @@ const changeSearchData = (text, exercises) => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-            <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise" />
-      
+            <Tooltip style={{ zIndex: 999 }} id="tooltip-secret-exercise"/>
+            
+            <Tooltip style={{ zIndex: 999 }} id="tooltip-exercise-difficulity" />
       </Grid>
   )
 }
 
-export default ChallengesCard
+export default CreateNewEventChallengesDialog

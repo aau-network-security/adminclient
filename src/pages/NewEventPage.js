@@ -2,6 +2,8 @@ import {
     Box,
     Button,
     Flex,
+    Grid,
+    GridItem,
     Text,
     useToast,
 } from "@chakra-ui/react";
@@ -15,17 +17,60 @@ import { NavLink as ReactLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../features/exercises/exerciseSlice";
 import { createEvent } from "../features/events/eventSlice";
+import NewEventFormProfileSelector from "../components/events/NewEventFormProfileSelector";
+import ChallengeProfileSelectorCard from "../components/events/ChallengeProfileSelectorCard";
+import SearchBarCard from "../components/challenges/SearchBarCard";
+import ClearChallengesDialog from "../components/events/ClearChallengesDialog";
+import CreateEventDialog from "../components/events/CreateEventDialog";
+import toastMsg from "../components/events/toastMsg";
+import { selectCategoryShow } from "../features/challenges/challengeSlice";
+import { clearSelectedProfile } from "../features/profiles/profileSlice";
+
+
+
+function DisplayChallengesOrProfiles({
+    changeHandler,
+    reqDataState,
+    setReqDataState
+}){
+    const challengesOrProfile = useSelector((state) => state.challenge.selector);
+    
+    if (challengesOrProfile === "profiles"){
+        return (
+           <NewEventFormProfileSelector
+                changeHandler={changeHandler}
+                reqData={reqDataState}
+                setReqDataState={setReqDataState}/>
+        )
+    } else if (challengesOrProfile === "category"){
+        return (
+            <>
+             <NewEventFormChallengeSelector
+                            changeHandler={changeHandler}
+                            reqData={reqDataState}
+                            setReqDataState={setReqDataState}
+                        />
+            
+            </>
+        )
+        // return (<ChallengesCard/>)
+    }
+}
+ 
+
 
 function NewEventPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const status = useSelector((state) => state.event.status);
-
+    const challengesOrProfile = useSelector((state) => state.challenge.selector);
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
     const [searchParams, setSearchParams] = useSearchParams();
-
+ 
+    
+    
     const [reqDataState, setReqDataState] = useState({
         type: searchParams.get("type"),
         name: "",
@@ -41,6 +86,17 @@ function NewEventPage() {
         dynamicSolveThreshold: 100,
         secretKey: "",
     });
+
+    // reset states if profile has been selected recently
+    useEffect(() => {
+        dispatch(selectCategoryShow())
+        dispatch(clearSelectedProfile())
+        setReqDataState({
+            ...reqDataState,
+            ["exerciseTags"]:
+                [],
+        })
+    }, []);
 
     const changeHandler = (e) => {
         if (e.target.name === "eventName") {
@@ -71,9 +127,55 @@ function NewEventPage() {
         }
     };
 
+
+    // states for clear selected challenges dialog. 
+    const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const onAlertClose = () => setIsAlertOpen(false)
+    const cancelRef = React.useRef()
+
+    const openAlertDialog = (e) => {
+        setIsAlertOpen(true)
+        }
+    
+
+    const doClearSelectedChallenges = (e) => {
+        // console.log("clear selected challenges")
+        setReqDataState({
+            ...reqDataState,
+            ["exerciseTags"]:
+                [],
+        })
+
+    }
+    const noChallengesSelected = () => {
+        toastIdRef.current = toast({
+            title: "No challenges selected",
+            description: "Select some challenges to create an event",
+            status: "error",
+            duration: 5000,
+            isClosable: true,});
+    }
+
+    const [createEventIsAlertOpen, setCreateEventIsAlertOpen] = useState(false)
+    const createEventOnAlertClose = () => setCreateEventIsAlertOpen(false)
+    // const cancelRef = React.useRef()
+
+    const openCreateEventDialog = (e) => {
+        const formCheck = toastMsg(reqDataState)
+        // console.log("formCheck",formCheck)
+        if (formCheck.msg === ""){
+            toastIdRef.current = toast(formCheck.toastData);
+            setCreateEventIsAlertOpen(false)
+        }else{
+            setCreateEventIsAlertOpen(true)
+        }
+        
+        }
+
     const toast = useToast();
     const toastIdRef = React.useRef();
     const handleSubmit = async (e) => {
+        setCreateEventIsAlertOpen(false)
         e.preventDefault();
         var reqData = {
             type: reqDataState.type === "advanced" ? 1 : 0,
@@ -90,23 +192,18 @@ function NewEventPage() {
             dynamicSolveThreshold: reqDataState.dynamicSolveThreshold,
             secretKey: reqDataState.secretKey,
         };
-
-        // Convert type to number that daemon understands
-
-
-        if (reqData.exerciseTags.length === 0) {
-            toastIdRef.current = toast({
-                title: "No challenges selected",
-                description: "Select some challenges to create an event",
-                status: "error",
-                duration: 5000,
-                isClosable: true,
-            });
-            return;
-        }
+        // const formCheck = toastMsg(reqDataState)
+        // console.log("formCheck",formCheck)
+        
+        // if (formCheck.msg === ""){
+        //     console.log("lets goo")
+        //     toastIdRef.current = toast(formCheck.toastData);
+        //     return;
+        // }
 
         try {
             const response = await dispatch(createEvent(reqData)).unwrap();
+            // console.log("try success")
             toastIdRef.current = toast({
                 title: "Event successfully created",
                 description: "The event was successfully created",
@@ -116,7 +213,7 @@ function NewEventPage() {
             });
             navigate("/events")
         } catch (err) {
-            console.log("got error starting exercise", err);
+            // console.log("got error starting exercise", err);
             toastIdRef.current = toast({
                 title: "Error creating event",
                 description: err.apiError.status,
@@ -127,6 +224,7 @@ function NewEventPage() {
         }
     };
     return (
+        <>
         <Flex
             flexDirection="column"
             width="90%"
@@ -155,9 +253,31 @@ function NewEventPage() {
                     </Flex>
                 ) : (
                     <>
-                        <Text color="aau.primary" fontSize="30px" marginBottom={10}>
-                            Create new {searchParams.get("type")} event
-                        </Text>
+                        
+                        <Flex flexDir="row">
+                            <Flex w="40%">
+                                <Text color="aau.primary" fontSize="30px" marginBottom={10}>
+                                    Create new {searchParams.get("type")} event
+                                </Text>
+                            </Flex>    
+                            <Flex w="19%" marginLeft="10px" marginTop="20px">
+                                <ChallengeProfileSelectorCard/>
+                            </Flex>
+                            {challengesOrProfile === "category" ?( 
+                            <Flex w="40%" margin="20px 0 0 0px" padding="0px 0px 25px 20px">
+                                <SearchBarCard/>
+                            </Flex>
+                            ):(
+                                <></>
+                            )
+
+                            
+                            }
+                            
+
+                        </Flex>
+                        
+                           
                         <form
                             onSubmit={handleSubmit}
                             style={{ height: "100%" }}
@@ -175,16 +295,22 @@ function NewEventPage() {
                                     reqData={reqDataState}
                                     setReqDataState={setReqDataState}
                                 />
-                                <NewEventFormChallengeSelector
+
+                                <DisplayChallengesOrProfiles
+                                    changeHandler={changeHandler}
+                                    reqDataState={reqDataState}
+                                    setReqDataState={setReqDataState}
+                                />
+                                {/* <NewEventFormChallengeSelector
                                     changeHandler={changeHandler}
                                     reqData={reqDataState}
                                     setReqDataState={setReqDataState}
-                                />
+                                /> */}
                             </Flex>
                             <Flex
                                 width={"100%"}
                                 marginTop="20px"
-                                justifyContent={"center"}
+                                justifyContent={"right"}
                             >
                                 <Button
                                     colorScheme="aau.button"
@@ -195,18 +321,72 @@ function NewEventPage() {
                                 >
                                     Back
                                 </Button>
-                                <Button
-                                    colorScheme="aau.buttonGreen"
+                                
+                                {reqDataState.exerciseTags.length === 0
+                                
+                                ?(<>
+                                    <Button
+                                    colorScheme="aau.buttonGray"
                                     color="white"
-                                    type="submit"
+                                    // type="submit"
+                                    onClick={()=> noChallengesSelected()}
+                                    marginRight="210px"
                                 >
                                     Create event
                                 </Button>
+                               
+                               
+                                <Button
+                                    colorScheme="aau.buttonGray"
+                                    color="white"
+                                    onClick={() => noChallengesSelected()}
+                                >
+                                    Clear selected challenges
+                                </Button>
+                                
+                                </>):(
+                                <>
+                                    <Button
+                                    colorScheme="aau.buttonGreen"
+                                    color="white"
+                                    // type="submit"
+                                    onClick={()=> openCreateEventDialog()}
+                                    marginRight="210px"
+                                    // type="submit"
+                                >
+                                    Create event
+                                </Button>
+                               
+                               
+                                <Button
+                                    colorScheme="aau.button"
+                                    color="white"
+                                    
+                                    onClick={() => openAlertDialog()}
+                                >
+                                    Clear selected challenges
+                                </Button>
+                                </>
+                                )
+                                
+                                }
+                                
                             </Flex>
+                            <CreateEventDialog
+                                isOpen={createEventIsAlertOpen}
+                                onClose={createEventOnAlertClose}
+                                cancelRef={cancelRef}
+                                createEvent={handleSubmit}
+                                reqData={reqDataState}
+                                setReqDataState={setReqDataState}
+                                />
                         </form>
+                        
                     </>
                 )}
             </Box>
+            <Tooltip style={{ zIndex: 999 }} id="tooltip-exercise-difficulity" />
+            <Tooltip id="tooltip-private-profile" />
             <Tooltip id="tooltip-event-tag" />
             <Tooltip id="tooltip-secret-key" />
             <Tooltip id="tooltip-max-labs" />
@@ -217,6 +397,13 @@ function NewEventPage() {
             <Tooltip id="tooltip-dynamic-scoring-solve-threshold" />
             <Tooltip id="tooltip-team-size" />
         </Flex>
+        
+        <ClearChallengesDialog 
+            isOpen={isAlertOpen}
+            onClose={onAlertClose}
+            cancelRef={cancelRef}
+            deleteProfile={doClearSelectedChallenges}> </ClearChallengesDialog>
+        </>
     );
 }
 

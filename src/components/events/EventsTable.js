@@ -49,6 +49,7 @@ function EventsTable() {
 
   const setSelectedEvent = (event) => {
     dispatch(selectEvent(event));
+    console.log(selectedEvent)
   };
 
   const toast = useToast()
@@ -155,6 +156,7 @@ function EventsTable() {
     </>
     )
   }
+
   return (
     <>
       <Flex className="container-header" height="60px">
@@ -266,7 +268,7 @@ function EventsTable() {
                   <Td >{event.name}</Td>
                   <Td >{event.type}</Td>
                   <Td >
-                    <Link href={event.url} target="_blank" color="#54616e">
+                    <Link href={"https://"+ event.tag + ".beta.haaukins.com"} target="_blank" color="#54616e">
                       Goto event
                     </Link>
                   </Td>

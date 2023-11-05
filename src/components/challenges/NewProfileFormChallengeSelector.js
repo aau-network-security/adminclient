@@ -25,11 +25,11 @@ import {
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
 import LoadingSpin from "react-loading-spin";
-import { IoIosWarning } from "react-icons/io";
+import { GoStop } from "react-icons/go";
+
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
 import { cloneDeep, debounce } from "lodash";
-import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
 import ChallengeLevel from "./ChallengeLevel";
 
 
@@ -57,11 +57,10 @@ function NewProfileFormChallengeSelector({
 
     useEffect(() => {
         if (categories.length > 0) {
-            dispatch(selectCategory(categories[0]));
-            var reqObj = {
-                category: categories[0].tag,
-            };
-            dispatch(fetchExercises(reqObj));
+            if (selectedCategory.tag != categories[0].tag){
+                dispatch(selectCategory(categories[0]));
+            }
+        
         }
     }, [categories]);
 
@@ -70,7 +69,18 @@ function NewProfileFormChallengeSelector({
             var reqObj = {
                 category: selectedCategory.tag,
             };
-            dispatch(fetchExercises(reqObj));
+            if (Object.keys(exercises).length > 0){
+            
+                if (exercises[0].category != selectedCategory.tag){
+                    // console.log(exercises[0].category)
+                    // console.log(selectedCategory.tag)
+                    dispatch(fetchExercises(reqObj));
+                    
+                }
+            }
+            else if (Object.keys(exercises).length === 0){
+                dispatch(fetchExercises(reqObj));
+            }
         }
     }, [selectedCategory]);
 
@@ -94,7 +104,7 @@ function NewProfileFormChallengeSelector({
             setFilteredExercises(
                 cloneDeep(
                     exercises.filter((el) => {
-                    return el.name.toLowerCase().indexOf(text.toLowerCase()) > -1;
+                    return (el.name.toLowerCase().indexOf(text.toLowerCase()) > -1 || el.organizer_description.toLowerCase().indexOf(text.toLowerCase()) > -1);
                 })
                 )
             )
@@ -193,7 +203,7 @@ function NewProfileFormChallengeSelector({
                                 ...reqData,
                                 ["exerciseTags"]: values,
                             })
-                            console.log(reqData)
+                            // console.log(reqData)
                             
                         }
                             
@@ -214,8 +224,8 @@ function NewProfileFormChallengeSelector({
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={

@@ -1,9 +1,11 @@
 import {
     Box,
+    Button,
     Checkbox,
     Flex,
     FormControl,
     FormLabel,
+    HStack,
     Icon,
     Input,
     InputGroup,
@@ -23,6 +25,20 @@ import { useSearchParams } from "react-router-dom";
 
 function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
     const [searchParams, setSearchParams] = useSearchParams();
+    // Disable past dates and times
+    const isDateTimeDisabled = (date) => {
+    const currentDateTime = new Date();  
+    return date > currentDateTime;
+    };
+
+    const handleDateChange = (date) => {
+    setReqDataState({
+        ...reqData,
+        ["expectedFinishDate"]:
+            date,
+    })
+    };
+
     return (
         <Box width="40%">
             <FormControl marginBottom={7} isRequired>
@@ -80,7 +96,10 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
             </FormControl>
             <FormControl marginBottom={7}>
                 <FormLabel fontSize="17px" color="aau.primary">
-                    Secret key
+                    <HStack>
+
+                    <Text> Secret key</Text>
+                    <Text color="gray.500">(Optional)</Text>
                     <Icon
                         color="grey"
                         position="relative"
@@ -96,6 +115,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         data-tooltip-id="tooltip-secret-key"
                         data-tooltip-offset={15}
                     />
+                    </HStack>
                 </FormLabel>
                 <InputGroup>
                     <Input
@@ -138,6 +158,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                     </FormLabel>
                     <InputGroup display="block">
                         <NumberInput
+                            min={1}
                             backgroundColor="#f7fafc"
                             borderColor="#edf3f8"
                             focusBorderColor="#c8dcea"
@@ -260,11 +281,9 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         timeIntervals={10}
                         autoComplete={"off"}
                         selected={reqData.expectedFinishDate}
-                        onChange={(date) => setReqDataState({
-                            ...reqData,
-                            ["expectedFinishDate"]:
-                                date,
-                        })}
+                        onChange={handleDateChange}
+                        minDate={new Date()} 
+                        filterTime={isDateTimeDisabled}
                     />
                 </InputGroup>
             </FormControl>
@@ -420,7 +439,9 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </InputGroup>
+                                    
                                 </FormControl>
+                                
                             </Flex>
                         )}
                     </InputGroup>

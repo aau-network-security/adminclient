@@ -11,7 +11,6 @@ import {
     ModalHeader,
     ModalOverlay,
     Center,
-
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from "react";
 
@@ -36,7 +35,8 @@ import ProfileInfoCard from '../components/challenges/ProfileInfoCard';
 import Logo from '../components/Logo';
 import { selectCategoryShow } from '../features/challenges/challengeSlice';
 import { isEmpty } from 'lodash';
-import ProfilePublishedCard from '../components/challenges/ProfilePublishedCard';
+import { Navigate } from 'react-router-dom';
+
 
 
 function DisplayCategoriesOrProfile(){
@@ -44,7 +44,6 @@ function DisplayCategoriesOrProfile(){
     if (challengesOrProfile === "profiles"){
         return (
             <ProfileSelectorCard/>
-            
 
         )
     } else if (challengesOrProfile === "category"){
@@ -55,7 +54,7 @@ function DisplayCategoriesOrProfile(){
 }
 
 function ViewProfilesOrChallenges({  reqDataState,
-    setReqDataState}){
+    setReqDataState, permissions}){
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
     const profiles = useSelector((state) => state.profile.profiles);
     if (challengesOrProfile === "profiles"){
@@ -70,7 +69,9 @@ function ViewProfilesOrChallenges({  reqDataState,
                             <ProfileNameCard/>
                             <ProfileDescriptionCard/>
                             <ChallengesProfileCard reqData={reqDataState} setReqDataState={setReqDataState}/>
-                            <ProfileEditButtons/>
+                            {permissions === "(read|write)"
+                            ? <ProfileEditButtons/>
+                            :<></>}
                     
                         </VStack>
                     </Flex>
@@ -109,12 +110,23 @@ function ViewProfilesOrChallenges({  reqDataState,
 
 
 export default function ChallengesPage() {
-
+    const perms = useSelector((state) => state.user.loggedInUser.perms);
+    var permissions = ""
+    if (typeof perms !== "undefined") {
+        if (perms.challengeProfiles != "(read|write)"){
+            permissions = "read" 
+            // console.log("no permission to")
+        } else if (perms.challengeProfiles === "(read|write)"){
+            permissions = "(read|write)"
+        }
+    }
+    
     const dispatch = useDispatch();
     
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
     
     const profiles = useSelector((state) => state.profile.profiles);
+    
     const selectedProfile = useSelector(
         (state) => state.profile.selectedProfile
     );
@@ -123,16 +135,12 @@ export default function ChallengesPage() {
         exerciseTags: [],
     });
     
-    const changeHandler = (e) => {}
-
     useEffect(() => {
         dispatch(fetchCategories());
         dispatch(fetchProfiles());
     }, [dispatch]);
     
     
-
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const closeModal = () => {
         dispatch(selectCategoryShow())
@@ -148,15 +156,16 @@ export default function ChallengesPage() {
             if (profiles.length === 0){
                 // console.log("openmodal")
                 openModal("test")
-                dispatch(clearSelectedProfile())
+                // dispatch(clearSelectedProfile())
             } else if (isEmpty(selectedProfile)){
                 dispatch(selectProfile(profiles[0]))
+                // console.log(profiles)
                 setIsModalOpen(false)
             }else {
                 var updatedProfile = profiles.filter(item => item.id === selectedProfile.id);
-                console.log(updatedProfile.length)
+                // console.log(updatedProfile.length)
                 if (updatedProfile.length === 0){
-                        console.log("updated profile id is undefined")
+                        // console.log("updated profile id is undefined")
                         dispatch(selectProfile(profiles[0]));
                 } else if (updatedProfile[0] === selectedProfile) {
                             dispatch(selectProfile(updatedProfile[0]))
@@ -166,19 +175,19 @@ export default function ChallengesPage() {
                 setIsModalOpen(false)
             } 
     }
-    }, [challengesOrProfile,profiles,selectProfile]);
+    }, [challengesOrProfile,profiles,selectedProfile]);
+
     useEffect(() => {
-        if (challengesOrProfile  === "profiles") {  
-            
+        if (challengesOrProfile  === "profiles") {     
             if (profiles.length === 0){
-                console.log("openmodal")
+                // console.log("openmodal")
                 openModal("test")
             } else {
-                console.log("closemodal")
+                // console.log("closemodal")
                 setIsModalOpen(false);
             }
         }
-    }, [challengesOrProfile]);
+    }, [challengesOrProfile,profiles]);
   return (
             <Grid
             height="100%"
@@ -196,7 +205,11 @@ export default function ChallengesPage() {
                 <VStack
                 spacing="40px"
                 align='stretch'>
-                    <AddProfileCard/>
+                    {permissions === "(read|write)"
+                    ? <AddProfileCard/>
+                    :<></>
+                    }
+                    
                     <ChallengeProfileSelectorCard/>
                     <DisplayCategoriesOrProfile/>
                 </VStack>
@@ -208,7 +221,8 @@ export default function ChallengesPage() {
                 
                 
                 <ViewProfilesOrChallenges reqDataState={reqDataState}
-                                    setReqDataState={setReqDataState}/>
+                                    setReqDataState={setReqDataState}
+                                    permissions={permissions}/>
                 
                
                 

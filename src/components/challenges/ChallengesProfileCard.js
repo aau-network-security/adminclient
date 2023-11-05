@@ -1,16 +1,10 @@
 import {
-  Box,
-  Button,
   Center,
-  Checkbox,
   CheckboxGroup,
   Flex,
-  FormControl,
   Grid,
   GridItem,
   Icon,
-  InputGroup,
-  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -20,19 +14,17 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import React, {useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchExercises,
-  selectCategory,
-} from "../../features/exercises/exerciseSlice";
+
 import LoadingSpin from "react-loading-spin";
 import { IoIosWarning } from "react-icons/io";
+import { GoStop } from "react-icons/go";
 import { Tooltip } from "react-tooltip";
 
 import { defaultTheme } from "../..";
-import { cloneDeep, debounce } from "lodash";
+
 import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
 import { BsInfoCircle, BsFillCircleFill } from "react-icons/bs";
 import ChallengeLevel from "./ChallengeLevel";
@@ -73,25 +65,12 @@ function ChallengesProfileCard({
             }   
             reqObj.tags = selectedProfile.exercises.map(exercise => exercise.Tag)
             dispatch(fetchSelectedExercises(reqObj));
-            console.log("reqObj",reqObj)
-            console.log("selectedExercises",selectedExercises)
+            // console.log("reqObj",reqObj)
+            // console.log("selectedExercises",selectedExercises)
         }
     }
     
 }, [selectedProfile]);
-
-
-//   useEffect(() => {
-//     console.log("fetching exercises for: ", selectedCategory);
-//     if (Object.keys(selectedCategory).length > 0) {
-//         console.log("fetching exercises for: ", selectedCategory.tag);
-//         var reqObj = {
-//             category: selectedCategory.tag,
-//         };
-//         dispatch(fetchExercises(reqObj));
-//     }
-// }, [selectedCategory]);
-
 
 const openModal = (content) => {
   setModalTitle(content.name);
@@ -113,7 +92,8 @@ const openModal = (content) => {
         width="100%"
         marginLeft="15px"
         height="100%"
-        maxH="700px"
+        maxH="400px"
+        
         
       >
             <GridItem
@@ -129,16 +109,7 @@ const openModal = (content) => {
                         <LoadingSpin primaryColor={defaultTheme.colors.aau.primary} size="100px" />
                     </Center>
                 ) : (
-                    <CheckboxGroup
-                        value={reqData.exerciseTags}
-                        onChange={(values) =>
-                            setReqDataState({
-                                ...reqData,
-                                ["exerciseTags"]: values,
-                            })
-                        }
-                        name="exercises"
-                    >
+                   <>
                     {Object.entries(selectedExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
@@ -153,8 +124,8 @@ const openModal = (content) => {
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={
@@ -168,7 +139,6 @@ const openModal = (content) => {
                                     )}
                                     <Spacer/>
                                     <ChallengeLevel exercise={exercise}/>
-                                    {/* <DifficulityLevel exercise={exercise}/> */}
                                     
                                     <Icon
                                         color="grey"
@@ -186,7 +156,7 @@ const openModal = (content) => {
                     
                             </Flex>
                         ))}
-                     </CheckboxGroup>
+                     </>
                 )}
             </GridItem>
 

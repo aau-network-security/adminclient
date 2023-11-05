@@ -18,7 +18,7 @@ import {
     Spinner,
     Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,9 +26,12 @@ import {
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
 import LoadingSpin from "react-loading-spin";
-import { IoIosWarning } from "react-icons/io";
+
+import { GoStop } from "react-icons/go";
 import { Tooltip } from "react-tooltip";
 import { defaultTheme } from "../..";
+import ChallengeLevel from "../challenges/ChallengeLevel";
+import { cloneDeep, debounce } from "lodash";
 
 function NewEventFormChallengeSelector({
     reqData,
@@ -42,6 +45,7 @@ function NewEventFormChallengeSelector({
         (state) => state.exercise.selectedCategory
     );
     const exercises = useSelector((state) => state.exercise.exercises);
+    const [filteredExercises, setFilteredExercises] = useState("");
     const fetchingExercises = useSelector(
         (state) => state.exercise.fetchingExercises
     );
@@ -55,11 +59,9 @@ function NewEventFormChallengeSelector({
 
     useEffect(() => {
         if (categories.length > 0) {
-            dispatch(selectCategory(categories[0]));
-            var reqObj = {
-                category: categories[0].tag,
-            };
-            dispatch(fetchExercises(reqObj));
+            if (selectedCategory.tag != categories[0].tag){
+                dispatch(selectCategory(categories[0]));
+            }
         }
     }, [categories]);
 
@@ -68,7 +70,18 @@ function NewEventFormChallengeSelector({
             var reqObj = {
                 category: selectedCategory.tag,
             };
-            dispatch(fetchExercises(reqObj));
+            if (Object.keys(exercises).length > 0){
+            
+                if (exercises[0].category != selectedCategory.tag){
+                    // console.log(exercises[0].category)
+                    // console.log(selectedCategory.tag)
+                    dispatch(fetchExercises(reqObj));
+                    
+                }
+            }
+            else if (Object.keys(exercises).length === 0){
+                dispatch(fetchExercises(reqObj));
+            }
         }
     }, [selectedCategory]);
 
@@ -81,6 +94,37 @@ function NewEventFormChallengeSelector({
         }
         setIsModalOpen(true);
     };
+
+const searchValue = useSelector((state) => state.challenge.searchParam);
+
+const changeSearchData = (text, exercises) => { 
+    if (text === "") {
+        setFilteredExercises(cloneDeep(exercises));
+      }else {
+        setFilteredExercises(
+            cloneDeep(
+                exercises.filter((el) => {
+                return (el.name.toLowerCase().indexOf(text.toLowerCase()) > -1 || el.organizer_description.toLowerCase().indexOf(text.toLowerCase()) > -1);
+            })
+            )
+        )
+    }
+  };
+  
+  const debounceLoadData = useCallback(debounce(changeSearchData, 500), []);
+
+      useEffect(() => {
+        debounceLoadData(searchValue, exercises);
+      }, [searchValue, exercises]);
+
+      useEffect(() => {
+        setFilteredExercises(exercises)
+        // console.log(filteredExercises)
+    }, [exercises])
+
+
+
+
     return (
         <Grid
             templateColumns="repeat(6, 1fr)"
@@ -176,7 +220,7 @@ function NewEventFormChallengeSelector({
                         }
                         name="exercises"
                     >
-                        {Object.entries(exercises).map(([key, exercise]) => (
+                        {Object.entries(filteredExercises).map(([key, exercise]) => (
                             <Flex
                                 key={key}
                                 width="100%"
@@ -190,8 +234,8 @@ function NewEventFormChallengeSelector({
                                     </Text>
                                     {exercise.secret && (
                                         <Icon
-                                            color="aau.red"
-                                            as={IoIosWarning}
+                                            color="orange.500"
+                                            as={GoStop}
                                             fontSize="16px"
                                             marginRight="3px"
                                             data-tooltip-html={
@@ -200,7 +244,7 @@ function NewEventFormChallengeSelector({
                                             data-tooltip-place="right"
                                             data-tooltip-effect="solid"
                                             data-tooltip-id="tooltip-secret-exercise"
-                                            data-tooltip-offset={3}
+                                            data-tooltip-offset={6}
                                         />
                                     )}
                                     <Icon
@@ -213,6 +257,8 @@ function NewEventFormChallengeSelector({
                                         onClick={() => openModal(exercise)}
                                         zIndex="999"
                                     />
+                                    <Spacer/>
+                                    <ChallengeLevel exercise={exercise}/>
                                 </Flex>
 
                                 <FormControl width="50px">
