@@ -36,9 +36,7 @@ function NewEventFormProfileSelector( {
     
     const challengesOrProfile = useSelector((state) => state.challenge.selector);
 
-    // useEffect(() => {
-    //     dispatch(fetchProfiles());
-    // }, [challengesOrProfile]);
+    
 
     useEffect(() => {
         if (challengesOrProfile  === "profiles") {  

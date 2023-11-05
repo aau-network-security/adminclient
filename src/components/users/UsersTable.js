@@ -153,13 +153,13 @@ function UsersTable({ byRole }) {
                             <Td textAlign="center">
                               {(loggedInUser.user.Role === "role::administrator" || loggedInUser.user.Role === "role::superadmin" || user.user.Username === loggedInUser.user.Username) && (
                                 <>
-                                  <IconButton
+                                  {/* <IconButton
                                     aria-label='Edit user'
                                     colorScheme='gray'
                                     variant='ghost'
                                     icon={<RiEditLine />}      
                                     marginRight={"10px"}          
-                                  />       
+                                  />        */}
                                   {user.user.Username !== loggedInUser.user.Username && (
                                     <IconButton
                                       aria-label='Delete organization'
@@ -167,9 +167,20 @@ function UsersTable({ byRole }) {
                                       variant='ghost'
                                       fontSize="20px"
                                       icon={<MdDelete />}
+                                      data-tooltip-content="Delete user"
+                                      data-tooltip-place="left"
+                                      data-tooltip-effect="solid"
+                                      data-tooltip-id="tooltip-delete-user"
                                       onClick={() => openAlertDialog(user.user.Username, key)}                  
                                     />  
+                                    
                                   )}
+                                  <Tooltip 
+                                  id={"tooltip-delete-user"}
+                                  style={{
+                                      backgroundColor: defaultTheme.colors.aau.primary
+                                  }}
+                                />
                                 </>
                               )}
                               

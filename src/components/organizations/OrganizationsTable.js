@@ -150,8 +150,18 @@ function OrganizationsTable() {
                                 variant='ghost'
                                 fontSize="20px"
                                 icon={<MdDelete />}
+                                data-tooltip-content="Delete organization"
+                                data-tooltip-place="right"
+                                data-tooltip-effect="solid"
+                                data-tooltip-id="tooltip-delete-organization"
                                 onClick={() => openAlertDialog(org.Name, key)}                  
-                              />                         
+                              />
+                              <Tooltip 
+                                id={"tooltip-delete-organization"}
+                                style={{
+                                    backgroundColor: defaultTheme.colors.aau.primary
+                                }}
+                              />                        
                             </Td>
                           </Tr>
                         ))}
