@@ -1,6 +1,5 @@
 import {
   Center,
-  CheckboxGroup,
   Flex,
   Grid,
   GridItem,
@@ -67,7 +66,7 @@ useEffect(() => {
         };
         if (Object.keys(exercises).length > 0){
             
-            if (exercises[0].category != selectedCategory.tag){
+            if (exercises[0].category !== selectedCategory.tag){
                 // console.log(exercises[0].category)
                 // console.log(selectedCategory.tag)
                 dispatch(fetchExercises(reqObj));
@@ -79,7 +78,7 @@ useEffect(() => {
         }
         // console.log("exercises",exercises)
     }
-}, [selectedCategory]);
+}, [selectedCategory, dispatch,exercises]);
 
 const openModal = (content) => {
   setModalTitle(content.name);
@@ -111,7 +110,7 @@ const changeSearchData = (text, exercises) => {
 
       useEffect(() => {
         debounceLoadData(searchValue, exercises);
-      }, [searchValue, exercises]);
+      }, [searchValue, exercises,debounceLoadData]);
 
       useEffect(() => {
         setFilteredExercises(exercises)
