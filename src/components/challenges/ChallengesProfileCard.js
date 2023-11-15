@@ -1,6 +1,5 @@
 import {
   Center,
-  CheckboxGroup,
   Flex,
   Grid,
   GridItem,
@@ -19,14 +18,14 @@ import React, {useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import LoadingSpin from "react-loading-spin";
-import { IoIosWarning } from "react-icons/io";
+
 import { GoStop } from "react-icons/go";
 import { Tooltip } from "react-tooltip";
 
 import { defaultTheme } from "../..";
 
 import { fetchSelectedExercises } from "../../features/profiles/profileSlice";
-import { BsInfoCircle, BsFillCircleFill } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs";
 import ChallengeLevel from "./ChallengeLevel";
 
 // import { BiSolidCircle } from "react-icons/bi";
@@ -70,7 +69,7 @@ function ChallengesProfileCard({
         }
     }
     
-}, [selectedProfile]);
+}, [selectedProfile, dispatch]);
 
 const openModal = (content) => {
   setModalTitle(content.name);
