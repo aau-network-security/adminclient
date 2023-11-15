@@ -2,7 +2,6 @@ import {Text, Flex} from '@chakra-ui/react'
 import React from 'react'
 
 import { useSelector } from 'react-redux';
-import { defaultTheme } from "../..";
 
 
 function ProfileDescriptionCard() {

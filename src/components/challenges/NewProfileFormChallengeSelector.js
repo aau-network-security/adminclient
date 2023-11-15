@@ -57,12 +57,12 @@ function NewProfileFormChallengeSelector({
 
     useEffect(() => {
         if (categories.length > 0) {
-            if (selectedCategory.tag != categories[0].tag){
+            if (selectedCategory.tag !== categories[0].tag){
                 dispatch(selectCategory(categories[0]));
             }
         
         }
-    }, [categories]);
+    }, [categories,dispatch,selectedCategory.tag]);
 
     useEffect(() => {
         if (Object.keys(selectedCategory).length > 0) {
@@ -71,7 +71,7 @@ function NewProfileFormChallengeSelector({
             };
             if (Object.keys(exercises).length > 0){
             
-                if (exercises[0].category != selectedCategory.tag){
+                if (exercises[0].category !== selectedCategory.tag){
                     // console.log(exercises[0].category)
                     // console.log(selectedCategory.tag)
                     dispatch(fetchExercises(reqObj));
@@ -82,7 +82,7 @@ function NewProfileFormChallengeSelector({
                 dispatch(fetchExercises(reqObj));
             }
         }
-    }, [selectedCategory]);
+    }, [selectedCategory,dispatch,exercises]);
 
     const openModal = (content) => {
         setModalTitle(content.name);
@@ -115,7 +115,7 @@ function NewProfileFormChallengeSelector({
 
         useEffect(() => {
             debounceLoadData(searchValue, exercises);
-        }, [searchValue, exercises]);
+        }, [searchValue, exercises, debounceLoadData]);
 
         useEffect(() => {
             setFilteredExercises(exercises)
