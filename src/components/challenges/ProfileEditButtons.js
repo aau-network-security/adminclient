@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { deleteProfile, fetchProfiles, selectProfile } from '../../features/profiles/profileSlice'
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Flex, IconButton,useToast, } from '@chakra-ui/react';
+import { Button, Flex,useToast, } from '@chakra-ui/react';
 
 import { NavLink as ReactLink } from "react-router-dom";
 import ProfileDialogDelete from './ProfileDialogDelete';
