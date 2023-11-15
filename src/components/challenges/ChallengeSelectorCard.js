@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    fetchExercises,
+    
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
 import { Tooltip } from "react-tooltip";
@@ -37,7 +37,7 @@ function ChallengeSelectorCard() {
 
     useEffect(() => {
         if (categories.length > 0) {
-            if (selectedCategory.tag != categories[0].tag){
+            if (selectedCategory.tag !== categories[0].tag){
                 dispatch(selectCategory(categories[0]));
             }
             else{
@@ -45,7 +45,7 @@ function ChallengeSelectorCard() {
             }        
     
         }
-    }, [categories]);
+    }, [categories,selectedCategory.tag,dispatch]);
 
     
 
