@@ -18,11 +18,11 @@ import NewProfileFormChallengeSelector from "../components/challenges/NewProfile
 import { NavLink as ReactLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../features/exercises/exerciseSlice";
-import { createEvent } from "../features/events/eventSlice";
+
 import SearchBarCard from '../components/challenges/SearchBarCard';
 import { MdClose } from 'react-icons/md'
-import { createProfile, fetchProfiles, selectProfile } from "../features/profiles/profileSlice";
-import SelectedChallengesCard from "../components/challenges/SelectedChallengesCard";
+import { createProfile } from "../features/profiles/profileSlice";
+
 
 
 function NewProfileChallengesPage() {
@@ -30,7 +30,7 @@ function NewProfileChallengesPage() {
 
     var permissions = ""
     if (typeof perms !== "undefined") {
-        if (perms.challengeProfiles != "(read|write)"){
+        if (perms.challengeProfiles !== "(read|write)"){
             permissions = "read" 
             // console.log("no permission to")
         } else if (perms.challengeProfiles === "(read|write)"){

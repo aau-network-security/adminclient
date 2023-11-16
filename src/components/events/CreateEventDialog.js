@@ -1,5 +1,4 @@
 import React from 'react'
-import SelectedChallengesCard from '../challenges/SelectedChallengesCard'
 import {
     AlertDialog,
     AlertDialogBody,
@@ -9,8 +8,7 @@ import {
     AlertDialogOverlay,
     Button,
     Text,
-    Box,
-    useToast
+    Box
   } from '@chakra-ui/react'
 import CreateNewEventChallengesDialog from './CreateNewEventChallengesDialog'
 

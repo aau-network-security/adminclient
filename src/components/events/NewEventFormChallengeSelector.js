@@ -25,11 +25,11 @@ import {
     fetchExercises,
     selectCategory,
 } from "../../features/exercises/exerciseSlice";
-import LoadingSpin from "react-loading-spin";
+
 
 import { GoStop } from "react-icons/go";
 import { Tooltip } from "react-tooltip";
-import { defaultTheme } from "../..";
+
 import ChallengeLevel from "../challenges/ChallengeLevel";
 import { cloneDeep, debounce } from "lodash";
 
@@ -59,11 +59,11 @@ function NewEventFormChallengeSelector({
 
     useEffect(() => {
         if (categories.length > 0) {
-            if (selectedCategory.tag != categories[0].tag){
+            if (selectedCategory.tag !== categories[0].tag){
                 dispatch(selectCategory(categories[0]));
             }
         }
-    }, [categories]);
+    }, [categories, dispatch, selectedCategory.tag]);
 
     useEffect(() => {
         if (Object.keys(selectedCategory).length > 0) {
@@ -72,7 +72,7 @@ function NewEventFormChallengeSelector({
             };
             if (Object.keys(exercises).length > 0){
             
-                if (exercises[0].category != selectedCategory.tag){
+                if (exercises[0].category !== selectedCategory.tag){
                     // console.log(exercises[0].category)
                     // console.log(selectedCategory.tag)
                     dispatch(fetchExercises(reqObj));
@@ -83,7 +83,7 @@ function NewEventFormChallengeSelector({
                 dispatch(fetchExercises(reqObj));
             }
         }
-    }, [selectedCategory]);
+    }, [selectedCategory, dispatch, exercises]);
 
     const openModal = (content) => {
         setModalTitle(content.name);
@@ -115,7 +115,7 @@ const changeSearchData = (text, exercises) => {
 
       useEffect(() => {
         debounceLoadData(searchValue, exercises);
-      }, [searchValue, exercises]);
+      }, [searchValue, exercises, debounceLoadData]);
 
       useEffect(() => {
         setFilteredExercises(exercises)

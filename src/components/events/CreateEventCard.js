@@ -5,8 +5,7 @@ import {
     Flex,
     HStack,
     Icon,
-    Text,
-    Link,
+    Text
 } from "@chakra-ui/react";
 import React from "react";
 import { FaRegCalendarPlus, FaRegQuestionCircle } from "react-icons/fa";

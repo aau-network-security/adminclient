@@ -57,7 +57,7 @@ function NewEventFormProfileSelector( {
                         }
             } 
     }
-    }, [challengesOrProfile,selectedProfile,profiles]);
+    }, [challengesOrProfile, selectedProfile, profiles, dispatch]);
 
 
 

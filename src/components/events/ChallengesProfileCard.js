@@ -65,7 +65,7 @@ function ChallengesProfileCard({
         }
     }
     
-}, [selectedProfile]);
+}, [selectedProfile, dispatch]);
 
 
 

@@ -35,9 +35,7 @@ function CreateNewEventChallengesDialog({
  
   const dispatch = useDispatch();
 
-  const selectedProfile = useSelector(
-    (state) => state.profile.selectedProfile
-    );
+
   const selectedExercises = useSelector((state) => state.profile.selectedExercises);
  
   
@@ -63,7 +61,7 @@ function CreateNewEventChallengesDialog({
         }
     }
     
-}, []);
+}, [reqData.exerciseTags,dispatch]);
 
 
 
