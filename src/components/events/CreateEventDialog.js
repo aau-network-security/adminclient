@@ -13,6 +13,7 @@ import {
     useToast
   } from '@chakra-ui/react'
 import CreateNewEventChallengesDialog from './CreateNewEventChallengesDialog'
+import { URL_txt } from '../../api/client'
 
 function CreateEventDialog(props) {
   
@@ -32,7 +33,7 @@ function CreateEventDialog(props) {
               <AlertDialogBody>
                 <Box marginLeft="15px">
                 <Text> Event name: <b>{props.reqData.name}</b></Text>
-                <Text> Event will be available at: https://<b>{props.reqData.tag}</b>.haaukins.com </Text>
+                <Text> Event will be available at: https://<b>{props.reqData.tag}</b>.{URL_txt} </Text>
                 <Text> Number of participants: {props.reqData.maxLabs}</Text>
                 <Text> This is an overview of the selected challenges:</Text>
                 </Box>

@@ -33,6 +33,7 @@ import { Tooltip } from "react-tooltip";
 import { deleteEvent, fetchEvents, selectEvent, stopEvent } from "../../features/events/eventSlice";
 import moment from "moment";
 import { defaultTheme } from "../..";
+import { URL_txt } from "../../api/client";
 
 function EventsTable() {
   const eventState = useSelector((state) => state.event);
@@ -268,7 +269,7 @@ function EventsTable() {
                   <Td >{event.name}</Td>
                   <Td >{event.type}</Td>
                   <Td >
-                    <Link href={"https://"+ event.tag + ".beta.haaukins.com"} target="_blank" color="#54616e">
+                    <Link href={"https://"+ event.tag + "." + URL_txt} target="_blank" color="#54616e">
                       Goto event
                     </Link>
                   </Td>

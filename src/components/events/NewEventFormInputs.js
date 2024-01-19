@@ -22,6 +22,7 @@ import React from "react";
 import ReactDatePicker from "react-datepicker";
 import { FaCalendar, FaRegQuestionCircle } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
+import { URL_txt } from "../../api/client";
 
 function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -69,7 +70,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         as={FaRegQuestionCircle}
                         fontSize="13px"
                         data-tooltip-html={
-                            'The tag will will be used to access the event. <br> Your event will be accessible at "https://&ltevent tag&gt.haaukins.com"'
+                            'The tag will will be used to access the event. <br> Your event will be accessible at "https://&ltevent tag&gt.haaukins.dk"'
                         }
                         data-tooltip-place="right"
                         data-tooltip-effect="solid"
@@ -91,7 +92,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                 </InputGroup>
                 <Text color="aau.primary" marginTop="10px">
                     Event will be available at: https://
-                    <b>{reqData.tag}</b>.haaukins.com
+                    <b>{reqData.tag}</b>.{URL_txt}
                 </Text>
             </FormControl>
             <FormControl marginBottom={7}>
