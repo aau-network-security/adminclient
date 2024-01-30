@@ -238,7 +238,7 @@ function NewEventFormInputs({ reqData, changeHandler, setReqDataState }) {
                         >
                             {/* TODO get vms available from daemon*/}
                             <option value={"kali-v1-0-3"}>Kali v1.0.3</option>
-                            <option value={"kali-v1-0-4"}>Kali v1.0.4</option>
+                            {/*<option value={"kali-v1-0-4"}>Kali v1.0.4</option>*/}
                         </Select>
                     </InputGroup>
                 </FormControl>
