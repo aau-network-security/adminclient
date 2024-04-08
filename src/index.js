@@ -52,6 +52,15 @@ export const defaultTheme = {
         800: "#1A202C",
         900: "#171923",
       },
+    },
+    difficulty: {
+      beginner: "#F58EEE",
+      veryEasy: "#6EC261",
+      easy: "#1A750C",
+      medium: "#EDBC09",
+      hard: "#E66902",
+      veryHard: "#B30000",
+      insanse: "#000000"
     }
   }
 }

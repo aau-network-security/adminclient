@@ -11,31 +11,37 @@ import {
 function ChallengeLevel(props) {
 
     let level = {
-        veryEasy:false,
-        easy:false,
-        medium:false,
-        hard:false,
-        veryHard:false 
+        beginner: false,
+        veryEasy: false,
+        easy: false,
+        medium: false,
+        hard: false,
+        veryHard: false,
+        insane: false
     }
+
     // Setting Difficulity level dict based on points from dev sheet: 
     function setLevel(points){
-        if (points < 10){
+        if (points <= 10){
+            level.beginner = true
+        } else if (points >= 11 && points <= 30){
             level.veryEasy = true
-        } else if (points >= 10 && points < 25){
+        } else if (points >= 31 && points <= 50){
             level.easy = true
-        } else if (points >= 25 && points < 40){
+        } else if (points >= 51 && points <= 70){
             level.medium = true
-        } else if (points >= 40 && points < 60){
+        } else if (points >= 71 && points <= 85){
             level.hard = true
-        } else if (points >= 60){
+        } else if (points >= 86 && points <= 100){
             level.veryHard = true
+        } else if (points > 100){
+            level.insane = true
         }
     }
     
     try {
         if (props.exercise.instance.length >= 1){
             for (let i in props.exercise.instance){
-            
                 // check if children object exists
                 if (props.exercise.instance[i].children !== undefined){
                     // check if more than 1 child exists
@@ -43,33 +49,41 @@ function ChallengeLevel(props) {
                         // Take a look at points for each of the flags
                         for (let j in props.exercise.instance[i].children){
                             setLevel(props.exercise.instance[i].children[j].points)
-                            
                         }
                     }else{
                         setLevel(props.exercise.instance[i].children[0].points)
                     }
-            
                 }
             }
         }
-        
     } catch (error) {
         console.error();
-        // console.log("Problem occured with: ", props.exercise)
     }
   
     return (
         <>
         <HStack marginRight={5} spacing={2} >
-         {level.veryEasy === true && 
-        //    <Text color="green.200"> {sum}</Text> 
+         {level.beginner === true &&
            <Icon
-                color="green.400"
+                color="difficulty.beginner"
                 as={BsFillCircleFill}
                 fontSize="13px"
-                // marginRight="4px"
                 data-tooltip-html={
-                    "Very easy challenge"
+                    "Beginner challenge"
+                }
+                data-tooltip-place="top"
+                data-tooltip-effect="solid"
+                data-tooltip-id="tooltip-exercise-difficulity"
+                data-tooltip-offset={5}
+            />
+         }
+         {level.veryEasy === true &&
+           <Icon
+                color="difficulty.veryEasy"
+                as={BsFillCircleFill}
+                fontSize="13px"
+                data-tooltip-html={
+                    "Very Easy challenge"
                 }
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
@@ -77,15 +91,13 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          } 
-         {level.easy === true && 
-        //    <Text color="green"> {sum}</Text>  
+         {level.easy === true &&
            <Icon
-                color="blue.400"
+                color="difficulty.easy"
                 as={BsFillCircleFill}
                 fontSize="13px"
-                // marginRight="3px"
                 data-tooltip-html={
-                    "Easy Challenge"
+                    "Easy challenge"
                 }
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
@@ -93,15 +105,13 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          }
-         {level.medium === true && 
-        //    <Text color="aau.green"> {sum}</Text>  
+         {level.medium === true &&
            <Icon
-                color="aau.yellow"
+                color="difficulty.medium"
                 as={BsFillCircleFill}
                 fontSize="13px"
-                // marginRight="3px"
                 data-tooltip-html={
-                    "Medium Challenge"
+                    "Medium challenge"
                 }
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
@@ -109,15 +119,13 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          } 
-         {level.hard === true && 
-        //    <Text color="orange"> {sum}</Text>  
+         {level.hard === true &&
            <Icon
-                color="orange.400"
+                color="difficulty.hard"
                 as={BsFillCircleFill}
                 fontSize="13px"
-                // marginRight="3px"
                 data-tooltip-html={
-                    "Hard Challenge "
+                    "Hard challenge "
                 }
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
@@ -126,14 +134,12 @@ function ChallengeLevel(props) {
             /> 
          } 
          {level.veryHard === true && 
-        //    <Text color="aau.red"> {sum}</Text>  
            <Icon
-                color="aau.red"
+                color="difficulty.veryHard"
                 as={BsFillCircleFill}
                 fontSize="13px"
-                // marginRight="3px"
                 data-tooltip-html={
-                    "Very Hard Challenge "
+                    "Very Hard challenge "
                 }
                 data-tooltip-place="top"
                 data-tooltip-effect="solid"
@@ -141,14 +147,23 @@ function ChallengeLevel(props) {
                 data-tooltip-offset={5}
             /> 
          } 
+         {level.insane === true &&
+           <Icon
+                color="difficulty.insanse"
+                as={BsFillCircleFill}
+                fontSize="13px"
+                data-tooltip-html={
+                    "INSANSE challenge "
+                }
+                data-tooltip-place="top"
+                data-tooltip-effect="solid"
+                data-tooltip-id="tooltip-exercise-difficulity"
+                data-tooltip-offset={5}
+            />
+         }
          </HStack>
         </>
     )
 }
 
-
 export default ChallengeLevel
-
-
-
-    
