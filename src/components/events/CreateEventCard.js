@@ -12,7 +12,7 @@ import React from "react";
 import { FaRegCalendarPlus, FaRegQuestionCircle } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import { NavLink as ReactLink } from "react-router-dom";
-
+import { FiPlus } from "react-icons/fi";
 function CreateEventCard({ ...props }) {
     const simpleDescription =
         "A simple event has less customization than advanced events. <br> Simple events are great for highschools and other similar events <br> that are not aimed at hardcore CTFers <br> NOTE. Only browser labs are available for this kind of event";
@@ -44,7 +44,7 @@ function CreateEventCard({ ...props }) {
                 </Flex>
 
                 <Flex flexDir="column" h="100%" w="40%">
-                    <Button
+                    {/* <Button
                         colorScheme="aau.button"
                         color="white"
                         borderRadius="0px 10px 0px 5px"
@@ -68,19 +68,20 @@ function CreateEventCard({ ...props }) {
                                 data-tooltip-id="tooltip-add-simple"
                                 data-tooltip-offset={15}
                             />
-                    </Button>
+                    </Button> */}
                     <Button
                         colorScheme="aau.button"
                         color="white"
-                        borderRadius="5px 0px 10px 0px"
+                        borderRadius="0px 10px 10px 0px"
                         marginTop="1px"
-                        h="50%"
+                        h="100%"
                         as={ReactLink}
                         to={"/events/new?type=advanced"}
                     >
-                        <Text position="absolute" left="20px">
+                        {/* <Text position="absolute" left="px">
                             Advanced
-                        </Text>
+                        </Text> */}
+                        <Icon as={FiPlus} fontSize="40px" /> 
                         <Icon
                             marginLeft="100px"
                             as={FaRegQuestionCircle}

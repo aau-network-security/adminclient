@@ -41,12 +41,13 @@ function toastMsg(reqData) {
       }
     
       // regex for checking for special characters etc. in eventTag
-      const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/;
+      // const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9]/;
+      const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?0-9|\/?A-ZÅÆØ]/;
       if (regex.test(reqData.tag)) {
         console.log("event tag contains special characters")
         result.toastData= {
               title: "Event tag",
-              description: "Event tag must not contain special characters or numbers",
+              description: "Event tag must not contain special characters, numbers or Uppercase letters",
               status: "error",
               duration: 5000,
               isClosable: true,
