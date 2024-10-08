@@ -17,7 +17,7 @@ function CreateEventCard({ ...props }) {
     const simpleDescription =
         "A simple event has less customization than advanced events. <br> Simple events are great for highschools and other similar events <br> that are not aimed at hardcore CTFers <br> NOTE. Only browser labs are available for this kind of event";
     const advancedDescription =
-        "An advanced event features things such as dynamic scoring, <br> both VPN and browser labs and advanced challenge management. <br> Advanced events are great for large scale CTFs ";
+        "An event features things such as dynamic scoring, <br> both VPN and browser labs and challenge management is possible.";
     return (
         <Box
             backgroundColor="white"
