@@ -36,6 +36,7 @@ This is an overview of the permissions of different roles available on the admin
 | Manage organizations                  | Yes                 | No            | No        | No     | no   |
 | Manage users of all organizations     | Yes                 | No            | No        | No     | No   |
 | Manage users in assigned organization | Yes                 | Yes           | No        | No     | No   |
+| View users in assigned organization   | Yes                 | Yes           | No        | No     | No   |
 | Manage own user                       | Yes                 | Yes           | No        | No     | No   |
 | View secret challenges                | Yes                 | Yes           | Yes       | No     | No   |
 | Access to agents management           | Yes                 | No            | No        | No     | No   |
