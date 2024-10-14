@@ -84,16 +84,10 @@ export default function Sidebar() {
                 {typeof loggedInUser.perms !== "undefined" 
                 &&
                     <>
-                        {(typeof loggedInUser.perms.users !== "undefined" && loggedInUser.user.Role !== 'role::superadmin' && loggedInUser.user.Role !== 'role::user' && loggedInUser.user.Role !== 'role::npuser') && <NavItem navSize={navSize} icon={FaUsers} title="Users" to="/users" />}
+                        {(typeof loggedInUser.perms.users !== "undefined" && loggedInUser.user.Role !== 'role::superadmin' && loggedInUser.user.Role !== 'role::user' && loggedInUser.user.Role !== 'role::npuser' && loggedInUser.user.Role !== 'role::developer') && <NavItem navSize={navSize} icon={FaUsers} title="Users" to="/users" />}
                     </>
                 }
                 
-                {/* {typeof loggedInUser.perms !== "undefined" 
-                &&
-                    <>
-                        {typeof loggedInUser.perms.settings !== "undefined" && <NavItem navSize={navSize} icon={FiSettings} title="Settings" to="/settings"/>}
-                    </>
-                }      */}
             </Flex>
 
             <Flex
