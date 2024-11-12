@@ -30,19 +30,7 @@ export default function EventsPage() {
         >
             <GridItem rowSpan={2} colSpan={24}>
                 <Flex w="fit-content" margin="auto">
-{/* 
-                {typeof loggedInUser.perms !== "undefined" && 
-                (loggedInUser.user.Role !== 'role::user' && 
-                loggedInUser.user.Role !== 'role::npuser' && 
-                loggedInUser.user.Role !== 'role::developer') && 
-                
-                } */}
-                <CreateSuperEventCard/>
-                {/* {typeof loggedInUser.perms !== "undefined" && (
-                loggedInUser.user.Role !== 'role::administrator' && 
-                loggedInUser.user.Role !== 'role::superadmin') && 
-                <CreateEventCard />
-                } */}    
+                    <CreateEventCard/>
                     <Spacer marginLeft="100px" marginRight="100px" />
                     <GotoChallengesCard />
                 </Flex>
