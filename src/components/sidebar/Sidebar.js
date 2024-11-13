@@ -1,23 +1,16 @@
 import React, { useState } from 'react'
 import {
     Flex,
-    Text,
-    IconButton,
     Divider,
-    Avatar,
-    Heading,
-    Icon,
-    MenuButton,
-    Menu
 } from '@chakra-ui/react'
 import {
     FiCalendar,
     FiLogOut,
-    FiSettings
+   
 } from 'react-icons/fi'
 import { FaRegBuilding, FaNetworkWired, FaUsers } from 'react-icons/fa'
-import { MdHome, MdOutlineHome, MdOutlinedFlag } from 'react-icons/md'
-import { RiDashboardLine, RiUserSettingsLine } from 'react-icons/ri'
+import { MdOutlinedFlag } from 'react-icons/md'
+import { RiUserSettingsLine } from 'react-icons/ri'
 import NavItem from './NavItem'
 import Logo from '../Logo'
 import { useDispatch, useSelector } from 'react-redux'
@@ -84,16 +77,10 @@ export default function Sidebar() {
                 {typeof loggedInUser.perms !== "undefined" 
                 &&
                     <>
-                        {(typeof loggedInUser.perms.users !== "undefined" && loggedInUser.user.Role !== 'role::superadmin') && <NavItem navSize={navSize} icon={FaUsers} title="Users" to="/users" />}
+                        {(typeof loggedInUser.perms.users !== "undefined" && loggedInUser.user.Role !== 'role::superadmin' && loggedInUser.user.Role !== 'role::user' && loggedInUser.user.Role !== 'role::npuser' && loggedInUser.user.Role !== 'role::developer') && <NavItem navSize={navSize} icon={FaUsers} title="Users" to="/users" />}
                     </>
                 }
                 
-                {/* {typeof loggedInUser.perms !== "undefined" 
-                &&
-                    <>
-                        {typeof loggedInUser.perms.settings !== "undefined" && <NavItem navSize={navSize} icon={FiSettings} title="Settings" to="/settings"/>}
-                    </>
-                }      */}
             </Flex>
 
             <Flex

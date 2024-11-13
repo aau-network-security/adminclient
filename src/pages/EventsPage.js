@@ -1,27 +1,25 @@
 import {
-    Box,
-    Button,
-    Center,
     Flex,
     Grid,
     GridItem,
-    HStack,
-    Icon,
     Spacer,
-    Text,
 } from "@chakra-ui/react";
 import React from "react";
-import { FaRegCalendarPlus, FaRegQuestionCircle } from "react-icons/fa";
-import { Tooltip } from "react-tooltip";
-import { MdOutlinedFlag } from "react-icons/md";
-import { FiPlus } from "react-icons/fi";
+
 import CreateEventCard from "../components/events/CreateEventCard";
-import AddChallengeCard from "../components/events/AddChallengeCard";
+
 import EventsTable from "../components/events/EventsTable";
 import EventTeamsTable from "../components/events/EventTeamsTable";
 import GotoChallengesCard from "../components/events/GotoChallengesCard";
+import CreateSuperEventCard from "../components/events/CreateSuperEventCard";
+import { useSelector } from "react-redux";
 
 export default function EventsPage() {
+    const loggedInUser = useSelector((state) => state.user.loggedInUser)
+    if ( loggedInUser !== null){
+        console.log(loggedInUser)
+    }
+    
     return (
         <Grid
             height="100%"
@@ -32,7 +30,7 @@ export default function EventsPage() {
         >
             <GridItem rowSpan={2} colSpan={24}>
                 <Flex w="fit-content" margin="auto">
-                    <CreateEventCard />
+                    <CreateEventCard/>
                     <Spacer marginLeft="100px" marginRight="100px" />
                     <GotoChallengesCard />
                 </Flex>

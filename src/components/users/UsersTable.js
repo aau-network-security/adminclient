@@ -23,6 +23,7 @@ import { deleteUser, fetchUsers } from '../../features/users/userSlice';
 import { MdDelete } from 'react-icons/md';
 import { defaultTheme } from '../..';
 import { IoInfiniteOutline } from 'react-icons/io5';
+import UpdateUserModal from "./UpdateUserModal.js"
 
 function UsersTable({ byRole }) {
   const IconFa = chakra(FontAwesomeIcon)
@@ -72,6 +73,10 @@ function UsersTable({ byRole }) {
     setUsernameState(username)
     setIndexState(index)
     setIsAlertOpen(true)
+  }
+
+  const openUpdateModal = () => {
+    setIsUpdateUserModalOpen(true)
   }
 
   const openModal = () => {
@@ -153,13 +158,15 @@ function UsersTable({ byRole }) {
                             <Td textAlign="center">
                               {(loggedInUser.user.Role === "role::administrator" || loggedInUser.user.Role === "role::superadmin" || user.user.Username === loggedInUser.user.Username) && (
                                 <>
-                                  <IconButton
-                                    aria-label='Edit user'
-                                    colorScheme='gray'
-                                    variant='ghost'
-                                    icon={<RiEditLine />}      
-                                    marginRight={"10px"}          
-                                  />       
+                                   {/* can be used in future for editing a user
+                                   <IconButton
+                                //     aria-label='Edit user'
+                                //     colorScheme='gray'
+                                //     variant='ghost'
+                                //     icon={<RiEditLine />}      
+                                //     marginRight={"10px"}          
+                                //     onClick={openUpdateModal}
+                                //   />        */}
                                   {user.user.Username !== loggedInUser.user.Username && (
                                     <IconButton
                                       aria-label='Delete organization'
@@ -192,10 +199,11 @@ function UsersTable({ byRole }) {
                     cancelRef={cancelRef}
                     deleteUser={doDeleteUser}
                   ></UserDialogDelete>
-                  
                 </>      
               }
               <NewUserModal isOpen={isNewUserModalOpen} onClose={onNewUserModalClose}/>
+              {/* can be used when update user is implemented again */}
+              {/* <UpdateUserModal isOpen={isUpdateUserModalOpen} onClose={onUpdateUserModalClose}/> */}
       </Flex>
   )
 }

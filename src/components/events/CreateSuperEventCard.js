@@ -13,14 +13,12 @@ import { FaRegCalendarPlus, FaRegQuestionCircle } from "react-icons/fa";
 import { MdOutlinePlayCircle } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
 import { NavLink as ReactLink } from "react-router-dom";
-import { FiPlus } from "react-icons/fi";
-import { useSelector } from "react-redux";
-function CreateEventCard({ ...props }) {
+
+function CreateSuperEventCard({ ...props }) {
     const simpleDescription =
         "A simple event has less customization than advanced events. <br> Simple events are great for highschools and other similar events <br> that are not aimed at hardcore CTFers <br> NOTE. Only browser labs are available for this kind of event";
     const advancedDescription =
         "An event features things such as dynamic scoring, <br> both VPN and browser labs and challenge management is possible.";
-   
     return (
         <Box
             backgroundColor="white"
@@ -47,7 +45,7 @@ function CreateEventCard({ ...props }) {
                 </Flex>
 
                 <Flex flexDir="column" h="100%" w="40%">
-                    {/* <Button
+                    <Button
                         colorScheme="aau.button"
                         color="white"
                         borderRadius="0px 10px 0px 5px"
@@ -71,20 +69,19 @@ function CreateEventCard({ ...props }) {
                                 data-tooltip-id="tooltip-add-simple"
                                 data-tooltip-offset={15}
                             />
-                    </Button> */}
+                    </Button>
                     <Button
                         colorScheme="aau.button"
                         color="white"
-                        borderRadius="0px 10px 10px 0px"
+                        borderRadius="5px 0px 10px 0px"
                         marginTop="1px"
-                        h="100%"
+                        h="50%"
                         as={ReactLink}
                         to={"/events/new?type=advanced"}
                     >
-                        {/* <Text position="absolute" left="px">
+                        <Text position="absolute" left="20px">
                             Advanced
-                        </Text> */}
-                        <Icon as={MdOutlinePlayCircle} fontSize="40px" /> 
+                        </Text>                        
                         <Icon
                             marginLeft="100px"
                             as={FaRegQuestionCircle}
@@ -107,4 +104,4 @@ function CreateEventCard({ ...props }) {
     );
 }
 
-export default CreateEventCard;
+export default CreateSuperEventCard;

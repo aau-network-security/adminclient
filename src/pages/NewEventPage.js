@@ -25,6 +25,7 @@ import CreateEventDialog from "../components/events/CreateEventDialog";
 import toastMsg from "../components/events/toastMsg";
 import { selectCategoryShow } from "../features/challenges/challengeSlice";
 import { clearSelectedProfile } from "../features/profiles/profileSlice";
+import { lowerCase } from "lodash";
 
 
 
@@ -107,7 +108,7 @@ function NewEventPage() {
         } else if (e.target.name === "eventTag") {
             setReqDataState({
                 ...reqDataState,
-                ["tag"]: e.target.value.trim(),
+                ["tag"]: lowerCase(e.target.value.trim()),
             });
         } else if (e.target.name === "secretKey") {
             setReqDataState({
