@@ -178,7 +178,7 @@ function NewOrgModal({ isOpen, onClose }) {
                                     <InputLeftElement
                                         pointerEvents="none"
                                     />
-                                    <Input type="password" name="password" placeholder="Owner password (Leave blank to generate and email)" onChange={changeHandler} />
+                                    <Input type="password" name="password" placeholder="Owner password" onChange={changeHandler} />
                                     </InputGroup>
                                 </FormControl>
                                 <FormControl>

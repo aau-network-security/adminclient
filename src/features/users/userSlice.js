@@ -100,7 +100,6 @@ export const fetchSelf = createAsyncThunk('user/fetchSelf', async(obj, {rejectWi
 export const updateUser = createAsyncThunk('user/updateUser', async (user, { rejectWithValue, getState }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        const { org } = getState()
         const response = await apiClient.put('users', user)
         return response
     }
