@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon, Spinner } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, chakra, IconButton, Flex, Spacer, Center, Icon, Spinner, MenuButton, Menu, MenuItem, MenuList } from "@chakra-ui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrg, fetchOrgs, selectOrg } from '../../features/organizations/organizationSlice';
 import LoadingSpin from 'react-loading-spin';
@@ -20,7 +20,8 @@ import {
 import { RiEditLine } from 'react-icons/ri'
 import NewUserModal from './NewUserModal';
 import { deleteUser, fetchUsers } from '../../features/users/userSlice';
-import { MdDelete } from 'react-icons/md';
+import { MdDelete, MdMenu } from 'react-icons/md';
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { defaultTheme } from '../..';
 import { IoInfiniteOutline } from 'react-icons/io5';
 import UpdateUserModal from "./UpdateUserModal.js"
@@ -75,7 +76,8 @@ function UsersTable({ byRole }) {
     setIsAlertOpen(true)
   }
 
-  const openUpdateModal = () => {
+  const openUpdateModal = (username) => {
+    setUsernameState(username)
     setIsUpdateUserModalOpen(true)
   }
 
@@ -134,7 +136,7 @@ function UsersTable({ byRole }) {
                           <Th>Email</Th>
                           <Th>Organization</Th>
                           <Th>Role</Th>
-                          <Th isNumeric>Lab quota</Th>
+                          {/* <Th isNumeric>Lab quota</Th> */}
                           <Th textAlign="center">Action</Th>           
                         </Tr>
                       </Thead>
@@ -149,12 +151,12 @@ function UsersTable({ byRole }) {
                             <Td>{user.user.Email}</Td>
                             <Td>{user.user.Organization}</Td>
                             <Td>{user.user.Role.split('role::')[1]}</Td>
-                            <Td isNumeric>{user.user.LabQuota != null ? 
+                            {/* <Td isNumeric>{user.user.LabQuota != null ? 
                               user.user.LabQuota 
                             : (
                             <Icon fontSize={"17px"} as={IoInfiniteOutline}/>
                             )}
-                            </Td>
+                            </Td> */}
                             <Td textAlign="center">
                               {(loggedInUser.user.Role === "role::administrator" || loggedInUser.user.Role === "role::superadmin" || user.user.Username === loggedInUser.user.Username) && (
                                 <>
@@ -167,15 +169,30 @@ function UsersTable({ byRole }) {
                                 //     marginRight={"10px"}          
                                 //     onClick={openUpdateModal}
                                 //   />        */}
-                                  {user.user.Username !== loggedInUser.user.Username && (
-                                    <IconButton
-                                      aria-label='Delete organization'
-                                      colorScheme='aau.buttonRed'
-                                      variant='ghost'
-                                      fontSize="20px"
-                                      icon={<MdDelete />}
-                                      onClick={() => openAlertDialog(user.user.Username, key)}                  
-                                    />  
+                                  {user.user.Username !== loggedInUser.user.Username && (loggedInUser.user.Role === 'role::superadmin' || loggedInUser.user.Role === 'role::administrator') && (
+                                    <Menu>
+                                      <MenuButton
+                                        as={IconButton}
+                                        aria-label='Options'
+                                        icon={<BsThreeDotsVertical/>}
+                                        variant='ghost'
+                                        colorScheme='gray'
+                                      />
+                                      <MenuList>
+                                        <MenuItem onClick={() => openUpdateModal(user.user.Username)}>Update password</MenuItem>
+                                        <MenuItem>Update role</MenuItem>
+                                        {loggedInUser.user.Role === 'role::superadmin' && <MenuItem>Update organization</MenuItem>}
+                                        <MenuItem color='aau.buttonRed' onClick={() => openAlertDialog(user.user.Username, key)}>Delete</MenuItem>
+                                      </MenuList>
+                                    </Menu>
+                                    // <IconButton
+                                    //   aria-label='Delete organization'
+                                    //   colorScheme='aau.buttonRed'
+                                    //   variant='ghost'
+                                    //   fontSize="20px"
+                                    //   icon={<MdDelete />}
+                                    //   onClick={() => openAlertDialog(user.user.Username, key)}                  
+                                    // />  
                                   )}
                                 </>
                               )}
@@ -202,6 +219,7 @@ function UsersTable({ byRole }) {
                 </>      
               }
               <NewUserModal isOpen={isNewUserModalOpen} onClose={onNewUserModalClose}/>
+              <UpdateUserModal isOpen={isUpdateUserModalOpen} onClose={onUpdateUserModalClose} username={usernameState}/>
               {/* can be used when update user is implemented again */}
               {/* <UpdateUserModal isOpen={isUpdateUserModalOpen} onClose={onUpdateUserModalClose}/> */}
       </Flex>
