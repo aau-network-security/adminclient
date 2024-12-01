@@ -26,7 +26,6 @@ function UpdateRoleModal({ isOpen, onClose, username }) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const submitForm = async (e) => {
         e.preventDefault()
-        console.log("submitting form", reqData)
         if (reqData.newRole === "") {
             setUpdateRoleError('Please select a role')
             return
@@ -90,7 +89,7 @@ function UpdateRoleModal({ isOpen, onClose, username }) {
                             >
                                 <FormControl>
                                     <FormLabel>Role</FormLabel>
-                                    <Select value={reqData.role} placeholder='Select role' onChange={(e) => setReqData({...reqData, newRole: e.target.value})}>
+                                    <Select value={reqData.newRole} placeholder='Select role' onChange={(e) => setReqData({...reqData, newRole: e.target.value})}>
                                         {/* Conditional rendering to only show the roles that a user is authorized to create 
                                             TODO: Should make this dynamic at some point incase of new roles are added
                                         */}

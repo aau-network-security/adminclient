@@ -30,7 +30,6 @@ function UpdateUserModal({ isOpen, onClose, username }) {
     const submitForm = async (e) => {
         e.preventDefault()
         reqData.username = username
-        console.log("submitting form", reqData)
         if (reqData.password === "" || reqData.confirmPassword === "") {
             setUpdateUserError('Please fill out all fields')
             return
