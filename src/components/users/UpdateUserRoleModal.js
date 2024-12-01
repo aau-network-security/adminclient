@@ -57,7 +57,7 @@ function UpdateRoleModal({ isOpen, onClose, username }) {
         }
         catch (err) {
             console.log(err)
-            //setUpdateRoleError(err.apiError.status)
+            setUpdateRoleError(err.apiError.status)
             setIsSubmitting(false)
         }
         
