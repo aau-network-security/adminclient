@@ -100,8 +100,39 @@ export const fetchSelf = createAsyncThunk('user/fetchSelf', async(obj, {rejectWi
 export const updateUser = createAsyncThunk('user/updateUser', async (user, { rejectWithValue, getState }) => {
     try {
         apiClient.defaults.headers.Authorization = localStorage.getItem('token')
-        const { org } = getState()
         const response = await apiClient.put('users', user)
+        return response
+    }
+    catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        let error = { axiosMessage: err.message, axiosCode: err.code, apiError: err.response.data, apiStatusCode: err.response.status}
+        return rejectWithValue(error)
+    }
+})
+
+// Update user role
+export const updateUserRole = createAsyncThunk('user/updateUserRole', async (actionPayload, { rejectWithValue, getState }) => {
+    try {
+        apiClient.defaults.headers.Authorization = localStorage.getItem('token')
+        const response = await apiClient.patch(`users/${actionPayload.username}/role`, actionPayload.reqData)
+        return response
+    }
+    catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        let error = { axiosMessage: err.message, axiosCode: err.code, apiError: err.response.data, apiStatusCode: err.response.status}
+        return rejectWithValue(error)
+    }
+})
+
+// Update user organization
+export const updateUserOrg = createAsyncThunk('user/updateUserOrg', async (actionPayload, { rejectWithValue, getState }) => {
+    try {
+        apiClient.defaults.headers.Authorization = localStorage.getItem('token')
+        const response = await apiClient.patch(`users/${actionPayload.username}/organization`, actionPayload.reqData)
         return response
     }
     catch (err) {

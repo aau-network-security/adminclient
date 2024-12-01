@@ -49,7 +49,6 @@ function NewUserModal({ isOpen, onClose }) {
         catch (err) {
             console.log(err)
             setAddUserError(err.apiError.status)
-            console.log(!addUserError.includes("error connecting to new agent"))
         }
         
     }
@@ -145,7 +144,7 @@ function NewUserModal({ isOpen, onClose }) {
                                     <InputLeftElement
                                         pointerEvents="none"
                                     />
-                                    <Input type="password" name="password" placeholder="Password (Leave blank to generate and mail)" onChange={changeHandler} />
+                                    <Input type="password" name="password" placeholder="Password" onChange={changeHandler} />
                                     </InputGroup>
                                 </FormControl>
                                 <FormControl>
