@@ -25,19 +25,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { defaultTheme } from '../..';
 import { IoInfiniteOutline } from 'react-icons/io5';
 import UpdateUserModal from "./UpdateUserModal.js"
+import UpdateRoleModal from './UpdateUserRoleModal.js';
+import UpdateUserOrgModal from './UpdateUserOrgModal.js';
 
 function UsersTable({ byRole }) {
   const IconFa = chakra(FontAwesomeIcon)
 
   const [isAlertOpen, setIsAlertOpen] = useState(false)
   const [usernameState, setUsernameState] = useState('')
-  const onAlertClose = () => setIsAlertOpen(false)
-
-  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
-  const onNewUserModalClose = () => setIsNewUserModalOpen(false)
-
-  const [isUpdateUserModalOpen, setIsUpdateUserModalOpen] = useState(false)
-  const onUpdateUserModalClose = () => setIsUpdateUserModalOpen(false)
+  const onAlertClose = () => setIsAlertOpen(false)  
 
   const cancelRef = React.useRef()
   const [indexState, setIndexState] = useState(0)
@@ -76,13 +72,35 @@ function UsersTable({ byRole }) {
     setIsAlertOpen(true)
   }
 
+  // Update user modal
+  const [isUpdateUserModalOpen, setIsUpdateUserModalOpen] = useState(false)
+  const onUpdateUserModalClose = () => setIsUpdateUserModalOpen(false)
   const openUpdateModal = (username) => {
     setUsernameState(username)
     setIsUpdateUserModalOpen(true)
   }
 
+  // New user modal
+  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
+  const onNewUserModalClose = () => setIsNewUserModalOpen(false)
   const openModal = () => {
     setIsNewUserModalOpen(true)
+  }
+
+  // Update role modal
+  const [isUpdateRoleModalOpen, setIsUpdateRoleModalOpen] = useState(false)
+  const onUpdateRoleModalClose = () => setIsUpdateRoleModalOpen(false)
+  const openUpdateRoleModal = (username) => {
+    setUsernameState(username)
+    setIsUpdateRoleModalOpen(true)
+  }
+
+  // Update organization modal
+  const [isUpdateOrgModalOpen, setIsUpdateOrgModalOpen] = useState(false)
+  const onUpdateOrgModalClose = () => setIsUpdateOrgModalOpen(false)
+  const openUpdateOrgModal = (username) => {
+    setUsernameState(username)
+    setIsUpdateOrgModalOpen(true)
   }
 
   return (
@@ -180,9 +198,9 @@ function UsersTable({ byRole }) {
                                       />
                                       <MenuList>
                                         <MenuItem onClick={() => openUpdateModal(user.user.Username)}>Update password</MenuItem>
-                                        <MenuItem>Update role</MenuItem>
-                                        {loggedInUser.user.Role === 'role::superadmin' && <MenuItem>Update organization</MenuItem>}
-                                        <MenuItem color='aau.buttonRed' onClick={() => openAlertDialog(user.user.Username, key)}>Delete</MenuItem>
+                                        <MenuItem onClick={() => openUpdateRoleModal(user.user.Username)}>Update role</MenuItem>
+                                        {loggedInUser.user.Role === 'role::superadmin' && <MenuItem onClick={() => openUpdateOrgModal(user.user.Username)}>Update organization</MenuItem>}
+                                        <MenuItem backgroundColor='aau.buttonRed' onClick={() => openAlertDialog(user.user.Username, key)} >Delete</MenuItem>
                                       </MenuList>
                                     </Menu>
                                     // <IconButton
@@ -220,6 +238,8 @@ function UsersTable({ byRole }) {
               }
               <NewUserModal isOpen={isNewUserModalOpen} onClose={onNewUserModalClose}/>
               <UpdateUserModal isOpen={isUpdateUserModalOpen} onClose={onUpdateUserModalClose} username={usernameState}/>
+              <UpdateRoleModal isOpen={isUpdateRoleModalOpen} onClose={onUpdateRoleModalClose} username={usernameState}/>
+              <UpdateUserOrgModal isOpen={isUpdateOrgModalOpen} onClose={onUpdateOrgModalClose} username={usernameState}/>
               {/* can be used when update user is implemented again */}
               {/* <UpdateUserModal isOpen={isUpdateUserModalOpen} onClose={onUpdateUserModalClose}/> */}
       </Flex>

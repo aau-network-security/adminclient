@@ -112,6 +112,23 @@ export const updateUser = createAsyncThunk('user/updateUser', async (user, { rej
     }
 })
 
+// Update user role
+export const updateUserRole = createAsyncThunk('user/updateUserRole', async (actionPayload, { rejectWithValue, getState }) => {
+    try {
+        console.log("updateUserRole: ", actionPayload.username, actionPayload.reqData)
+        apiClient.defaults.headers.Authorization = localStorage.getItem('token')
+        const response = await apiClient.patch(`users/${actionPayload.username}/role`, actionPayload.reqData)
+        return response
+    }
+    catch (err) {
+        if (!err.response) {
+            throw err
+        }
+        let error = { axiosMessage: err.message, axiosCode: err.code, apiError: err.response.data, apiStatusCode: err.response.status}
+        return rejectWithValue(error)
+    }
+})
+
 // Login api request
 export const loginUser = createAsyncThunk('user/loginUser', async (reqData, { rejectWithValue }) => {
     try {

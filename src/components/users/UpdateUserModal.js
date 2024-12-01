@@ -57,7 +57,6 @@ function UpdateUserModal({ isOpen, onClose, username }) {
         catch (err) {
             console.log(err)
             setUpdateUserError(err.apiError.status)
-            console.log(!updateUserError.includes("error connecting to new agent"))
             setIsSubmitting(false)
         }
         

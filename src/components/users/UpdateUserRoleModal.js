@@ -1,20 +1,17 @@
-import { Alert, AlertDescription, AlertIcon, Button, Center, FormControl, FormLabel, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Stack, Spinner, useToast } from '@chakra-ui/react'
+import { Alert, AlertDescription, AlertIcon, Button, Center, FormControl, FormLabel, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Stack, Spinner, useToast, Select } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateUser } from '../../features/users/userSlice'
-import { set } from 'lodash'
+import { fetchUsers, updateUserRole } from '../../features/users/userSlice'
 
-function UpdateUserModal({ isOpen, onClose, username }) {
+function UpdateRoleModal({ isOpen, onClose, username }) {
     const dispatch = useDispatch()
     const status = useSelector((state) => state.org.status)
     const selectedOrg = useSelector((state) => state.org.selectedOrg)
     const loggedInUser = useSelector((state) => state.user.loggedInUser)
 
-    const [updateUserError, setUpdateUserError] = useState('')
+    const [updateRoleError, setUpdateRoleError] = useState('')
     const [reqData, setReqData] = useState ({
-        username: username,
-        password: "",
-        confirmPassword: "",
+        newRole: ""
     })
 
     const toast = useToast()
@@ -29,51 +26,44 @@ function UpdateUserModal({ isOpen, onClose, username }) {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const submitForm = async (e) => {
         e.preventDefault()
-        reqData.username = username
         console.log("submitting form", reqData)
-        if (reqData.password === "" || reqData.confirmPassword === "") {
-            setUpdateUserError('Please fill out all fields')
+        if (reqData.newRole === "") {
+            setUpdateRoleError('Please select a role')
             return
         }
-        if (reqData.password !== reqData.confirmPassword) {
-            setUpdateUserError('Passwords do not match')
-            return
+        const actionPayload = {
+            username: username,
+            reqData: reqData
         }
         setIsSubmitting(true)
         try {
-            const response = await dispatch(updateUser(reqData)).unwrap()
+            const response = await dispatch(updateUserRole(actionPayload)).unwrap()
             // console.log("user add response: ", response)
-            setUpdateUserError('')
+            setUpdateRoleError('')
             toastIdRef.current = toast({
-                title: 'User password successfully updated',
-                description: `User ${username}'s password has been updated`,
+                title: 'User role successfully updated',
+                description: `User ${username}'s role has been updated`,
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
             })
             setIsSubmitting(false)
             closeModal()
+            if (selectedOrg != null) {
+                dispatch(fetchUsers(selectedOrg.Name))
+            } else {
+                dispatch(fetchUsers(""))
+            }
         }
         catch (err) {
             console.log(err)
-            setUpdateUserError(err.apiError.status)
-            console.log(!updateUserError.includes("error connecting to new agent"))
+            //setUpdateRoleError(err.apiError.status)
             setIsSubmitting(false)
         }
         
     }
-    const changeHandler = (e) => {
-        setReqData({...reqData, [e.target.name]: e.target.value.trim()})
-        if (e.target.name == "confirmPassword" && e.target.value.trim() !== reqData.password) {
-            setUpdateUserError('Passwords do not match')
-        } else if (e.target.name == "password" && e.target.value.trim() !== reqData.confirmPassword) {
-            setUpdateUserError('Passwords do not match')
-        } else {
-            setUpdateUserError('')
-        }
-    }
     const closeModal = () => {
-        setUpdateUserError('')
+        setUpdateRoleError('')
         onClose()
     }
     return (
@@ -90,7 +80,7 @@ function UpdateUserModal({ isOpen, onClose, username }) {
             <>
                 
                 <form onSubmit={submitForm}>
-                    <ModalHeader>Update {username}'s password?</ModalHeader>
+                    <ModalHeader>Update {username}'s role?</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         
@@ -99,28 +89,41 @@ function UpdateUserModal({ isOpen, onClose, username }) {
                             p="1rem"
                             >
                                 <FormControl>
-                                <FormLabel>New password</FormLabel>
-                                    <InputGroup>
-                                    <InputLeftElement
-                                        pointerEvents="none"
-                                    />
-                                    <Input type="password" name="password" placeholder="New password" onChange={changeHandler} />
-                                    </InputGroup>
+                                    <FormLabel>Role</FormLabel>
+                                    <Select value={reqData.role} placeholder='Select role' onChange={(e) => setReqData({...reqData, newRole: e.target.value})}>
+                                        {/* Conditional rendering to only show the roles that a user is authorized to create 
+                                            TODO: Should make this dynamic at some point incase of new roles are added
+                                        */}
+                                        {(typeof loggedInUser.user !== 'undefined')
+                                        &&
+                                            <>
+                                            {loggedInUser.user.Role === 'role::superadmin'
+                                            && 
+                                                <option value='superadmin'>Superadmin</option>
+                                            }
+                                            </>
+                                        }
+                                        {(typeof loggedInUser.user !== 'undefined')
+                                        &&
+                                            <>
+                                            {(loggedInUser.user.Role === 'role::superadmin' || loggedInUser.user.Role === 'role::administrator')
+                                            &&
+                                                <>
+                                                    <option value='administrator'>Administrator</option>
+                                                    <option value='developer'>Developer</option>
+                                                </>
+                                            }
+                                            </>
+                                        }
+                                        <option value='user'>User</option>
+                                        <option value='npuser'>NpUser</option>
+                                    </Select>
                                 </FormControl>
-                                <FormControl>
-                                    <FormLabel>Confirm new password</FormLabel>
-                                    <InputGroup>
-                                    <InputLeftElement
-                                        pointerEvents="none"
-                                    />
-                                    <Input type="password" name="confirmPassword" placeholder="Confirm new password" onChange={changeHandler} />
-                                    </InputGroup>
-                                </FormControl>
-                                {(updateUserError !== '')
+                                {(updateRoleError !== '')
                                 ?
                                     <Alert status='error'>
                                         <AlertIcon />
-                                        <AlertDescription>{updateUserError}</AlertDescription>
+                                        <AlertDescription>{updateRoleError}</AlertDescription>
                                     </Alert>
                                 :
                                     null
@@ -147,4 +150,4 @@ function UpdateUserModal({ isOpen, onClose, username }) {
     )
 }
 
-export default UpdateUserModal
+export default UpdateRoleModal

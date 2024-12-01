@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../../features/users/userSlice'
 import { set } from 'lodash'
 
-function UpdateUserModal({ isOpen, onClose, username }) {
+function UpdateUserOrgModal({ isOpen, onClose, username }) {
     const dispatch = useDispatch()
     const status = useSelector((state) => state.org.status)
     const selectedOrg = useSelector((state) => state.org.selectedOrg)
@@ -57,7 +57,6 @@ function UpdateUserModal({ isOpen, onClose, username }) {
         catch (err) {
             console.log(err)
             setUpdateUserError(err.apiError.status)
-            console.log(!updateUserError.includes("error connecting to new agent"))
             setIsSubmitting(false)
         }
         
@@ -147,4 +146,4 @@ function UpdateUserModal({ isOpen, onClose, username }) {
     )
 }
 
-export default UpdateUserModal
+export default UpdateUserOrgModal

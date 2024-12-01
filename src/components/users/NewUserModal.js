@@ -49,7 +49,6 @@ function NewUserModal({ isOpen, onClose }) {
         catch (err) {
             console.log(err)
             setAddUserError(err.apiError.status)
-            console.log(!addUserError.includes("error connecting to new agent"))
         }
         
     }
